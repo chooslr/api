@@ -15,16 +15,16 @@ const blog = await bff.follow(account)
 const blog = await bff.unfollow(account)
 const id = await bff.reblog(account, id, reblog_key, {})
 
-const posts = v2.posts(account, api_key, {})
-const post = v2.single(account, api_key, id)
-const total = v2.total(account, api_key, {})
-const blog = v2.blog(account, api_key)
+const posts = await v2.posts(account, api_key, {})
+const post = await v2.single(account, api_key, id)
+const total = await v2.total(account, api_key, {})
+const blog = await v2.blog(account, api_key)
 const url = v2.avatar(account[, size])
 
-const posts = v1.posts(account, {})
-const post = v1.single(account, id)
-const total = v1.total(account, {})
-const blog = v1.blog(account)
+const posts = await v1.posts(account, {})
+const post = await v1.single(account, id)
+const total = await v1.total(account, {})
+const blog = await v1.blog(account)
 ```
 
 ## API
