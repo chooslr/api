@@ -1,0 +1,60 @@
+{
+  "name": "chooslr-client",
+  "version": "0.0.0",
+  "author": "kthjm <toxictoxer@gmail.com>",
+  "repository": "kthjm/chooslr-client",
+  "license": "MIT",
+  "private": true,
+  "main": ".dist/cjs.js",
+  "jsnext:main": ".dist/es.js",
+  "module": ".dist/es.js",
+  "prettier": {
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
+  },
+  "nyc": {
+    "include": [".src"],
+    "require": ["babel-register"],
+    "sourceMap": false,
+    "instrument": false
+  },
+  "scripts": {
+    "exec:test": "cross-env NODE_ENV=TEST nyc mocha",
+    "exec:build": "cross-env NODE_ENV=BUILD node",
+    "test:bff": "yarn exec:test .test/bff.js",
+    "test:v2": "yarn exec:test .test/v2.js",
+    "test:v1": "yarn exec:test .test/v1.js",
+    "test": "yarn exec:test .test",
+    "build:bff": "yarn exec:build bff/rollup.config.js",
+    "build:v2": "yarn exec:build v2/rollup.config.js",
+    "build:v1": "yarn exec:build v1/rollup.config.js",
+    "prebuild": "yarn test",
+    "build": "run-s build:bff build:v2 build:v1",
+    "postbuild": "yarn format",
+    "format": "prettier --write **/cjs.js **/es.js package.json"
+  },
+  "dependencies": {
+    "jsonp-simple": "^0.0.5"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-istanbul": "^4.1.5",
+    "babel-plugin-rewire": "^1.1.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-preset-power-assert": "^2.0.0",
+    "codecov": "^3.0.0",
+    "cross-env": "^5.1.3",
+    "mocha": "^5.0.1",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^11.4.1",
+    "power-assert": "^1.4.4",
+    "prettier": "^1.10.2",
+    "rewire": "^3.0.2",
+    "rollup": "^0.56.2",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "sinon": "^4.4.1"
+  }
+}

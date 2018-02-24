@@ -1,0 +1,17 @@
+{
+  "env": {
+    "TEST": {
+      "presets": [
+        ["env", { "targets": { "node": "current" } }],
+        "power-assert"
+      ],
+      "plugins": [
+        "istanbul",
+        "rewire"
+      ]
+    },
+    "BUILD": {
+      "presets": ["es2015-rollup"]
+    }
+  }
+}

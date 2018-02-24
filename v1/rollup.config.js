@@ -1,0 +1,1 @@
+require('../rollup.config.exec.js')('v1')
