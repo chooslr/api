@@ -1,0 +1,5 @@
+{
+  "main": "cjs.js",
+  "jsnext:main": "es.js",
+  "module": "es.js"
+}

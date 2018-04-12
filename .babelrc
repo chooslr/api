@@ -1,5 +1,6 @@
 {
   "env": {
+    
     "TEST": {
       "presets": [
         ["env", { "targets": { "node": "current" } }],
@@ -10,8 +11,26 @@
         "rewire"
       ]
     },
+
+    "REWIRE": {
+      "presets": [
+        ["env", { "targets": { "node": "current" } }]
+      ],
+      "plugins": [
+        "rewire"
+      ]
+    },
+
     "BUILD": {
-      "presets": ["es2015-rollup"]
+      "presets": ["es2015-rollup"],
+      "plugins": [
+        ["transform-runtime", {
+          "helpers": false,
+          "polyfill": false,
+          "regenerator": true
+        }]
+      ]
     }
+
   }
 }

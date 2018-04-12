@@ -1,0 +1,598 @@
+{
+  "blog": {
+    "ask": false,
+    "ask_anon": false,
+    "ask_page_title": "Ask me anything",
+    "can_subscribe": false,
+    "description": "<p>koto hajime</p>",
+    "is_adult": false,
+    "is_nsfw": false,
+    "name": "kthjm",
+    "posts": 103975,
+    "reply_conditions": "3",
+    "share_likes": false,
+    "subscribed": false,
+    "title": "(course of the) function.",
+    "total_posts": 103975,
+    "updated": 1519956605,
+    "url": "http://kthjm.tumblr.com/",
+    "is_optout_ads": false
+  },
+  "post": {
+    "common": {
+      "type": "quote",
+      "blog_name": "kthjm",
+      "id": 171433674182,
+      "post_url": "http://kthjm.tumblr.com/post/171433674182/im-obligated-to-be-here-but-im-not-obligated-to",
+      "slug": "im-obligated-to-be-here-but-im-not-obligated-to",
+      "date": "2018-03-02 02:10:04 GMT",
+      "timestamp": 1519956604,
+      "state": "published",
+      "format": "markdown",
+      "reblog_key": "WWzdKSk5",
+      "tags": [],
+      "short_url": "https://tmblr.co/ZpYbQv2VgFaN6",
+      "summary": "I’m obligated to be here, but I’m not obligated to stay awake.",
+      "is_blocks_post_format": false,
+      "recommended_source": null,
+      "recommended_color": null,
+      "note_count": 713,
+      "can_like": false,
+      "can_reblog": false,
+      "can_send_in_message": true,
+      "can_reply": false,
+      "display_avatar": true
+    },
+    "quote": {
+      "text": "I’m obligated to be here, but I’m not obligated to stay awake.",
+      "source": "Shiro. (via <a href=\"http://incorrect-voltron-quote.tumblr.com/\" class=\"tumblr_blog\" target=\"_blank\">incorrect-voltron-quote</a>)",
+      "reblog": {
+        "comment": "<p>Shiro. (via <a href=\"http://incorrect-voltron-quote.tumblr.com/\" class=\"tumblr_blog\" target=\"_blank\">incorrect-voltron-quote</a>)</p>",
+        "tree_html": ""
+      }
+    },
+    "text": {
+      "source_url": "http://drhaniwa.tumblr.com/post/160402331006/明け方にチビ7歳が悲壮な顔で起き上がり怖い夢をみた弟が悪い人たちの仲間に入ってしまう夢をみたと",
+      "source_title": "drhaniwa",
+      "title": null,
+      "body": "<p><a href=\"https://kuzira8.tumblr.com/post/171431773339/%E6%98%8E%E3%81%91%E6%96%B9%E3%81%AB%E3%83%81%E3%83%937%E6%AD%B3%E3%81%8C%E6%82%B2%E5%A3%AE%E3%81%AA%E9%A1%94%E3%81%A7%E8%B5%B7%E3%81%8D%E4%B8%8A%E3%81%8C%E3%82%8A%E6%80%96%E3%81%84%E5%A4%A2%E3%82%92%E3%81%BF%E3%81%9F%E5%BC%9F%E3%81%8C%E6%82%AA%E3%81%84%E4%BA%BA%E3%81%9F%E3%81%A1%E3%81%AE%E4%BB%B2%E9%96%93%E3%81%AB%E5%85%A5%E3%81%A3%E3%81%A6%E3%81%97%E3%81%BE%E3%81%86%E5%A4%A2%E3%82%92%E3%81%BF%E3%81%9F%E3%81%A8\" class=\"tumblr_blog\" target=\"_blank\">kuzira8</a>:</p>\n\n<blockquote><blockquote>“明け方にチビ7歳が悲壮な顔で起き上がり「怖い夢をみた…弟が悪い人たちの仲間に入ってしまう夢をみた…」と言うので、背中をさすりながら一体どんな悪いことをしていたのかと尋ねたところ、「麦茶のやかんの注ぎ口にストローをさして直接飲んでいた」とのことでした。わ、悪い…！”</blockquote> <p>— <a href=\"https://twitter.com/bono_kichi/status/860278510178377729\" target=\"_blank\">Twitter / bono_kichi</a> (via <a href=\"http://drhaniwa.tumblr.com/\" class=\"tumblr_blog\" target=\"_blank\">drhaniwa</a>)</p></blockquote>",
+      "reblog": {
+        "comment": "",
+        "tree_html": "<p><a href=\"https://kuzira8.tumblr.com/post/171431773339/%E6%98%8E%E3%81%91%E6%96%B9%E3%81%AB%E3%83%81%E3%83%937%E6%AD%B3%E3%81%8C%E6%82%B2%E5%A3%AE%E3%81%AA%E9%A1%94%E3%81%A7%E8%B5%B7%E3%81%8D%E4%B8%8A%E3%81%8C%E3%82%8A%E6%80%96%E3%81%84%E5%A4%A2%E3%82%92%E3%81%BF%E3%81%9F%E5%BC%9F%E3%81%8C%E6%82%AA%E3%81%84%E4%BA%BA%E3%81%9F%E3%81%A1%E3%81%AE%E4%BB%B2%E9%96%93%E3%81%AB%E5%85%A5%E3%81%A3%E3%81%A6%E3%81%97%E3%81%BE%E3%81%86%E5%A4%A2%E3%82%92%E3%81%BF%E3%81%9F%E3%81%A8\" class=\"tumblr_blog\" target=\"_blank\">kuzira8</a>:</p><blockquote>\n<blockquote>“明け方にチビ7歳が悲壮な顔で起き上がり「怖い夢をみた…弟が悪い人たちの仲間に入ってしまう夢をみた…」と言うので、背中をさすりながら一体どんな悪いことをしていたのかと尋ねたところ、「麦茶のやかんの注ぎ口にストローをさして直接飲んでいた」とのことでした。わ、悪い…！”</blockquote> <p>— <a href=\"https://twitter.com/bono_kichi/status/860278510178377729\" target=\"_blank\">Twitter / bono_kichi</a> (via <a href=\"http://drhaniwa.tumblr.com/\" class=\"tumblr_blog\" target=\"_blank\">drhaniwa</a>)</p>\n</blockquote>"
+      },
+      "trail": [
+        {
+          "blog": {
+            "name": "kuzira8",
+            "active": true,
+            "theme": {
+              "avatar_shape": "square",
+              "background_color": "#FAFAFA",
+              "body_font": "Helvetica Neue",
+              "header_bounds": 0,
+              "header_image": "https://assets.tumblr.com/images/default_header/optica_pattern_12.png?_v=66d5962d3469ecad376c5ae8c13d5a27",
+              "header_image_focused": "https://assets.tumblr.com/images/default_header/optica_pattern_12.png?_v=66d5962d3469ecad376c5ae8c13d5a27",
+              "header_image_scaled": "https://assets.tumblr.com/images/default_header/optica_pattern_12.png?_v=66d5962d3469ecad376c5ae8c13d5a27",
+              "header_stretch": true,
+              "link_color": "#529ECC",
+              "show_avatar": true,
+              "show_description": true,
+              "show_header_image": true,
+              "show_title": true,
+              "title_color": "#444444",
+              "title_font": "Gibson",
+              "title_font_weight": "bold"
+            },
+            "share_likes": false,
+            "share_following": false,
+            "can_be_followed": true
+          },
+          "post": {
+            "id": "171431773339"
+          },
+          "content_raw": "<p><blockquote>“明け方にチビ7歳が悲壮な顔で起き上がり「怖い夢をみた…弟が悪い人たちの仲間に入ってしまう夢をみた…」と言うので、背中をさすりながら一体どんな悪いことをしていたのかと尋ねたところ、「麦茶のやかんの注ぎ口にストローをさして直接飲んでいた」とのことでした。わ、悪い…！”</blockquote> <p>— <a href=\"https://twitter.com/bono_kichi/status/860278510178377729\" target=\"_blank\">Twitter / bono_kichi</a> (via <a href=\"http://drhaniwa.tumblr.com/\" class=\"tumblr_blog\" target=\"_blank\">drhaniwa</a>)</p></p>",
+          "content": "<p><blockquote><p>&ldquo;&#26126;&#12369;&#26041;&#12395;&#12481;&#12499;7&#27507;&#12364;&#24754;&#22766;&#12394;&#38996;&#12391;&#36215;&#12365;&#19978;&#12364;&#12426;&#12300;&#24598;&#12356;&#22818;&#12434;&#12415;&#12383;&hellip;&#24351;&#12364;&#24746;&#12356;&#20154;&#12383;&#12385;&#12398;&#20210;&#38291;&#12395;&#20837;&#12387;&#12390;&#12375;&#12414;&#12358;&#22818;&#12434;&#12415;&#12383;&hellip;&#12301;&#12392;&#35328;&#12358;&#12398;&#12391;&#12289;&#32972;&#20013;&#12434;&#12373;&#12377;&#12426;&#12394;&#12364;&#12425;&#19968;&#20307;&#12393;&#12435;&#12394;&#24746;&#12356;&#12371;&#12392;&#12434;&#12375;&#12390;&#12356;&#12383;&#12398;&#12363;&#12392;&#23563;&#12397;&#12383;&#12392;&#12371;&#12429;&#12289;&#12300;&#40614;&#33590;&#12398;&#12420;&#12363;&#12435;&#12398;&#27880;&#12366;&#21475;&#12395;&#12473;&#12488;&#12525;&#12540;&#12434;&#12373;&#12375;&#12390;&#30452;&#25509;&#39154;&#12435;&#12391;&#12356;&#12383;&#12301;&#12392;&#12398;&#12371;&#12392;&#12391;&#12375;&#12383;&#12290;&#12431;&#12289;&#24746;&#12356;&hellip;&#65281;&rdquo;</p></blockquote> <p>&mdash; <a href=\"https://twitter.com/bono_kichi/status/860278510178377729\" target=\"_blank\">Twitter / bono_kichi</a> (via <a href=\"http://drhaniwa.tumblr.com/\" class=\"tumblr_blog\" target=\"_blank\">drhaniwa</a>)</p></p>"
+        }
+      ]
+    },
+    "chat": {
+      "source_url": "http://quotation2.tumblr.com/post/139848750556/無洗米を開発した人がtvで言ってたな初めて出した頃そんな簡単な事を嫁にやらせないでどうする家事",
+      "source_title": "quotation2",
+      "title": null,
+      "body": "無洗米を開発した人がTVで言ってたな。初めて出した頃「そんな簡単な事を嫁にやらせないでどうする」「家事を楽にさせてやるな」という苦情が来たと。開発者は汚水を少なくするために作ったそうな。そして奥さんが少しでも楽になるなら歓迎すべきことでは？と言ってたのを思い出す。\nhttps://twitter.com/hazumiko/status/650481510517112832\n電気炊飯器を開発してた人も開発中「朝、飯も炊かずに寝てるような嫁が欲しいのか」って同僚に言われたってテレビで言ってた。母子家庭で仕事も忙しかったお母さんのことを考えながら作ったって言ってた。 \nhttps://twitter.com/kerokeromy/status/650483554007126016",
+      "dialogue": [
+        {
+          "name": "",
+          "label": "",
+          "phrase": "無洗米を開発した人がTVで言ってたな。初めて出した頃「そんな簡単な事を嫁にやらせないでどうする」「家事を楽にさせてやるな」という苦情が来たと。開発者は汚水を少なくするために作ったそうな。そして奥さんが少しでも楽になるなら歓迎すべきことでは？と言ってたのを思い出す。"
+        },
+        {
+          "name": "https",
+          "label": "https:",
+          "phrase": "//twitter.com/hazumiko/status/650481510517112832"
+        },
+        {
+          "name": "",
+          "label": "",
+          "phrase": "電気炊飯器を開発してた人も開発中「朝、飯も炊かずに寝てるような嫁が欲しいのか」って同僚に言われたってテレビで言ってた。母子家庭で仕事も忙しかったお母さんのことを考えながら作ったって言ってた。"
+        },
+        {
+          "name": "https",
+          "label": "https:",
+          "phrase": "//twitter.com/kerokeromy/status/650483554007126016"
+        }
+      ]
+    },
+    "photo": {
+      "source_url": "http://hanekawa-san.tumblr.com/post/171416726938",
+      "source_title": "hanekawa-san",
+      "caption": "<figure class=\"tmblr-full\" data-orig-height=\"230\" data-orig-width=\"540\" data-tumblr-attribution=\"ryangoslingsource:itwKjwMKal2TYT9QVX_fRQ:Z0MkQh2S9rQTK\"><img src=\"https://78.media.tumblr.com/fb74f7f8a1bc85199f6a98f7668b0205/tumblr_ozo7uqdBtw1vqbvcbo1_540.gif\" data-orig-height=\"230\" data-orig-width=\"540\"/></figure>",
+      "reblog": {
+        "comment": "<p><figure class=\"tmblr-full\" data-orig-height=\"230\" data-orig-width=\"540\" data-tumblr-attribution=\"ryangoslingsource:itwKjwMKal2TYT9QVX_fRQ:Z0MkQh2S9rQTK\"><img src=\"https://78.media.tumblr.com/fb74f7f8a1bc85199f6a98f7668b0205/tumblr_ozo7uqdBtw1vqbvcbo1_540.gif\" data-orig-height=\"230\" data-orig-width=\"540\"></figure></p>",
+        "tree_html": ""
+      },
+      "trail": [
+        {
+          "blog": {
+            "name": "kthjm",
+            "active": true,
+            "theme": {
+              "header_full_width": 226,
+              "header_full_height": 202,
+              "header_focus_width": 188,
+              "header_focus_height": 106,
+              "avatar_shape": "square",
+              "background_color": "#FAFAFA",
+              "body_font": "Helvetica Neue",
+              "header_bounds": "48,207,154,19",
+              "header_image": "https://static.tumblr.com/37f0cbc446db1cbcf5027d2089d62818/d1rkenh/gSjozkkjl/tumblr_static_.jpg",
+              "header_image_focused": "https://static.tumblr.com/37f0cbc446db1cbcf5027d2089d62818/d1rkenh/lKzozkkjn/tumblr_static_tumblr_static__focused_v3.jpg",
+              "header_image_scaled": "https://static.tumblr.com/37f0cbc446db1cbcf5027d2089d62818/d1rkenh/gSjozkkjl/tumblr_static__2048_v2.jpg",
+              "header_stretch": true,
+              "link_color": "#243B5D",
+              "show_avatar": true,
+              "show_description": true,
+              "show_header_image": false,
+              "show_title": false,
+              "title_color": "#CCCCCC",
+              "title_font": "Fairwater",
+              "title_font_weight": "regular"
+            },
+            "share_likes": false,
+            "share_following": false,
+            "can_be_followed": true
+          },
+          "post": {
+            "id": 171431470347
+          },
+          "content_raw": "<p><figure class=\"tmblr-full\" data-orig-height=\"230\" data-orig-width=\"540\" data-tumblr-attribution=\"ryangoslingsource:itwKjwMKal2TYT9QVX_fRQ:Z0MkQh2S9rQTK\"><img src=\"https://78.media.tumblr.com/fb74f7f8a1bc85199f6a98f7668b0205/tumblr_ozo7uqdBtw1vqbvcbo1_540.gif\" data-orig-height=\"230\" data-orig-width=\"540\"></figure></p>",
+          "content": "<p><figure data-tumblr-media-id=\"0\" class=\"tmblr-full\"></figure></p>",
+          "is_current_item": true
+        }
+      ],
+      "photoset_layout": "11",
+      "photos": [
+        {
+          "caption": "",
+          "original_size": {
+            "url": "https://78.media.tumblr.com/a8d442e5961574232f66e19a0f801c98/tumblr_p4x611ISTi1sorxx9o1_1280.png",
+            "width": 1280,
+            "height": 720
+          },
+          "alt_sizes": [
+            {
+              "url": "https://78.media.tumblr.com/a8d442e5961574232f66e19a0f801c98/tumblr_p4x611ISTi1sorxx9o1_1280.png",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "url": "https://78.media.tumblr.com/a8d442e5961574232f66e19a0f801c98/tumblr_p4x611ISTi1sorxx9o1_540.png",
+              "width": 540,
+              "height": 304
+            },
+            {
+              "url": "https://78.media.tumblr.com/a8d442e5961574232f66e19a0f801c98/tumblr_p4x611ISTi1sorxx9o1_500.png",
+              "width": 500,
+              "height": 281
+            },
+            {
+              "url": "https://78.media.tumblr.com/a8d442e5961574232f66e19a0f801c98/tumblr_p4x611ISTi1sorxx9o1_400.png",
+              "width": 400,
+              "height": 225
+            },
+            {
+              "url": "https://78.media.tumblr.com/a8d442e5961574232f66e19a0f801c98/tumblr_p4x611ISTi1sorxx9o1_250.png",
+              "width": 250,
+              "height": 141
+            },
+            {
+              "url": "https://78.media.tumblr.com/a8d442e5961574232f66e19a0f801c98/tumblr_p4x611ISTi1sorxx9o1_100.png",
+              "width": 100,
+              "height": 56
+            },
+            {
+              "url": "https://78.media.tumblr.com/a8d442e5961574232f66e19a0f801c98/tumblr_p4x611ISTi1sorxx9o1_75sq.png",
+              "width": 75,
+              "height": 75
+            }
+          ]
+        },
+        {
+          "caption": "",
+          "original_size": {
+            "url": "https://78.media.tumblr.com/81b4a7b2d17101fb995f1ca9a10c9a18/tumblr_p4x611ISTi1sorxx9o2_1280.png",
+            "width": 1280,
+            "height": 720
+          },
+          "alt_sizes": [
+            {
+              "url": "https://78.media.tumblr.com/81b4a7b2d17101fb995f1ca9a10c9a18/tumblr_p4x611ISTi1sorxx9o2_1280.png",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "url": "https://78.media.tumblr.com/81b4a7b2d17101fb995f1ca9a10c9a18/tumblr_p4x611ISTi1sorxx9o2_540.png",
+              "width": 540,
+              "height": 304
+            },
+            {
+              "url": "https://78.media.tumblr.com/81b4a7b2d17101fb995f1ca9a10c9a18/tumblr_p4x611ISTi1sorxx9o2_500.png",
+              "width": 500,
+              "height": 281
+            },
+            {
+              "url": "https://78.media.tumblr.com/81b4a7b2d17101fb995f1ca9a10c9a18/tumblr_p4x611ISTi1sorxx9o2_400.png",
+              "width": 400,
+              "height": 225
+            },
+            {
+              "url": "https://78.media.tumblr.com/81b4a7b2d17101fb995f1ca9a10c9a18/tumblr_p4x611ISTi1sorxx9o2_250.png",
+              "width": 250,
+              "height": 141
+            },
+            {
+              "url": "https://78.media.tumblr.com/81b4a7b2d17101fb995f1ca9a10c9a18/tumblr_p4x611ISTi1sorxx9o2_100.png",
+              "width": 100,
+              "height": 56
+            },
+            {
+              "url": "https://78.media.tumblr.com/81b4a7b2d17101fb995f1ca9a10c9a18/tumblr_p4x611ISTi1sorxx9o2_75sq.png",
+              "width": 75,
+              "height": 75
+            }
+          ]
+        }
+      ]
+    },
+    "link": {
+      "source_url": "https://tobermoriansass.tumblr.com/post/170467499243/the-villain-gap-why-soviet-movies-rarely-had",
+      "source_title": "tobermoriansass",
+      "title": "The villain gap: Why Soviet movies rarely had American bad guys",
+      "url": "https://film.avclub.com/the-villain-gap-why-soviet-movies-rarely-had-american-1798245725",
+      "link_image": "https://78.media.tumblr.com/900250b65530671b8995e2e233792bf7/tumblr_p3aypvFltZ1rwkrhe_og_540.jpg",
+      "link_image_dimensions": {
+        "width": 540,
+        "height": 304
+      },
+      "link_author": "Ignatiy Vishnevetsky",
+      "excerpt": "March 23, 1987: Hollywood in the twilight of the Cold War. Three weeks earlier, Ronald Reagan—who had headed the Screen Actor’s Guild in the heyday of anti-communist paranoia, and had been an FBI informant within the industry—goes on television to finally accept responsibility for his administration’s secret weapons sales to Iran. The miniseries Amerika, which depicts a near-future United States under Soviet control, has recently aired on ABC. The Eastern Bloc is groaning in anticipation of imminent collapse. At the American Film Institute, a group of Hollywood veterans meets with a visiting delegation from the USSR, led by Elem Klimov, director of Come And See and head of the Soviet filmmakers’ union. They are here to watch each other’s films as part of a panel called “Beyond Stereotypes,” to be followed by a three-hour discussion between Klimov and actor-director Sydney Pollack at the Director’s Guild Of America.",
+      "publisher": "film.avclub.com",
+      "photos": [
+        {
+          "caption": "",
+          "original_size": {
+            "url": "https://78.media.tumblr.com/900250b65530671b8995e2e233792bf7/tumblr_p3aypvFltZ1rwkrhe_og_1280.jpg",
+            "width": 800,
+            "height": 450
+          },
+          "alt_sizes": [
+            {
+              "url": "https://78.media.tumblr.com/900250b65530671b8995e2e233792bf7/tumblr_p3aypvFltZ1rwkrhe_og_1280.jpg",
+              "width": 800,
+              "height": 450
+            },
+            {
+              "url": "https://78.media.tumblr.com/900250b65530671b8995e2e233792bf7/tumblr_p3aypvFltZ1rwkrhe_og_540.jpg",
+              "width": 540,
+              "height": 304
+            },
+            {
+              "url": "https://78.media.tumblr.com/900250b65530671b8995e2e233792bf7/tumblr_p3aypvFltZ1rwkrhe_og_500.jpg",
+              "width": 500,
+              "height": 281
+            },
+            {
+              "url": "https://78.media.tumblr.com/900250b65530671b8995e2e233792bf7/tumblr_p3aypvFltZ1rwkrhe_og_400.jpg",
+              "width": 400,
+              "height": 225
+            },
+            {
+              "url": "https://78.media.tumblr.com/900250b65530671b8995e2e233792bf7/tumblr_p3aypvFltZ1rwkrhe_og_250.jpg",
+              "width": 250,
+              "height": 141
+            },
+            {
+              "url": "https://78.media.tumblr.com/900250b65530671b8995e2e233792bf7/tumblr_p3aypvFltZ1rwkrhe_og_100.jpg",
+              "width": 100,
+              "height": 56
+            },
+            {
+              "url": "https://78.media.tumblr.com/900250b65530671b8995e2e233792bf7/tumblr_p3aypvFltZ1rwkrhe_og_75sq.jpg",
+              "width": 75,
+              "height": 75
+            }
+          ]
+        }
+      ],
+      "description": "<p><a href=\"http://kinoglowworm.tumblr.com/post/170468616105/the-villain-gap-why-soviet-movies-rarely-had\" class=\"tumblr_blog\" target=\"_blank\">kinoglowworm</a>:</p><blockquote>\n<p><a href=\"http://tobermoriansass.tumblr.com/post/170467499243/the-villain-gap-why-soviet-movies-rarely-had\" class=\"tumblr_blog\" target=\"_blank\">tobermoriansass</a>:</p>\n<blockquote><blockquote>\n<p> And yet the Americans still aren’t villains; they’re victims. Both sides of the Cold War often depicted the other’s citizenry as victimized, but the Soviet Union elevated it into an art, much in the way that the American mainstream developed the Soviet super-villain into a fetish object. Instead of portraying Americans as eroticized torturers, inhuman strongmen, or sinister ringleaders, the few Soviet movies that do pit Soviet and American characters against each other mostly portray Americans as misled or misinformed.</p>\n<p>The Soviet and American mainstreams expressed themselves in radically different ways, with different fears. Being a single party state, the Soviet Union was always factionalist and unsustainable, and could only perpetuate itself through cycles of repression and repudiation. Its anxieties were mostly directed toward itself; as the Americans made fantasies of threat, the USSR made fantasies of stability and global standing. The Soviet Union was also dominated by Russian culture, and inherited its taste for oblique metaphor and indirect address. (It should be noted that the three greatest filmmakers to come out of the Soviet Union—Sergei Eisenstein, Andrei Tarkovsky, and Aleksei German—never completed a film set in the present day.)</p>\n<p>Simply put, it wasn’t an environment that was primed to depict the Cold War directly. But it was also an environment with a Cold War mythos that was very different from that of the West. The Soviets did have a “worthy villain,” whom they beat year after year on the big screen: the Nazis. The Soviet Union was the hero who slew the dragon; defeating the Third Reich was a point of national pride. There would never be a more important opponent. The Soviets couldn’t reasonably elevate the Americans to the same status, or even to the status of the White Guard of the bloody Russian Civil War—the USSR’s origin-story villains, in a way.</p>\n<p>Seventeen Moments Of Spring—the Soviet Union’s most popular TV miniseries, and a touchstone of Soviet pop culture—was about a Soviet spy in Nazi Germany. Exhaustively long World War II spy stories with way too many characters were surefire successes with Soviet audiences; On Thin Ice, The Shield And The Sword, and Teheran ’43—the top-grossing Soviet films of 1966, 1968, and 1981—all belong to the genre. (Other winning formulas: comedies about bumbling criminals, dramas about pilots, movies in which characters take vacations.) The most popular Soviet action movie, White Sun Of The Desert, is about a Red Army soldier fighting bandits during the Russian Civil War; the successful Elusive Avengers film series (The Elusive Avengers, The New Adventures Of The Elusive Avengers, The Crown Of The Russian Empire) was set during the same era. As far as Soviet pop culture was concerned at the peak of the Cold War, the best enemies were all in the past.</p>\n<p>At the same time, Americans couldn’t be expected to kill or die for their cause, because—as the 1965 spy film Game With No Rules, set in Berlin at the start of the Cold War, suggests—they didn’t have a cause to begin with. Instead, the rare American antagonists of popular Soviet film were portrayed as pawns of business interests, military-industrial collusion, or, of course, the Nazis. Portraying a monolithic United States of true believers, focused on the eradication of the USSR, would have gone against two essential aspects of the mythology of Soviet propaganda: the defeat of Nazism, which rid the world of an evil the likes of which it would never see, and the notion of communism as a self-evident ideal.</p>\n<p>For decades, Soviet media attacked the United States—with varying degrees of subtlety—as a broken society, its failure obvious. Capitalism and Western democracy weren’t values that could inspire the same kind of commitment as communism, and the only reason anyone would fight for them was because they’d didn’t know better.</p>\n</blockquote></blockquote>\n<p>It goes further than this though - more didactic Soviet filmmaking explicitly tried to associate capitalists and military leaders collaborating with them with Nazis, while also consistently depicting common Americans as victims. Lev Atamanov’s 1970 animated short Это в наших силах (It’s In Our Power) depicts a general and a businessman gleefully watching as a warbird hatches from an egg that cracks in a perfect swastika. They feed it with money and weapons and it terrorizes common people around the world.</p>\n<figure class=\"tmblr-embed tmblr-full\" data-provider=\"youtube\" data-orig-width=\"540\" data-orig-height=\"304\" data-url=\"https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Drr5cRQttRl4\"><iframe width=\"540\" height=\"304\" id=\"youtube_iframe\" src=\"https://www.youtube.com/embed/rr5cRQttRl4?feature=oembed&amp;enablejsapi=1&amp;origin=https://safe.txmblr.com&amp;wmode=opaque\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen=\"\"></iframe></figure><p>In Vladimir Tarasov’s dark but dreamlike 1979 short Тир (Shooting Range), a down on his luck man in an American city is offered a job at a shooting gallery - nominally as maintenance staff, but as one of the targets if the price is right. It depicts him adjusting to learning to live his everyday life in the line of fire and brings him right up to the point of raising a family in the shooting gallery.</p>\n<figure class=\"tmblr-embed tmblr-full\" data-provider=\"youtube\" data-orig-width=\"459\" data-orig-height=\"344\" data-url=\"https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DUH2MRqIjJxA\"><iframe width=\"540\" height=\"405\" id=\"youtube_iframe\" src=\"https://www.youtube.com/embed/UH2MRqIjJxA?feature=oembed&amp;enablejsapi=1&amp;origin=https://safe.txmblr.com&amp;wmode=opaque\" frameborder=\"0\" allowfullscreen=\"\"></iframe></figure></blockquote>",
+      "reblog": {
+        "comment": "",
+        "tree_html": "<p><a href=\"http://kinoglowworm.tumblr.com/post/170468616105/the-villain-gap-why-soviet-movies-rarely-had\" class=\"tumblr_blog\" target=\"_blank\">kinoglowworm</a>:</p>\n<blockquote>\n<p><a href=\"http://tobermoriansass.tumblr.com/post/170467499243/the-villain-gap-why-soviet-movies-rarely-had\" class=\"tumblr_blog\" target=\"_blank\">tobermoriansass</a>:</p>\n<blockquote><blockquote>\n<p> And yet the Americans still aren’t villains; they’re victims. Both sides of the Cold War often depicted the other’s citizenry as victimized, but the Soviet Union elevated it into an art, much in the way that the American mainstream developed the Soviet super-villain into a fetish object. Instead of portraying Americans as eroticized torturers, inhuman strongmen, or sinister ringleaders, the few Soviet movies that do pit Soviet and American characters against each other mostly portray Americans as misled or misinformed.</p>\n<p>The Soviet and American mainstreams expressed themselves in radically different ways, with different fears. Being a single party state, the Soviet Union was always factionalist and unsustainable, and could only perpetuate itself through cycles of repression and repudiation. Its anxieties were mostly directed toward itself; as the Americans made fantasies of threat, the USSR made fantasies of stability and global standing. The Soviet Union was also dominated by Russian culture, and inherited its taste for oblique metaphor and indirect address. (It should be noted that the three greatest filmmakers to come out of the Soviet Union—Sergei Eisenstein, Andrei Tarkovsky, and Aleksei German—never completed a film set in the present day.)</p>\n<p>Simply put, it wasn’t an environment that was primed to depict the Cold War directly. But it was also an environment with a Cold War mythos that was very different from that of the West. The Soviets did have a “worthy villain,” whom they beat year after year on the big screen: the Nazis. The Soviet Union was the hero who slew the dragon; defeating the Third Reich was a point of national pride. There would never be a more important opponent. The Soviets couldn’t reasonably elevate the Americans to the same status, or even to the status of the White Guard of the bloody Russian Civil War—the USSR’s origin-story villains, in a way.</p>\n<p>Seventeen Moments Of Spring—the Soviet Union’s most popular TV miniseries, and a touchstone of Soviet pop culture—was about a Soviet spy in Nazi Germany. Exhaustively long World War II spy stories with way too many characters were surefire successes with Soviet audiences; On Thin Ice, The Shield And The Sword, and Teheran ’43—the top-grossing Soviet films of 1966, 1968, and 1981—all belong to the genre. (Other winning formulas: comedies about bumbling criminals, dramas about pilots, movies in which characters take vacations.) The most popular Soviet action movie, White Sun Of The Desert, is about a Red Army soldier fighting bandits during the Russian Civil War; the successful Elusive Avengers film series (The Elusive Avengers, The New Adventures Of The Elusive Avengers, The Crown Of The Russian Empire) was set during the same era. As far as Soviet pop culture was concerned at the peak of the Cold War, the best enemies were all in the past.</p>\n<p>At the same time, Americans couldn’t be expected to kill or die for their cause, because—as the 1965 spy film Game With No Rules, set in Berlin at the start of the Cold War, suggests—they didn’t have a cause to begin with. Instead, the rare American antagonists of popular Soviet film were portrayed as pawns of business interests, military-industrial collusion, or, of course, the Nazis. Portraying a monolithic United States of true believers, focused on the eradication of the USSR, would have gone against two essential aspects of the mythology of Soviet propaganda: the defeat of Nazism, which rid the world of an evil the likes of which it would never see, and the notion of communism as a self-evident ideal.</p>\n<p>For decades, Soviet media attacked the United States—with varying degrees of subtlety—as a broken society, its failure obvious. Capitalism and Western democracy weren’t values that could inspire the same kind of commitment as communism, and the only reason anyone would fight for them was because they’d didn’t know better.</p>\n</blockquote></blockquote>\n<p>It goes further than this though - more didactic Soviet filmmaking explicitly tried to associate capitalists and military leaders collaborating with them with Nazis, while also consistently depicting common Americans as victims. Lev Atamanov’s 1970 animated short Это в наших силах (It’s In Our Power) depicts a general and a businessman gleefully watching as a warbird hatches from an egg that cracks in a perfect swastika. They feed it with money and weapons and it terrorizes common people around the world.</p>\n<figure class=\"tmblr-embed tmblr-full\" data-provider=\"youtube\" data-orig-width=\"540\" data-orig-height=\"304\" data-url=\"https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Drr5cRQttRl4\"><iframe width=\"540\" height=\"304\" id=\"youtube_iframe\" src=\"https://www.youtube.com/embed/rr5cRQttRl4?feature=oembed&amp;enablejsapi=1&amp;origin=https://safe.txmblr.com&amp;wmode=opaque\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen=\"\"></iframe></figure><p>In Vladimir Tarasov’s dark but dreamlike 1979 short Тир (Shooting Range), a down on his luck man in an American city is offered a job at a shooting gallery - nominally as maintenance staff, but as one of the targets if the price is right. It depicts him adjusting to learning to live his everyday life in the line of fire and brings him right up to the point of raising a family in the shooting gallery.</p>\n<figure class=\"tmblr-embed tmblr-full\" data-provider=\"youtube\" data-orig-width=\"459\" data-orig-height=\"344\" data-url=\"https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DUH2MRqIjJxA\"><iframe width=\"540\" height=\"405\" id=\"youtube_iframe\" src=\"https://www.youtube.com/embed/UH2MRqIjJxA?feature=oembed&amp;enablejsapi=1&amp;origin=https://safe.txmblr.com&amp;wmode=opaque\" frameborder=\"0\" allowfullscreen=\"\"></iframe></figure>\n</blockquote>"
+      },
+      "trail": [
+        {
+          "blog": {
+            "name": "tobermoriansass",
+            "active": true,
+            "theme": {
+              "header_full_width": 1013,
+              "header_full_height": 461,
+              "header_focus_width": 820,
+              "header_focus_height": 461,
+              "avatar_shape": "circle",
+              "background_color": "#000000",
+              "body_font": "Helvetica Neue",
+              "header_bounds": "0,916,461,96",
+              "header_image": "https://static.tumblr.com/22dbbac919e14ba0ca747e9008333df2/tekbfgj/BW0ni1kjb/tumblr_static_bgmy0f36x5444scogo8skcwgk.jpg",
+              "header_image_focused": "https://static.tumblr.com/22dbbac919e14ba0ca747e9008333df2/tekbfgj/Xqdni1kjc/tumblr_static_tumblr_static_bgmy0f36x5444scogo8skcwgk_focused_v3.jpg",
+              "header_image_scaled": "https://static.tumblr.com/22dbbac919e14ba0ca747e9008333df2/tekbfgj/BW0ni1kjb/tumblr_static_bgmy0f36x5444scogo8skcwgk_2048_v2.jpg",
+              "header_stretch": true,
+              "link_color": "#000000",
+              "show_avatar": true,
+              "show_description": true,
+              "show_header_image": true,
+              "show_title": true,
+              "title_color": "#FFFFFF",
+              "title_font": "Gibson",
+              "title_font_weight": "bold"
+            },
+            "share_likes": false,
+            "share_following": false,
+            "can_be_followed": true
+          },
+          "post": {
+            "id": "170467499243"
+          },
+          "content_raw": "<p><blockquote>\n<p> And yet the Americans still aren’t villains; they’re victims. Both sides of the Cold War often depicted the other’s citizenry as victimized, but the Soviet Union elevated it into an art, much in the way that the American mainstream developed the Soviet super-villain into a fetish object. Instead of portraying Americans as eroticized torturers, inhuman strongmen, or sinister ringleaders, the few Soviet movies that do pit Soviet and American characters against each other mostly portray Americans as misled or misinformed.</p>\n<p>The Soviet and American mainstreams expressed themselves in radically different ways, with different fears. Being a single party state, the Soviet Union was always factionalist and unsustainable, and could only perpetuate itself through cycles of repression and repudiation. Its anxieties were mostly directed toward itself; as the Americans made fantasies of threat, the USSR made fantasies of stability and global standing. The Soviet Union was also dominated by Russian culture, and inherited its taste for oblique metaphor and indirect address. (It should be noted that the three greatest filmmakers to come out of the Soviet Union—Sergei Eisenstein, Andrei Tarkovsky, and Aleksei German—never completed a film set in the present day.)</p>\n<p>Simply put, it wasn’t an environment that was primed to depict the Cold War directly. But it was also an environment with a Cold War mythos that was very different from that of the West. The Soviets did have a “worthy villain,” whom they beat year after year on the big screen: the Nazis. The Soviet Union was the hero who slew the dragon; defeating the Third Reich was a point of national pride. There would never be a more important opponent. The Soviets couldn’t reasonably elevate the Americans to the same status, or even to the status of the White Guard of the bloody Russian Civil War—the USSR’s origin-story villains, in a way.</p>\n<p>Seventeen Moments Of Spring—the Soviet Union’s most popular TV miniseries, and a touchstone of Soviet pop culture—was about a Soviet spy in Nazi Germany. Exhaustively long World War II spy stories with way too many characters were surefire successes with Soviet audiences; On Thin Ice, The Shield And The Sword, and Teheran ’43—the top-grossing Soviet films of 1966, 1968, and 1981—all belong to the genre. (Other winning formulas: comedies about bumbling criminals, dramas about pilots, movies in which characters take vacations.) The most popular Soviet action movie, White Sun Of The Desert, is about a Red Army soldier fighting bandits during the Russian Civil War; the successful Elusive Avengers film series (The Elusive Avengers, The New Adventures Of The Elusive Avengers, The Crown Of The Russian Empire) was set during the same era. As far as Soviet pop culture was concerned at the peak of the Cold War, the best enemies were all in the past.</p>\n<p>At the same time, Americans couldn’t be expected to kill or die for their cause, because—as the 1965 spy film Game With No Rules, set in Berlin at the start of the Cold War, suggests—they didn’t have a cause to begin with. Instead, the rare American antagonists of popular Soviet film were portrayed as pawns of business interests, military-industrial collusion, or, of course, the Nazis. Portraying a monolithic United States of true believers, focused on the eradication of the USSR, would have gone against two essential aspects of the mythology of Soviet propaganda: the defeat of Nazism, which rid the world of an evil the likes of which it would never see, and the notion of communism as a self-evident ideal.</p>\n<p>For decades, Soviet media attacked the United States—with varying degrees of subtlety—as a broken society, its failure obvious. Capitalism and Western democracy weren’t values that could inspire the same kind of commitment as communism, and the only reason anyone would fight for them was because they’d didn’t know better.</p>\n</blockquote></p>",
+          "content": "<p><blockquote>\n<p> And yet the Americans still aren&rsquo;t villains; they&rsquo;re victims. Both sides of the Cold War often depicted the other&rsquo;s citizenry as victimized, but the Soviet Union elevated it into an art, much in the way that the American mainstream developed the Soviet super-villain into a fetish object. Instead of portraying Americans as eroticized torturers, inhuman strongmen, or sinister ringleaders, the few Soviet movies that do pit Soviet and American characters against each other mostly portray Americans as misled or misinformed.</p>\n<p>The Soviet and American mainstreams expressed themselves in radically different ways, with different fears. Being a single party state, the Soviet Union was always factionalist and unsustainable, and could only perpetuate itself through cycles of repression and repudiation. Its anxieties were mostly directed toward itself; as the Americans made fantasies of threat, the USSR made fantasies of stability and global standing. The Soviet Union was also dominated by Russian culture, and inherited its taste for oblique metaphor and indirect address. (It should be noted that the three greatest filmmakers to come out of the Soviet Union&mdash;Sergei Eisenstein, Andrei Tarkovsky, and Aleksei German&mdash;never completed a film set in the present day.)</p>\n<p>Simply put, it wasn&rsquo;t an environment that was primed to depict the Cold War directly. But it was also an environment with a Cold War mythos that was very different from that of the West. The Soviets did have a &ldquo;worthy villain,&rdquo; whom they beat year after year on the big screen: the Nazis. The Soviet Union was the hero who slew the dragon; defeating the Third Reich was a point of national pride. There would never be a more important opponent. The Soviets couldn&rsquo;t reasonably elevate the Americans to the same status, or even to the status of the White Guard of the bloody Russian Civil War&mdash;the USSR&rsquo;s origin-story villains, in a way.</p>\n<p>Seventeen Moments Of Spring&mdash;the Soviet Union&rsquo;s most popular TV miniseries, and a touchstone of Soviet pop culture&mdash;was about a Soviet spy in Nazi Germany. Exhaustively long World War II spy stories with way too many characters were surefire successes with Soviet audiences; On Thin Ice, The Shield And The Sword, and Teheran &rsquo;43&mdash;the top-grossing Soviet films of 1966, 1968, and 1981&mdash;all belong to the genre. (Other winning formulas: comedies about bumbling criminals, dramas about pilots, movies in which characters take vacations.) The most popular Soviet action movie, White Sun Of The Desert, is about a Red Army soldier fighting bandits during the Russian Civil War; the successful Elusive Avengers film series (The Elusive Avengers, The New Adventures Of The Elusive Avengers, The Crown Of The Russian Empire) was set during the same era. As far as Soviet pop culture was concerned at the peak of the Cold War, the best enemies were all in the past.</p>\n<p>At the same time, Americans couldn&rsquo;t be expected to kill or die for their cause, because&mdash;as the 1965 spy film Game With No Rules, set in Berlin at the start of the Cold War, suggests&mdash;they didn&rsquo;t have a cause to begin with. Instead, the rare American antagonists of popular Soviet film were portrayed as pawns of business interests, military-industrial collusion, or, of course, the Nazis. Portraying a monolithic United States of true believers, focused on the eradication of the USSR, would have gone against two essential aspects of the mythology of Soviet propaganda: the defeat of Nazism, which rid the world of an evil the likes of which it would never see, and the notion of communism as a self-evident ideal.</p>\n<p>For decades, Soviet media attacked the United States&mdash;with varying degrees of subtlety&mdash;as a broken society, its failure obvious. Capitalism and Western democracy weren&rsquo;t values that could inspire the same kind of commitment as communism, and the only reason anyone would fight for them was because they&rsquo;d didn&rsquo;t know better.</p>\n</blockquote></p>",
+          "is_root_item": true
+        },
+        {
+          "blog": {
+            "name": "kinoglowworm",
+            "active": true,
+            "theme": {
+              "header_full_width": 743,
+              "header_full_height": 746,
+              "header_focus_width": 743,
+              "header_focus_height": 418,
+              "avatar_shape": "circle",
+              "background_color": "#FAFAFA",
+              "body_font": "Helvetica Neue",
+              "header_bounds": "248,743,666,0",
+              "header_image": "https://static.tumblr.com/d152ca9b7119401435ba7deef50dd8c7/q3txuhz/Nk7nuw6sf/tumblr_static_3xjrfok7nrsw80sgs8g0gww8w.png",
+              "header_image_focused": "https://static.tumblr.com/d152ca9b7119401435ba7deef50dd8c7/q3txuhz/YDMnuw7ag/tumblr_static_tumblr_static_3xjrfok7nrsw80sgs8g0gww8w_focused_v3.png",
+              "header_image_scaled": "https://static.tumblr.com/d152ca9b7119401435ba7deef50dd8c7/q3txuhz/Nk7nuw6sf/tumblr_static_3xjrfok7nrsw80sgs8g0gww8w_2048_v2.png",
+              "header_stretch": true,
+              "link_color": "#529ECC",
+              "show_avatar": true,
+              "show_description": true,
+              "show_header_image": true,
+              "show_title": true,
+              "title_color": "#444444",
+              "title_font": "Alternate Gothic",
+              "title_font_weight": "bold"
+            },
+            "share_likes": false,
+            "share_following": false,
+            "can_be_followed": true
+          },
+          "post": {
+            "id": "170468616105"
+          },
+          "content_raw": "<p><p>It goes further than this though - more didactic Soviet filmmaking explicitly tried to associate capitalists and military leaders collaborating with them with Nazis, while also consistently depicting common Americans as victims. Lev Atamanov’s 1970 animated short Это в наших силах (It’s In Our Power) depicts a general and a businessman gleefully watching as a warbird hatches from an egg that cracks in a perfect swastika. They feed it with money and weapons and it terrorizes common people around the world.</p>\n<figure class=\"tmblr-embed tmblr-full\" data-provider=\"youtube\" data-orig-width=\"540\" data-orig-height=\"304\" data-url=\"https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Drr5cRQttRl4\"><iframe width=\"540\" height=\"304\" id=\"youtube_iframe\" src=\"https://www.youtube.com/embed/rr5cRQttRl4?feature=oembed&amp;enablejsapi=1&amp;origin=https://safe.txmblr.com&amp;wmode=opaque\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen=\"\"></iframe></figure><p>In Vladimir Tarasov’s dark but dreamlike 1979 short Тир (Shooting Range), a down on his luck man in an American city is offered a job at a shooting gallery - nominally as maintenance staff, but as one of the targets if the price is right. It depicts him adjusting to learning to live his everyday life in the line of fire and brings him right up to the point of raising a family in the shooting gallery.</p>\n<figure class=\"tmblr-embed tmblr-full\" data-provider=\"youtube\" data-orig-width=\"459\" data-orig-height=\"344\" data-url=\"https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DUH2MRqIjJxA\"><iframe width=\"540\" height=\"405\" id=\"youtube_iframe\" src=\"https://www.youtube.com/embed/UH2MRqIjJxA?feature=oembed&amp;enablejsapi=1&amp;origin=https://safe.txmblr.com&amp;wmode=opaque\" frameborder=\"0\" allowfullscreen=\"\"></iframe></figure></p>",
+          "content": "<p><p>It goes further than this though - more didactic Soviet filmmaking explicitly tried to associate capitalists and military leaders collaborating with them with Nazis, while also consistently depicting common Americans as victims. Lev Atamanov&rsquo;s 1970 animated short &#1069;&#1090;&#1086; &#1074; &#1085;&#1072;&#1096;&#1080;&#1093; &#1089;&#1080;&#1083;&#1072;&#1093; (It&rsquo;s In Our Power) depicts a general and a businessman gleefully watching as a warbird hatches from an egg that cracks in a perfect swastika. They feed it with money and weapons and it terrorizes common people around the world.</p>\n<figure class=\"tmblr-embed tmblr-full\"><p><a href=\"#\"><img src=\"https://assets.tumblr.com/images/inline_placeholder.png\" width=\"18\" height=\"14\"/></a></p></figure><p>In Vladimir Tarasov&rsquo;s dark but dreamlike 1979 short &#1058;&#1080;&#1088; (Shooting Range), a down on his luck man in an American city is offered a job at a shooting gallery - nominally as maintenance staff, but as one of the targets if the price is right. It depicts him adjusting to learning to live his everyday life in the line of fire and brings him right up to the point of raising a family in the shooting gallery.</p>\n<figure class=\"tmblr-embed tmblr-full\"><p><a href=\"#\"><img src=\"https://assets.tumblr.com/images/inline_placeholder.png\" width=\"18\" height=\"14\"/></a></p></figure></p>"
+        }
+      ]
+    },
+    "video": {
+      "source_url": "http://gucci-flipflops.tumblr.com/post/163841025633/kinda-racist-try-diet-racism",
+      "source_title": "gucci-flipflops",
+      "caption": "<p><a href=\"http://gucci-flipflops.tumblr.com/post/163841025633/kinda-racist-try-diet-racism\" class=\"tumblr_blog\" target=\"_blank\">gucci-flipflops</a>:</p>\n\n<blockquote><p>Kinda Racist? Try Diet Racism</p></blockquote>",
+      "reblog": {
+        "comment": "",
+        "tree_html": "<p><a href=\"http://gucci-flipflops.tumblr.com/post/163841025633/kinda-racist-try-diet-racism\" class=\"tumblr_blog\" target=\"_blank\">gucci-flipflops</a>:</p><blockquote><p>Kinda Racist? Try Diet Racism</p></blockquote>"
+      },
+      "trail": [
+        {
+          "blog": {
+            "name": "gucci-flipflops",
+            "active": true,
+            "theme": {
+              "avatar_shape": "square",
+              "background_color": "#000000",
+              "body_font": "Helvetica Neue",
+              "header_bounds": "",
+              "header_image": "https://static.tumblr.com/06dfa365199c8d26ac42a614e3de6766/npmfskj/Cd4p4pex4/tumblr_static_filename.jpg",
+              "header_image_focused": "https://static.tumblr.com/06dfa365199c8d26ac42a614e3de6766/npmfskj/Cd4p4pex4/tumblr_static_filename_2048_v2.jpg",
+              "header_image_scaled": "https://static.tumblr.com/06dfa365199c8d26ac42a614e3de6766/npmfskj/Cd4p4pex4/tumblr_static_filename_2048_v2.jpg",
+              "header_stretch": true,
+              "link_color": "#222222",
+              "show_avatar": false,
+              "show_description": false,
+              "show_header_image": false,
+              "show_title": false,
+              "title_color": "#650909",
+              "title_font": "Gibson",
+              "title_font_weight": "bold"
+            },
+            "share_likes": false,
+            "share_following": true,
+            "can_be_followed": true
+          },
+          "post": {
+            "id": "163841025633"
+          },
+          "content_raw": "<p>Kinda Racist? Try Diet Racism</p>",
+          "content": "<p>Kinda Racist? Try Diet Racism</p>",
+          "is_root_item": true
+        }
+      ],
+      "video_url": "https://vt.media.tumblr.com/tumblr_ou8d4dSZNG1ut248g.mp4",
+      "html5_capable": true,
+      "thumbnail_url": "https://78.media.tumblr.com/tumblr_ou8d4dSZNG1ut248g_frame1.jpg",
+      "thumbnail_width": 1280,
+      "thumbnail_height": 720,
+      "duration": 85,
+      "player": [
+        {
+          "width": 250,
+          "embed_code": "\n<video  id='embed-5a98b5912e533060240499' class='crt-video crt-skin-default' width='250' height='141' poster='https://78.media.tumblr.com/tumblr_ou8d4dSZNG1ut248g_smart1.jpg' preload='none' muted data-crt-video data-crt-options='{\"autoheight\":null,\"duration\":85,\"hdUrl\":\"https:\\/\\/kthjm.tumblr.com\\/video_file\\/t:w_VZG2FirpzSDqHW4YQ79g\\/171430637852\\/tumblr_ou8d4dSZNG1ut248g\",\"filmstrip\":{\"url\":\"https:\\/\\/68.media.tumblr.com\\/previews\\/tumblr_ou8d4dSZNG1ut248g_filmstrip.jpg\",\"width\":\"200\",\"height\":\"112\"}}' >\n    <source src=\"https://kthjm.tumblr.com/video_file/t:w_VZG2FirpzSDqHW4YQ79g/171430637852/tumblr_ou8d4dSZNG1ut248g/480\" type=\"video/mp4\">\n</video>\n"
+        },
+        {
+          "width": 400,
+          "embed_code": "\n<video  id='embed-5a98b5912e533060240499' class='crt-video crt-skin-default' width='400' height='225' poster='https://78.media.tumblr.com/tumblr_ou8d4dSZNG1ut248g_smart1.jpg' preload='none' muted data-crt-video data-crt-options='{\"autoheight\":null,\"duration\":85,\"hdUrl\":\"https:\\/\\/kthjm.tumblr.com\\/video_file\\/t:w_VZG2FirpzSDqHW4YQ79g\\/171430637852\\/tumblr_ou8d4dSZNG1ut248g\",\"filmstrip\":{\"url\":\"https:\\/\\/68.media.tumblr.com\\/previews\\/tumblr_ou8d4dSZNG1ut248g_filmstrip.jpg\",\"width\":\"200\",\"height\":\"112\"}}' >\n    <source src=\"https://kthjm.tumblr.com/video_file/t:w_VZG2FirpzSDqHW4YQ79g/171430637852/tumblr_ou8d4dSZNG1ut248g/480\" type=\"video/mp4\">\n</video>\n"
+        },
+        {
+          "width": 500,
+          "embed_code": "\n<video  id='embed-5a98b5912e533060240499' class='crt-video crt-skin-default' width='500' height='281' poster='https://78.media.tumblr.com/tumblr_ou8d4dSZNG1ut248g_smart1.jpg' preload='none' muted data-crt-video data-crt-options='{\"autoheight\":null,\"duration\":85,\"hdUrl\":\"https:\\/\\/kthjm.tumblr.com\\/video_file\\/t:w_VZG2FirpzSDqHW4YQ79g\\/171430637852\\/tumblr_ou8d4dSZNG1ut248g\",\"filmstrip\":{\"url\":\"https:\\/\\/68.media.tumblr.com\\/previews\\/tumblr_ou8d4dSZNG1ut248g_filmstrip.jpg\",\"width\":\"200\",\"height\":\"112\"}}' >\n    <source src=\"https://kthjm.tumblr.com/video_file/t:w_VZG2FirpzSDqHW4YQ79g/171430637852/tumblr_ou8d4dSZNG1ut248g/480\" type=\"video/mp4\">\n</video>\n"
+        }
+      ],
+      "video_type": "tumblr"
+    },
+    "audio": {
+      "source_url": "https://carnival-phantasm.tumblr.com/post/169891653451/kizuna-ai-we-are-the-world",
+      "source_title": "carnival-phantasm",
+      "artist": "Kizuna AI",
+      "track_name": "We Are The World",
+      "album_art": "https://78.media.tumblr.com/tumblr_p2tdw624K01r61nxjo1_1516384662_cover.jpg",
+      "caption": "",
+      "reblog": {
+        "comment": "",
+        "tree_html": ""
+      },
+      "trail": [],
+      "player": "<iframe class=\"tumblr_audio_player tumblr_audio_player_170170085232\" src=\"http://kthjm.tumblr.com/post/170170085232/audio_player_iframe/kthjm/tumblr_p2tdw624K01r61nxj?audio_file=https%3A%2F%2Fwww.tumblr.com%2Faudio_file%2Fkthjm%2F170170085232%2Ftumblr_p2tdw624K01r61nxj\" frameborder=\"0\" allowtransparency=\"true\" scrolling=\"no\" width=\"540\" height=\"169\"></iframe>",
+      "embed": "<iframe class=\"tumblr_audio_player tumblr_audio_player_170170085232\" src=\"http://kthjm.tumblr.com/post/170170085232/audio_player_iframe/kthjm/tumblr_p2tdw624K01r61nxj?audio_file=https%3A%2F%2Fwww.tumblr.com%2Faudio_file%2Fkthjm%2F170170085232%2Ftumblr_p2tdw624K01r61nxj\" frameborder=\"0\" allowtransparency=\"true\" scrolling=\"no\" width=\"540\" height=\"169\"></iframe>",
+      "plays": 6105,
+      "audio_url": "https://www.tumblr.com/audio_file/kthjm/170170085232/tumblr_p2tdw624K01r61nxj",
+      "audio_source_url": "https://www.tumblr.com/audio_file/kthjm/170170085232/tumblr_p2tdw624K01r61nxj",
+      "audio_type": "tumblr"
+    },
+    "answer": {
+      "asking_name": "daveyo520",
+      "asking_url": "http://daveyo520.tumblr.com/",
+      "question": "1,2,3,4 I guess.",
+      "answer": "<p><a class=\"tumblr_blog\" href=\"http://justintaco.tumblr.com/post/169520865359\">justintaco</a>:</p>\n\n<blockquote><h2><b><i>\n\n1. best anime you’ve watched\n\n</i></b></h2><p>Again,</p><p><b>Monogatari Series</b></p><figure class=\"tmblr-full\" data-orig-height=\"555\" data-orig-width=\"1149\"><img src=\"https://78.media.tumblr.com/1c6a23d07d341a1bd9c28d85156cc387/tumblr_inline_p2bbd4P98m1qcmjyb_540.png\" data-orig-height=\"555\" data-orig-width=\"1149\"/></figure><p>Despite its flaws, Monogatari is an amazing experience across all fronts. I could go on and on about the many reasons to praise it but I and thousands of others have done so already in the past. If you like anime, you should watch Monogatari.</p><h2><b><i>\n\n2. worst anime you’ve watched\n\n</i></b></h2><p>Also very easy</p><p><b>Saekano</b></p><figure class=\"tmblr-full\" data-orig-height=\"720\" data-orig-width=\"1280\"><img src=\"https://78.media.tumblr.com/fc899ab6a07fe06e9a7e677477261471/tumblr_inline_p2bboidXXv1qcmjyb_540.png\" data-orig-height=\"720\" data-orig-width=\"1280\"/></figure><p>Never has a show been so dreadfully and mind-blowingly awful that I kept watching week after week to fuel my addiction to proclaiming my pure hatred for it. Every minute is a lifetime of agony. I measure the shittiness of all other anime by the monumentally horrible benchmark that is Saekano.</p><h2><b><i>\n\n3. favorite character from your favorite anime\n\n</i></b></h2><p><b>Hitagi Senjougahara from Monogatari Series</b></p><figure class=\"tmblr-full\" data-orig-height=\"720\" data-orig-width=\"1280\"><img src=\"https://78.media.tumblr.com/e4621af97168db403a88d54fc4392a77/tumblr_inline_p2bbujDX501qcmjyb_540.jpg\" data-orig-height=\"720\" data-orig-width=\"1280\"/></figure><p>Pretty much anything involving Senjougahara is some of the best material Nisio has ever written. It’s really hard to summarize why she stands out in a cast that’s already crowded with amazing people. Every scene she appears in steals the episode. </p><h2><b><i>4. best ending of an anime you’ve watched\n\n</i></b></h2><p>(there’s two #4′s so I picked one)</p><p>This is a tough one since good anime generally have good endings.</p><p><b>Gatchaman Crowds Insight</b></p><figure class=\"tmblr-full\" data-orig-height=\"720\" data-orig-width=\"1280\"><img src=\"https://78.media.tumblr.com/c4a20083e3f623b1399844ce00fdd549/tumblr_inline_p2bc2bpaZ71qcmjyb_540.jpg\" data-orig-height=\"720\" data-orig-width=\"1280\"/></figure><p>Though the real climax of the story was in the 11th episode and not the finale, the conclusion to Insight is one of the most visceral and gripping scenes in anything I’ve ever watched. I was going to elaborate but everyone’s better off checking out Gatchaman because no paragraph I could write would do it justice.</p></blockquote><p></p>",
+      "reblog": {
+        "comment": "",
+        "tree_html": "<p><a class=\"tumblr_blog\" href=\"http://justintaco.tumblr.com/post/169520865359\">justintaco</a>:</p><blockquote>\n<h2><b><i>\n\n1. best anime you’ve watched\n\n</i></b></h2>\n<p>Again,</p>\n<p><b>Monogatari Series</b></p>\n<figure class=\"tmblr-full\" data-orig-height=\"555\" data-orig-width=\"1149\"><img src=\"https://78.media.tumblr.com/1c6a23d07d341a1bd9c28d85156cc387/tumblr_inline_p2bbd4P98m1qcmjyb_540.png\" data-orig-height=\"555\" data-orig-width=\"1149\"></figure><p>Despite its flaws, Monogatari is an amazing experience across all fronts. I could go on and on about the many reasons to praise it but I and thousands of others have done so already in the past. If you like anime, you should watch Monogatari.</p>\n<h2><b><i>\n\n2. worst anime you’ve watched\n\n</i></b></h2>\n<p>Also very easy</p>\n<p><b>Saekano</b></p>\n<figure class=\"tmblr-full\" data-orig-height=\"720\" data-orig-width=\"1280\"><img src=\"https://78.media.tumblr.com/fc899ab6a07fe06e9a7e677477261471/tumblr_inline_p2bboidXXv1qcmjyb_540.png\" data-orig-height=\"720\" data-orig-width=\"1280\"></figure><p>Never has a show been so dreadfully and mind-blowingly awful that I kept watching week after week to fuel my addiction to proclaiming my pure hatred for it. Every minute is a lifetime of agony. I measure the shittiness of all other anime by the monumentally horrible benchmark that is Saekano.</p>\n<h2><b><i>\n\n3. favorite character from your favorite anime\n\n</i></b></h2>\n<p><b>Hitagi Senjougahara from Monogatari Series</b></p>\n<figure class=\"tmblr-full\" data-orig-height=\"720\" data-orig-width=\"1280\"><img src=\"https://78.media.tumblr.com/e4621af97168db403a88d54fc4392a77/tumblr_inline_p2bbujDX501qcmjyb_540.jpg\" data-orig-height=\"720\" data-orig-width=\"1280\"></figure><p>Pretty much anything involving Senjougahara is some of the best material Nisio has ever written. It’s really hard to summarize why she stands out in a cast that’s already crowded with amazing people. Every scene she appears in steals the episode. </p>\n<h2><b><i>4. best ending of an anime you’ve watched\n\n</i></b></h2>\n<p>(there’s two #4′s so I picked one)</p>\n<p>This is a tough one since good anime generally have good endings.</p>\n<p><b>Gatchaman Crowds Insight</b></p>\n<figure class=\"tmblr-full\" data-orig-height=\"720\" data-orig-width=\"1280\"><img src=\"https://78.media.tumblr.com/c4a20083e3f623b1399844ce00fdd549/tumblr_inline_p2bc2bpaZ71qcmjyb_540.jpg\" data-orig-height=\"720\" data-orig-width=\"1280\"></figure><p>Though the real climax of the story was in the 11th episode and not the finale, the conclusion to Insight is one of the most visceral and gripping scenes in anything I’ve ever watched. I was going to elaborate but everyone’s better off checking out Gatchaman because no paragraph I could write would do it justice.</p>\n</blockquote>\n"
+      },
+      "trail": [
+        {
+          "blog": {
+            "name": "justintaco",
+            "active": true,
+            "theme": {
+              "header_full_width": 500,
+              "header_full_height": 278,
+              "header_focus_width": 495,
+              "header_focus_height": 278,
+              "avatar_shape": "square",
+              "background_color": "#FAFAFA",
+              "body_font": "Helvetica Neue",
+              "header_bounds": "0,497,278,2",
+              "header_image": "https://static.tumblr.com/bda24a316a0f9fb73fd8f434bc0e2713/fk3icn1/mhXni0uxy/tumblr_static_9lwwuk1dqc080kwk0g0kow8o0.gif",
+              "header_image_focused": "https://static.tumblr.com/bda24a316a0f9fb73fd8f434bc0e2713/fk3icn1/7kwni0uy2/tumblr_static_tumblr_static_9lwwuk1dqc080kwk0g0kow8o0_focused_v3.gif",
+              "header_image_scaled": "https://static.tumblr.com/bda24a316a0f9fb73fd8f434bc0e2713/fk3icn1/mhXni0uxy/tumblr_static_9lwwuk1dqc080kwk0g0kow8o0_2048_v2.gif",
+              "header_stretch": true,
+              "link_color": "#529ECC",
+              "show_avatar": true,
+              "show_description": true,
+              "show_header_image": true,
+              "show_title": true,
+              "title_color": "#444444",
+              "title_font": "Gibson",
+              "title_font_weight": "bold"
+            },
+            "share_likes": false,
+            "share_following": false,
+            "can_be_followed": true
+          },
+          "post": {
+            "id": "169520865359"
+          },
+          "content_raw": "<p><h2><b><i>\n\n1. best anime you’ve watched\n\n</i></b></h2>\n<p>Again,</p>\n<p><b>Monogatari Series</b></p>\n<figure class=\"tmblr-full\" data-orig-height=\"555\" data-orig-width=\"1149\"><img src=\"https://78.media.tumblr.com/1c6a23d07d341a1bd9c28d85156cc387/tumblr_inline_p2bbd4P98m1qcmjyb_540.png\" data-orig-height=\"555\" data-orig-width=\"1149\"></figure><p>Despite its flaws, Monogatari is an amazing experience across all fronts. I could go on and on about the many reasons to praise it but I and thousands of others have done so already in the past. If you like anime, you should watch Monogatari.</p>\n<h2><b><i>\n\n2. worst anime you’ve watched\n\n</i></b></h2>\n<p>Also very easy</p>\n<p><b>Saekano</b></p>\n<figure class=\"tmblr-full\" data-orig-height=\"720\" data-orig-width=\"1280\"><img src=\"https://78.media.tumblr.com/fc899ab6a07fe06e9a7e677477261471/tumblr_inline_p2bboidXXv1qcmjyb_540.png\" data-orig-height=\"720\" data-orig-width=\"1280\"></figure><p>Never has a show been so dreadfully and mind-blowingly awful that I kept watching week after week to fuel my addiction to proclaiming my pure hatred for it. Every minute is a lifetime of agony. I measure the shittiness of all other anime by the monumentally horrible benchmark that is Saekano.</p>\n<h2><b><i>\n\n3. favorite character from your favorite anime\n\n</i></b></h2>\n<p><b>Hitagi Senjougahara from Monogatari Series</b></p>\n<figure class=\"tmblr-full\" data-orig-height=\"720\" data-orig-width=\"1280\"><img src=\"https://78.media.tumblr.com/e4621af97168db403a88d54fc4392a77/tumblr_inline_p2bbujDX501qcmjyb_540.jpg\" data-orig-height=\"720\" data-orig-width=\"1280\"></figure><p>Pretty much anything involving Senjougahara is some of the best material Nisio has ever written. It’s really hard to summarize why she stands out in a cast that’s already crowded with amazing people. Every scene she appears in steals the episode. </p>\n<h2><b><i>4. best ending of an anime you’ve watched\n\n</i></b></h2>\n<p>(there’s two #4′s so I picked one)</p>\n<p>This is a tough one since good anime generally have good endings.</p>\n<p><b>Gatchaman Crowds Insight</b></p>\n<figure class=\"tmblr-full\" data-orig-height=\"720\" data-orig-width=\"1280\"><img src=\"https://78.media.tumblr.com/c4a20083e3f623b1399844ce00fdd549/tumblr_inline_p2bc2bpaZ71qcmjyb_540.jpg\" data-orig-height=\"720\" data-orig-width=\"1280\"></figure><p>Though the real climax of the story was in the 11th episode and not the finale, the conclusion to Insight is one of the most visceral and gripping scenes in anything I’ve ever watched. I was going to elaborate but everyone’s better off checking out Gatchaman because no paragraph I could write would do it justice.</p></p>",
+          "content": "<p><h2><b><i>\n\n1. best anime you&rsquo;ve watched\n\n</i></b></h2>\n<p>Again,</p>\n<p><b>Monogatari Series</b></p>\n<figure class=\"tmblr-full\"><img src=\"https://78.media.tumblr.com/1c6a23d07d341a1bd9c28d85156cc387/tumblr_inline_p2bbd4P98m1qcmjyb_540.png\" class=\"\"/></figure><p>Despite its flaws, Monogatari is an amazing experience across all fronts. I could go on and on about the many reasons to praise it but I and thousands of others have done so already in the past. If you like anime, you should watch Monogatari.</p>\n<h2><b><i>\n\n2. worst anime you&rsquo;ve watched\n\n</i></b></h2>\n<p>Also very easy</p>\n<p><b>Saekano</b></p>\n<figure class=\"tmblr-full\"><img src=\"https://78.media.tumblr.com/fc899ab6a07fe06e9a7e677477261471/tumblr_inline_p2bboidXXv1qcmjyb_540.png\" class=\"\"/></figure><p>Never has a show been so dreadfully and mind-blowingly awful that I kept watching week after week to fuel my addiction to proclaiming my pure hatred for it. Every minute is a lifetime of agony. I measure the shittiness of all other anime by the monumentally horrible benchmark that is Saekano.</p>\n<h2><b><i>\n\n3. favorite character from your favorite anime\n\n</i></b></h2>\n<p><b>Hitagi Senjougahara from Monogatari Series</b></p>\n<figure class=\"tmblr-full\"><img src=\"https://78.media.tumblr.com/e4621af97168db403a88d54fc4392a77/tumblr_inline_p2bbujDX501qcmjyb_540.jpg\" class=\"\"/></figure><p>Pretty much anything involving Senjougahara is some of the best material Nisio has ever written. It&rsquo;s really hard to summarize why she stands out in a cast that&rsquo;s already crowded with amazing people. Every scene she appears in steals the episode.&nbsp;</p>\n<h2><b><i>4. best ending of an anime you&rsquo;ve watched\n\n</i></b></h2>\n<p>(there&rsquo;s two #4&prime;s so I picked one)</p>\n<p>This is a tough one since good anime generally have good endings.</p>\n<p><b>Gatchaman Crowds Insight</b></p>\n<figure class=\"tmblr-full\"><img src=\"https://78.media.tumblr.com/c4a20083e3f623b1399844ce00fdd549/tumblr_inline_p2bc2bpaZ71qcmjyb_540.jpg\" class=\"\"/></figure><p>Though the real climax of the story was in the 11th episode and not the finale, the conclusion to Insight is one of the most visceral and gripping scenes in anything I&rsquo;ve ever watched. I was going to elaborate but everyone&rsquo;s better off checking out Gatchaman because no paragraph I could write would do it justice.</p></p>",
+          "is_root_item": true
+        }
+      ]
+    },
+    "reblog_info": {
+      "reblogged_from_id": "171393949001",
+      "reblogged_from_url": "http://incorrect-voltron-quote.tumblr.com/post/171393949001/im-obligated-to-be-here-but-im-not-obligated-to",
+      "reblogged_from_name": "incorrect-voltron-quote",
+      "reblogged_from_title": "Incorrect Voltron Quotes",
+      "reblogged_from_uuid": "incorrect-voltron-quote.tumblr.com",
+      "reblogged_from_can_message": false,
+      "reblogged_root_id": "171393949001",
+      "reblogged_root_url": "http://incorrect-voltron-quote.tumblr.com/post/171393949001/im-obligated-to-be-here-but-im-not-obligated-to",
+      "reblogged_root_name": "incorrect-voltron-quote",
+      "reblogged_root_title": "Incorrect Voltron Quotes",
+      "reblogged_root_uuid": "incorrect-voltron-quote.tumblr.com",
+      "reblogged_root_can_message": false
+    },
+    "notes_info": {
+      "notes": [
+        {
+          "type": "like",
+          "timestamp": 1519957371,
+          "blog_name": "bakedpoison",
+          "blog_uuid": "bakedpoison.tumblr.com",
+          "blog_url": "https://bakedpoison.tumblr.com/",
+          "followed": false,
+          "avatar_shape": "circle"
+        },
+        {
+          "type": "reblog",
+          "timestamp": 1519956604,
+          "blog_name": "kthjm",
+          "blog_uuid": "kthjm.tumblr.com",
+          "blog_url": "http://kthjm.tumblr.com/",
+          "followed": false,
+          "avatar_shape": "square",
+          "post_id": "171433674182",
+          "reblog_parent_blog_name": "incorrect-voltron-quote"
+        },
+        {
+          "type": "like",
+          "timestamp": 1519956243,
+          "blog_name": "xximperfectpotatoexx",
+          "blog_uuid": "xximperfectpotatoexx.tumblr.com",
+          "blog_url": "https://xximperfectpotatoexx.tumblr.com/",
+          "followed": false,
+          "avatar_shape": "circle"
+        },
+        {
+          "type": "like",
+          "timestamp": 1519956053,
+          "blog_name": "mor-dancing",
+          "blog_uuid": "mor-dancing.tumblr.com",
+          "blog_url": "https://mor-dancing.tumblr.com/",
+          "followed": false,
+          "avatar_shape": "square"
+        }
+      ]
+    }
+  }
+}
