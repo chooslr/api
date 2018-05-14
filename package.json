@@ -5,53 +5,34 @@
   "repository": "kthjm/chooslr-api",
   "license": "MIT",
   "private": true,
-  "prettier": {
-    "tabWidth": 2,
-    "semi": false,
-    "singleQuote": true
-  },
   "nyc": {
-    "require": ["babel-register", "dotenv/config"],
+    "include": [
+      "src"
+    ],
+    "require": [
+      "babel-register",
+      "dotenv/config"
+    ],
     "sourceMap": false,
     "instrument": false
   },
   "scripts": {
-    "exec:compile": "cross-env NODE_ENV=TEST yarn babel .src -d .babel",
-    "exec:rewired": "cross-env NODE_ENV=REWIRE node -r babel-register -r dotenv/config",
-    "exec:test": "cross-env NODE_ENV=TEST nyc mocha --recursive --no-timeouts",
-    "exec:build": "cross-env NODE_ENV=BUILD node",
-    "test:bff": "yarn exec:test .test/bff/core.js",
-    "test:v2": "yarn exec:test .test/cors/v2.js",
-    "test:v1": "yarn exec:test .test/cors/v1.js",
-    "test:sampling": "yarn exec:test .test/cors/sampling.js",
-    "test:hoi/bff": "yarn exec:test .test/bff/hoi.js",
-    "test:hoi/cors": "yarn exec:test .test/cors/hoi.js",
-    "test:hoi": "yarn exec:test .test/bff/hoi.js .test/cors/hoi.js",
-    "test:server": "yarn exec:test .test/server",
-    "test": "yarn exec:test .test",
-    "build:bff": "yarn exec:build client/bff/rollup.config.js",
-    "build:v2": "yarn exec:build client/v2/rollup.config.js",
-    "build:v1": "yarn exec:build client/v1/rollup.config.js",
-    "build:util": "yarn exec:build client/util/rollup.config.js",
-    "build": "run-s build:bff build:v2 build:v1 build:util",
-    "//prebuild": "yarn test",
-    "postbuild": "yarn format",
-    "format": "prettier --write **/cjs.js **/es.js package.json",
-    "snap:bff": "yarn exec:rewired client/.response/bff.js",
-    "snap:v2": "yarn exec:rewired client/.response/v2.js",
-    "snap:v1": "yarn exec:rewired client/.response/v1.js",
-    "snap": "run-p snap:bff snap:v2 snap:v1",
-    "grant": "node -r dotenv/config grant"
+    "test": "cross-env NODE_ENV=TEST nyc mocha -t 10000",
+    "prebuild": "yarn test",
+    "build": "cross-env NODE_ENV=BUILD rollup -c",
+    "snap": "cross-env NODE_ENV=ENV node -r babel-register -r dotenv/config snap.js",
+    "grant": "node -r dotenv/config grant.js"
   },
   "dependencies": {
     "got": "^8.3.0",
-    "jsonp-simple": "^0.0.5",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-jwt": "^3.3.1",
     "koa-router": "^7.4.0",
     "oauth-1.0a": "^2.2.4",
-    "tiloop": "^0.0.6"
+    "regenerator-runtime": "^0.11.1",
+    "tiloop": "^1.0.1",
+    "tumblrinbrowser": "^0.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -72,17 +53,14 @@
     "koa-mount": "^3.0.0",
     "mocha": "^5.0.2",
     "node-fetch": "^2.1.1",
-    "npm-run-all": "^4.1.2",
     "nyc": "^11.4.1",
     "power-assert": "^1.4.4",
-    "prettier": "^1.11.1",
     "rewire": "^3.0.2",
     "rollup": "^0.56.4",
+    "rollup-plugin-auto-external": "^1.2.0",
     "rollup-plugin-babel": "^3.0.3",
-    "rollup-plugin-commonjs": "^9.0.0",
-    "rollup-plugin-node-resolve": "^3.0.3",
+    "rollup-plugin-prettier": "^0.4.0",
     "rollup-plugin-uglify": "^3.0.0",
-    "sinon": "^4.4.2",
     "supertest": "^3.0.0",
     "uglify-es": "^3.3.9"
   }

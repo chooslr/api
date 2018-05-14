@@ -1,36 +1,21 @@
 {
   "env": {
-    
     "TEST": {
       "presets": [
-        ["env", { "targets": { "node": "current" } }],
+        ["env", { "target": { "node": "current" } }],
         "power-assert"
       ],
       "plugins": [
         "istanbul",
-        "rewire"
+        "transform-runtime"
       ]
     },
-
-    "REWIRE": {
-      "presets": [
-        ["env", { "targets": { "node": "current" } }]
-      ],
-      "plugins": [
-        "rewire"
-      ]
+    "ENV": {
+      "presets": ["env"],
+      "plugins": ["transform-runtime"]
     },
-
     "BUILD": {
-      "presets": ["es2015-rollup"],
-      "plugins": [
-        ["transform-runtime", {
-          "helpers": false,
-          "polyfill": false,
-          "regenerator": true
-        }]
-      ]
+      "presets": ["es2015-rollup"]
     }
-
   }
 }
