@@ -7,7 +7,8 @@ export const endpoints = {
   follow: '/follow',
   unfollow: '/unfollow',
   reblog: '/reblog',
-  delete: '/delete'
+  delete: '/delete',
+  extract: '/extract'
 }
 
 export const joinParams = (params = {}) => {
@@ -16,10 +17,3 @@ export const joinParams = (params = {}) => {
     ? '?' + valids.map(([key,value]) => `${key}=${value}`).join('&')
     : ''
 }
-
-// export const joinParams = (params = {}) => {
-//   const valids = Object.entries(params).filter(([key,value]) => Boolean(value) || typeof value === 'number')
-//   return valids.length
-//     ? '?' + valids.map(([key,value]) => `${key}=${value}`).join('&')
-//     : ''
-// }

@@ -1,16 +1,17 @@
-import tiloop from 'tiloop'
 import regeneratorRuntime from 'regenerator-runtime'
+import tiloop from 'tiloop'
+import join from 'url-join'
 import { blog as blogV2 } from 'tumblrinbrowser'
 import { endpoints, joinParams } from './universal.js'
 
 /* util */
+export { endpoints, joinParams }
+
 const throws = (message) => { throw new Error(message) }
 
-const asserts = (condition, message) => !condition && throws(message)
+export const asserts = (condition, message) => !condition && throws(message)
 
 const arrToUniques = (arr) => [...new Set(arr).values()]
-
-const formatPath = (base) => base[base.length - 1] === '/' ? base.slice(0, base.length - 1) : base
 
 /* fetch */
 const credentials = 'same-origin'
@@ -30,60 +31,70 @@ const fetchInterface = (...arg) =>
     : throws(res.meta.msg)
   )
 
-const fetchAsGet = (path, params) =>
+const fetchAsGet = (path, params, jwt) =>
   fetchInterface(path + joinParams(params), {
     method: 'GET',
-    credentials
+    credentials,
+    headers: new Headers(Object.assign({},
+      jwt && { Authorization: 'Bearer ' + jwt }
+    ))
   })
 
-const fetchAsPost = (path, body) =>
+const fetchAsPost = (path, body, jwt) =>
   fetchInterface(path, {
     method: 'POST',
     credentials,
-    headers: new Headers({ 'content-type': 'application/json' }),
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    headers: new Headers(Object.assign({},
+      { 'content-type': 'application/json' },
+      jwt && { Authorization: 'Bearer ' + jwt }
+    ))
   })
 
 
 /* fetch as "GET" */
-export const user = (base) =>
-  fetchAsGet(formatPath(base) + endpoints['info'])
+export const user = (base, jwt) =>
+  fetchAsGet(join(base, endpoints['info']), undefined, jwt)
   .then(({ user }) => user)
 
-export const followings = (base, { limit, offset } = {}) =>
-  fetchAsGet(formatPath(base) + endpoints['followings'], { limit, offset })
+export const followings = (base, { limit, offset } = {}, jwt) =>
+  fetchAsGet(join(base, endpoints['followings']), { limit, offset }, jwt)
   .then(({ blogs }) => blogs)
 
 export const explores = (base) =>
-  fetchAsGet(formatPath(base) + endpoints['explores'])
+  fetchAsGet(join(base, endpoints['explores']))
   .then(({ htmls }) => htmls.map(extractNames))
   .then(names_arr => [].concat(...names_arr))
   .then(names => arrToUniques(names))
 
-export const dashboard = (base, { limit, offset, type, before_id, since_id, reblog_info, notes_info } = {}) =>
-  fetchAsGet(formatPath(base) + endpoints['dashboard'], { limit, offset, type, before_id, since_id, reblog_info, notes_info })
+export const dashboard = (base, { limit, offset, type, before_id, since_id, reblog_info, notes_info } = {}, jwt) =>
+  fetchAsGet(join(base, endpoints['dashboard']), { limit, offset, type, before_id, since_id, reblog_info, notes_info }, jwt)
   .then(({ posts }) => posts)
 
-export const likes = (base, { limit, offset, before, after, reblog_info, notes_info } = {}) =>
-  fetchAsGet(formatPath(base) + endpoints['likes'], { limit, offset, before, after, reblog_info, notes_info })
+export const likes = (base, { limit, offset, before, after, reblog_info, notes_info } = {}, jwt) =>
+  fetchAsGet(join(base, endpoints['likes']), { limit, offset, before, after, reblog_info, notes_info }, jwt)
   .then(({ liked_posts }) => liked_posts)
+
+export const extract = (base, jwt) =>
+  fetchAsGet(join(base, endpoints['extract']), undefined, jwt)
+  .then(({ payload }) => payload)
 
 
 /* fetch as "POST" */
-export const follow = (base, account) =>
-  fetchAsPost(formatPath(base) + endpoints['follow'], { account })
+export const follow = (base, name, jwt) =>
+  fetchAsPost(join(base, endpoints['follow']), { name }, jwt)
   .then(({ blog }) => blog)
 
-export const unfollow = (base, account) =>
-  fetchAsPost(formatPath(base) + endpoints['unfollow'], { account })
+export const unfollow = (base, name, jwt) =>
+  fetchAsPost(join(base, endpoints['unfollow']), { name }, jwt)
   .then(({ blog }) => blog)
 
-export const reblog = (base, account, id, reblog_key, { comment, native_inline_images } = {}) =>
-  fetchAsPost(formatPath(base) + endpoints['reblog'], { account, id, reblog_key, comment, native_inline_images })
+export const reblog = (base, name, id, reblog_key, { comment, native_inline_images } = {}, jwt) =>
+  fetchAsPost(join(base, endpoints['reblog']), { name, id, reblog_key, comment, native_inline_images }, jwt)
   .then(({ id }) => id)
 
-export const deletePost = (base, account, id) =>
-  fetchAsPost(formatPath(base) + endpoints['delete'], { account, id })
+export const deletePost = (base, name, id, jwt) =>
+  fetchAsPost(join(base, endpoints['delete']), { name, id }, jwt)
   .then(({ id }) => id)
 
 
@@ -116,13 +127,13 @@ const extractNames = (html) =>
 /* generators */
 function* loop(yielded) { while (true) { yield yielded() } }
 
-export const generateDashboard = (base, { offset = 0, limit = 20, type, reblog_info, notes_info } = {}) => {
+export const generateDashboard = (base, { offset = 0, limit = 20, type, reblog_info, notes_info } = {}, jwt) => {
 
   asserts(limit <= 20, 'invalid limit')
 
   const params = { before_id: undefined, offset, limit, type, reblog_info, notes_info }
 
-  const iterator = loop(() => dashboard(base, params).then(posts => {
+  const iterator = loop(() => dashboard(base, params, jwt).then(posts => {
     params.before_id = posts[posts.length - 1].id
     params.offset = undefined
     return posts
@@ -134,11 +145,11 @@ export const generateDashboard = (base, { offset = 0, limit = 20, type, reblog_i
   }
 }
 
-export const generateLikes = async (base, { total, limit = 20, offset = 0, reblog_info, notes_info } = {}) => {
+export const generateLikes = async (base, { total, limit = 20, offset = 0, reblog_info, notes_info } = {}, jwt) => {
 
   asserts(limit <= 20, 'invalid limit')
 
-  total = total || await user(base).then(({ likes }) => likes)
+  total = total || await user(base, jwt).then(({ likes }) => likes)
 
   asserts(typeof total === 'number' && total !== -1, 'invalid total')
 
@@ -148,7 +159,7 @@ export const generateLikes = async (base, { total, limit = 20, offset = 0, reblo
     length: total - offset,
     maxIncrement: limit,
     promisify: true,
-    yielded: (indexedArr) => likes(base, params).then(posts => {
+    yielded: (indexedArr) => likes(base, params, jwt).then(posts => {
       posts = posts.slice(0, indexedArr.length)
       params.before = posts[posts.length - 1].liked_timestamp
       params.offset = undefined
@@ -157,11 +168,11 @@ export const generateLikes = async (base, { total, limit = 20, offset = 0, reblo
   })
 }
 
-export const generateFollowings = async (base, { total, limit = 20, offset = 0 } = {}) => {
+export const generateFollowings = async (base, { total, limit = 20, offset = 0 } = {}, jwt) => {
 
   asserts(limit <= 20, 'invalid limit')
 
-  total = total || await user(base).then(({ following }) => following)
+  total = total || await user(base, jwt).then(({ following }) => following)
 
   asserts(typeof total === 'number' && total !== -1, 'invalid total')
 
@@ -169,11 +180,11 @@ export const generateFollowings = async (base, { total, limit = 20, offset = 0 }
     length: total - offset,
     maxIncrement: limit,
     promisify: true,
-    yielded: (indexedArr) => followings(base, { offset: indexedArr[0], limit: indexedArr.length })
+    yielded: (indexedArr) => followings(base, { offset: indexedArr[0], limit: indexedArr.length }, jwt)
   })
 }
 
-export const generateExplores = async (base, { api_key, proxy, names, limit = 20 } = {}) => {
+export const generateExplores = async (base, { names, limit = 20 } = {}, { api_key, proxy } = {}) => {
 
   asserts(api_key || proxy, 'required api_key || proxy')
 
@@ -186,8 +197,7 @@ export const generateExplores = async (base, { api_key, proxy, names, limit = 20
     yielded: (indexedArr) =>
       Promise.all(
         indexedArr.map(index =>
-          blogV2({ api_key, proxy, account: names[index] })
-          .catch(err => undefined)
+          blogV2({ api_key, proxy, name: names[index] }).catch(err => undefined)
         )
       )
       .then(blogs => blogs.filter(blog => blog))
@@ -198,20 +208,24 @@ export const generateExplores = async (base, { api_key, proxy, names, limit = 20
 /* client class */
 export default class Chooslr {
 
-  constructor(base, { api_key, proxy } = {}) {
+  constructor(base, tumblr, jwt) {
     asserts(base && typeof base === 'string')
-    asserts(typeof api_key === 'string' || typeof proxy === 'string')
     this.base = base
+
+    const { api_key, proxy } = tumblr || {}
+    asserts(typeof api_key === 'string' || typeof proxy === 'string')
     this.api_key = api_key
     this.proxy = proxy
+
+    this.jwt = jwt
   }
 
   user() {
-    return user(this.base)
+    return user(this.base, this.jwt)
   }
 
   followings(params) {
-    return followings(this.base, params)
+    return followings(this.base, params, this.jwt)
   }
 
   explores() {
@@ -219,43 +233,56 @@ export default class Chooslr {
   }
 
   dashboard(params) {
-    return dashboard(this.base, params)
+    return dashboard(this.base, params, this.jwt)
   }
 
   likes(params) {
-    return likes(this.base, params)
+    return likes(this.base, params, this.jwt)
   }
 
-  follow(account) {
-    return follow(this.base, account)
+  follow(name) {
+    return follow(this.base, name, this.jwt)
   }
 
-  unfollow(account) {
-    return unfollow(this.base, account)
+  unfollow(name) {
+    return unfollow(this.base, name, this.jwt)
   }
 
-  reblog(...arg) {
-    return reblog(this.base, ...arg)
+  reblog(name, id, reblog_key, params) {
+    return reblog(this.base, name, id, reblog_key, params, this.jwt)
   }
 
-  delete(...arg) {
-    return deletePost(this.base, ...arg)
+  delete(name, id) {
+    return deletePost(this.base, name, id, this.jwt)
   }
 
   generateDashboard(params) {
-    return generateDashboard(this.base, params)
+    return generateDashboard(this.base, params, this.jwt)
   }
 
   generateLikes(params) {
-    return generateLikes(this.base, params)
+    return generateLikes(this.base, params, this.jwt)
   }
 
   generateFollowings(params) {
-    return generateFollowings(this.base, params)
+    return generateFollowings(this.base, params, this.jwt)
   }
 
   generateExplores({ names, limit } = {}) {
-    return generateExplores(this.base, { api_key: this.api_key, proxy: this.proxy, names, limit })
+    const { api_key, proxy } = this
+    return generateExplores(this.base, { names, limit }, { api_key, proxy })
+  }
+
+  attachURL() {
+    return join(this.base, '/attach')
+  }
+
+  detachURL() {
+    return join(this.base, '/detach')
+  }
+
+  extract() {
+    return extract(this.base, this.jwt)
   }
 
 }

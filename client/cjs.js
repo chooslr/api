@@ -6,9 +6,42 @@ function _interopDefault(ex) {
   return ex && typeof ex === 'object' && 'default' in ex ? ex['default'] : ex
 }
 
-var tiloop = _interopDefault(require('tiloop'))
 var regeneratorRuntime = _interopDefault(require('regenerator-runtime'))
+var tiloop = _interopDefault(require('tiloop'))
+var join = _interopDefault(require('url-join'))
 var tumblrinbrowser = require('tumblrinbrowser')
+
+var asyncToGenerator = function(fn) {
+  return function() {
+    var gen = fn.apply(this, arguments)
+    return new Promise(function(resolve, reject) {
+      function step(key, arg) {
+        try {
+          var info = gen[key](arg)
+          var value = info.value
+        } catch (error) {
+          reject(error)
+          return
+        }
+
+        if (info.done) {
+          resolve(value)
+        } else {
+          return Promise.resolve(value).then(
+            function(value) {
+              step('next', value)
+            },
+            function(err) {
+              step('throw', err)
+            }
+          )
+        }
+      }
+
+      return step('next')
+    })
+  }
+}
 
 var classCallCheck = function(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -98,7 +131,8 @@ var endpoints = {
   follow: '/follow',
   unfollow: '/unfollow',
   reblog: '/reblog',
-  delete: '/delete'
+  delete: '/delete',
+  extract: '/extract'
 }
 
 var joinParams = function joinParams() {
@@ -126,9 +160,10 @@ var joinParams = function joinParams() {
     : ''
 }
 
+var _this = undefined
+
 var _marked = /*#__PURE__*/ regeneratorRuntime.mark(loop)
 
-/* util */
 var throws = function throws(message) {
   throw new Error(message)
 }
@@ -139,10 +174,6 @@ var asserts = function asserts(condition, message) {
 
 var arrToUniques = function arrToUniques(arr) {
   return [].concat(toConsumableArray(new Set(arr).values()))
-}
-
-var formatPath = function formatPath(base) {
-  return base[base.length - 1] === '/' ? base.slice(0, base.length - 1) : base
 }
 
 /* fetch */
@@ -163,28 +194,39 @@ var fetchInterface = function fetchInterface() {
     })
 }
 
-var fetchAsGet = function fetchAsGet(path, params) {
+var fetchAsGet = function fetchAsGet(path, params, jwt) {
   return fetchInterface(path + joinParams(params), {
     method: 'GET',
-    credentials: credentials
+    credentials: credentials,
+    headers: new Headers(
+      Object.assign({}, jwt && { Authorization: 'Bearer ' + jwt })
+    )
   })
 }
 
-var fetchAsPost = function fetchAsPost(path, body) {
+var fetchAsPost = function fetchAsPost(path, body, jwt) {
   return fetchInterface(path, {
     method: 'POST',
     credentials: credentials,
-    headers: new Headers({ 'content-type': 'application/json' }),
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    headers: new Headers(
+      Object.assign(
+        {},
+        { 'content-type': 'application/json' },
+        jwt && { Authorization: 'Bearer ' + jwt }
+      )
+    )
   })
 }
 
 /* fetch as "GET" */
-var _user = function _user(base) {
-  return fetchAsGet(formatPath(base) + endpoints['info']).then(function(_ref) {
-    var user = _ref.user
-    return user
-  })
+var _user = function _user(base, jwt) {
+  return fetchAsGet(join(base, endpoints['info']), undefined, jwt).then(
+    function(_ref) {
+      var user = _ref.user
+      return user
+    }
+  )
 }
 var _followings = function _followings(base) {
   var _ref2 =
@@ -192,16 +234,18 @@ var _followings = function _followings(base) {
     limit = _ref2.limit,
     offset = _ref2.offset
 
-  return fetchAsGet(formatPath(base) + endpoints['followings'], {
-    limit: limit,
-    offset: offset
-  }).then(function(_ref3) {
+  var jwt = arguments[2]
+  return fetchAsGet(
+    join(base, endpoints['followings']),
+    { limit: limit, offset: offset },
+    jwt
+  ).then(function(_ref3) {
     var blogs = _ref3.blogs
     return blogs
   })
 }
 var _explores = function _explores(base) {
-  return fetchAsGet(formatPath(base) + endpoints['explores'])
+  return fetchAsGet(join(base, endpoints['explores']))
     .then(function(_ref4) {
       var htmls = _ref4.htmls
       return htmls.map(extractNames)
@@ -226,15 +270,20 @@ var _dashboard = function _dashboard(base) {
     reblog_info = _ref6.reblog_info,
     notes_info = _ref6.notes_info
 
-  return fetchAsGet(formatPath(base) + endpoints['dashboard'], {
-    limit: limit,
-    offset: offset,
-    type: type,
-    before_id: before_id,
-    since_id: since_id,
-    reblog_info: reblog_info,
-    notes_info: notes_info
-  }).then(function(_ref7) {
+  var jwt = arguments[2]
+  return fetchAsGet(
+    join(base, endpoints['dashboard']),
+    {
+      limit: limit,
+      offset: offset,
+      type: type,
+      before_id: before_id,
+      since_id: since_id,
+      reblog_info: reblog_info,
+      notes_info: notes_info
+    },
+    jwt
+  ).then(function(_ref7) {
     var posts = _ref7.posts
     return posts
   })
@@ -249,57 +298,78 @@ var _likes = function _likes(base) {
     reblog_info = _ref8.reblog_info,
     notes_info = _ref8.notes_info
 
-  return fetchAsGet(formatPath(base) + endpoints['likes'], {
-    limit: limit,
-    offset: offset,
-    before: before,
-    after: after,
-    reblog_info: reblog_info,
-    notes_info: notes_info
-  }).then(function(_ref9) {
+  var jwt = arguments[2]
+  return fetchAsGet(
+    join(base, endpoints['likes']),
+    {
+      limit: limit,
+      offset: offset,
+      before: before,
+      after: after,
+      reblog_info: reblog_info,
+      notes_info: notes_info
+    },
+    jwt
+  ).then(function(_ref9) {
     var liked_posts = _ref9.liked_posts
     return liked_posts
   })
 }
-var _follow = function _follow(base, account) {
-  return fetchAsPost(formatPath(base) + endpoints['follow'], {
-    account: account
-  }).then(function(_ref10) {
-    var blog = _ref10.blog
+var _extract = function _extract(base, jwt) {
+  return fetchAsGet(join(base, endpoints['extract']), undefined, jwt).then(
+    function(_ref10) {
+      var payload = _ref10.payload
+      return payload
+    }
+  )
+}
+var _follow = function _follow(base, name, jwt) {
+  return fetchAsPost(join(base, endpoints['follow']), { name: name }, jwt).then(
+    function(_ref11) {
+      var blog = _ref11.blog
+      return blog
+    }
+  )
+}
+var _unfollow = function _unfollow(base, name, jwt) {
+  return fetchAsPost(
+    join(base, endpoints['unfollow']),
+    { name: name },
+    jwt
+  ).then(function(_ref12) {
+    var blog = _ref12.blog
     return blog
   })
 }
-var _unfollow = function _unfollow(base, account) {
-  return fetchAsPost(formatPath(base) + endpoints['unfollow'], {
-    account: account
-  }).then(function(_ref11) {
-    var blog = _ref11.blog
-    return blog
-  })
-}
-var _reblog = function _reblog(base, account, id, reblog_key) {
-  var _ref12 =
+var _reblog = function _reblog(base, name, id, reblog_key) {
+  var _ref13 =
       arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {},
-    comment = _ref12.comment,
-    native_inline_images = _ref12.native_inline_images
+    comment = _ref13.comment,
+    native_inline_images = _ref13.native_inline_images
 
-  return fetchAsPost(formatPath(base) + endpoints['reblog'], {
-    account: account,
-    id: id,
-    reblog_key: reblog_key,
-    comment: comment,
-    native_inline_images: native_inline_images
-  }).then(function(_ref13) {
-    var id = _ref13.id
+  var jwt = arguments[5]
+  return fetchAsPost(
+    join(base, endpoints['reblog']),
+    {
+      name: name,
+      id: id,
+      reblog_key: reblog_key,
+      comment: comment,
+      native_inline_images: native_inline_images
+    },
+    jwt
+  ).then(function(_ref14) {
+    var id = _ref14.id
     return id
   })
 }
-var deletePost = function deletePost(base, account, id) {
-  return fetchAsPost(formatPath(base) + endpoints['delete'], {
-    account: account,
-    id: id
-  }).then(function(_ref14) {
-    var id = _ref14.id
+var deletePost = function deletePost(base, name, id, jwt) {
+  return fetchAsPost(
+    join(base, endpoints['delete']),
+    { name: name, id: id },
+    jwt
+  ).then(function(_ref15) {
+    var id = _ref15.id
     return id
   })
 }
@@ -345,15 +415,17 @@ function loop(yielded) {
 }
 
 var _generateDashboard = function _generateDashboard(base) {
-  var _ref15 =
+  var _ref16 =
       arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-    _ref15$offset = _ref15.offset,
-    offset = _ref15$offset === undefined ? 0 : _ref15$offset,
-    _ref15$limit = _ref15.limit,
-    limit = _ref15$limit === undefined ? 20 : _ref15$limit,
-    type = _ref15.type,
-    reblog_info = _ref15.reblog_info,
-    notes_info = _ref15.notes_info
+    _ref16$offset = _ref16.offset,
+    offset = _ref16$offset === undefined ? 0 : _ref16$offset,
+    _ref16$limit = _ref16.limit,
+    limit = _ref16$limit === undefined ? 20 : _ref16$limit,
+    type = _ref16.type,
+    reblog_info = _ref16.reblog_info,
+    notes_info = _ref16.notes_info
+
+  var jwt = arguments[2]
 
   asserts(limit <= 20, 'invalid limit')
 
@@ -367,7 +439,7 @@ var _generateDashboard = function _generateDashboard(base) {
   }
 
   var iterator = loop(function() {
-    return _dashboard(base, params).then(function(posts) {
+    return _dashboard(base, params, jwt).then(function(posts) {
       params.before_id = posts[posts.length - 1].id
       params.offset = undefined
       return posts
@@ -384,144 +456,288 @@ var _generateDashboard = function _generateDashboard(base) {
     })
   }
 }
-var _generateLikes = async function _generateLikes(base) {
-  var _ref16 =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-    total = _ref16.total,
-    _ref16$limit = _ref16.limit,
-    limit = _ref16$limit === undefined ? 20 : _ref16$limit,
-    _ref16$offset = _ref16.offset,
-    offset = _ref16$offset === undefined ? 0 : _ref16$offset,
-    reblog_info = _ref16.reblog_info,
-    notes_info = _ref16.notes_info
+var _generateLikes = (function() {
+  var _ref17 = asyncToGenerator(
+    /*#__PURE__*/ regeneratorRuntime.mark(function _callee(base) {
+      var _ref18 =
+          arguments.length > 1 && arguments[1] !== undefined
+            ? arguments[1]
+            : {},
+        total = _ref18.total,
+        _ref18$limit = _ref18.limit,
+        limit = _ref18$limit === undefined ? 20 : _ref18$limit,
+        _ref18$offset = _ref18.offset,
+        offset = _ref18$offset === undefined ? 0 : _ref18$offset,
+        reblog_info = _ref18.reblog_info,
+        notes_info = _ref18.notes_info
 
-  asserts(limit <= 20, 'invalid limit')
+      var jwt = arguments[2]
+      var params
+      return regeneratorRuntime.wrap(
+        function _callee$(_context2) {
+          while (1) {
+            switch ((_context2.prev = _context2.next)) {
+              case 0:
+                asserts(limit <= 20, 'invalid limit')
 
-  total =
-    total ||
-    (await _user(base).then(function(_ref17) {
-      var likes = _ref17.likes
-      return likes
-    }))
+                _context2.t0 = total
 
-  asserts(typeof total === 'number' && total !== -1, 'invalid total')
+                if (_context2.t0) {
+                  _context2.next = 6
+                  break
+                }
 
-  var params = {
-    before: undefined,
-    offset: offset,
-    limit: limit,
-    reblog_info: reblog_info,
-    notes_info: notes_info
+                _context2.next = 5
+                return _user(base, jwt).then(function(_ref19) {
+                  var likes = _ref19.likes
+                  return likes
+                })
+
+              case 5:
+                _context2.t0 = _context2.sent
+
+              case 6:
+                total = _context2.t0
+
+                asserts(
+                  typeof total === 'number' && total !== -1,
+                  'invalid total'
+                )
+
+                params = {
+                  before: undefined,
+                  offset: offset,
+                  limit: limit,
+                  reblog_info: reblog_info,
+                  notes_info: notes_info
+                }
+                return _context2.abrupt(
+                  'return',
+                  tiloop({
+                    length: total - offset,
+                    maxIncrement: limit,
+                    promisify: true,
+                    yielded: function yielded(indexedArr) {
+                      return _likes(base, params, jwt).then(function(posts) {
+                        posts = posts.slice(0, indexedArr.length)
+                        params.before = posts[posts.length - 1].liked_timestamp
+                        params.offset = undefined
+                        return posts
+                      })
+                    }
+                  })
+                )
+
+              case 10:
+              case 'end':
+                return _context2.stop()
+            }
+          }
+        },
+        _callee,
+        _this
+      )
+    })
+  )
+
+  return function _generateLikes(_x7) {
+    return _ref17.apply(this, arguments)
   }
+})()
+var _generateFollowings = (function() {
+  var _ref20 = asyncToGenerator(
+    /*#__PURE__*/ regeneratorRuntime.mark(function _callee2(base) {
+      var _ref21 =
+          arguments.length > 1 && arguments[1] !== undefined
+            ? arguments[1]
+            : {},
+        total = _ref21.total,
+        _ref21$limit = _ref21.limit,
+        limit = _ref21$limit === undefined ? 20 : _ref21$limit,
+        _ref21$offset = _ref21.offset,
+        offset = _ref21$offset === undefined ? 0 : _ref21$offset
 
-  return tiloop({
-    length: total - offset,
-    maxIncrement: limit,
-    promisify: true,
-    yielded: function yielded(indexedArr) {
-      return _likes(base, params).then(function(posts) {
-        posts = posts.slice(0, indexedArr.length)
-        params.before = posts[posts.length - 1].liked_timestamp
-        params.offset = undefined
-        return posts
-      })
-    }
-  })
-}
-var _generateFollowings = async function _generateFollowings(base) {
-  var _ref18 =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-    total = _ref18.total,
-    _ref18$limit = _ref18.limit,
-    limit = _ref18$limit === undefined ? 20 : _ref18$limit,
-    _ref18$offset = _ref18.offset,
-    offset = _ref18$offset === undefined ? 0 : _ref18$offset
+      var jwt = arguments[2]
+      return regeneratorRuntime.wrap(
+        function _callee2$(_context3) {
+          while (1) {
+            switch ((_context3.prev = _context3.next)) {
+              case 0:
+                asserts(limit <= 20, 'invalid limit')
 
-  asserts(limit <= 20, 'invalid limit')
+                _context3.t0 = total
 
-  total =
-    total ||
-    (await _user(base).then(function(_ref19) {
-      var following = _ref19.following
-      return following
-    }))
+                if (_context3.t0) {
+                  _context3.next = 6
+                  break
+                }
 
-  asserts(typeof total === 'number' && total !== -1, 'invalid total')
+                _context3.next = 5
+                return _user(base, jwt).then(function(_ref22) {
+                  var following = _ref22.following
+                  return following
+                })
 
-  return tiloop({
-    length: total - offset,
-    maxIncrement: limit,
-    promisify: true,
-    yielded: function yielded(indexedArr) {
-      return _followings(base, {
-        offset: indexedArr[0],
-        limit: indexedArr.length
-      })
-    }
-  })
-}
-var _generateExplores = async function _generateExplores(base) {
-  var _ref20 =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-    api_key = _ref20.api_key,
-    proxy = _ref20.proxy,
-    names = _ref20.names,
-    _ref20$limit = _ref20.limit,
-    limit = _ref20$limit === undefined ? 20 : _ref20$limit
+              case 5:
+                _context3.t0 = _context3.sent
 
-  asserts(api_key || proxy, 'required api_key || proxy')
+              case 6:
+                total = _context3.t0
 
-  names = Array.isArray(names) ? names : await _explores(base)
+                asserts(
+                  typeof total === 'number' && total !== -1,
+                  'invalid total'
+                )
 
-  return tiloop({
-    length: names.length,
-    maxIncrement: limit,
-    promisify: true,
-    yielded: function yielded(indexedArr) {
-      return Promise.all(
-        indexedArr.map(function(index) {
-          return tumblrinbrowser
-            .blog({ api_key: api_key, proxy: proxy, account: names[index] })
-            .catch(function(err) {
-              return undefined
-            })
-        })
-      ).then(function(blogs) {
-        return blogs.filter(function(blog) {
-          return blog
-        })
-      })
-    }
-  })
-}
+                return _context3.abrupt(
+                  'return',
+                  tiloop({
+                    length: total - offset,
+                    maxIncrement: limit,
+                    promisify: true,
+                    yielded: function yielded(indexedArr) {
+                      return _followings(
+                        base,
+                        { offset: indexedArr[0], limit: indexedArr.length },
+                        jwt
+                      )
+                    }
+                  })
+                )
+
+              case 9:
+              case 'end':
+                return _context3.stop()
+            }
+          }
+        },
+        _callee2,
+        _this
+      )
+    })
+  )
+
+  return function _generateFollowings(_x9) {
+    return _ref20.apply(this, arguments)
+  }
+})()
+var _generateExplores = (function() {
+  var _ref23 = asyncToGenerator(
+    /*#__PURE__*/ regeneratorRuntime.mark(function _callee3(base) {
+      var _ref24 =
+          arguments.length > 1 && arguments[1] !== undefined
+            ? arguments[1]
+            : {},
+        names = _ref24.names,
+        _ref24$limit = _ref24.limit,
+        limit = _ref24$limit === undefined ? 20 : _ref24$limit
+
+      var _ref25 =
+          arguments.length > 2 && arguments[2] !== undefined
+            ? arguments[2]
+            : {},
+        api_key = _ref25.api_key,
+        proxy = _ref25.proxy
+
+      return regeneratorRuntime.wrap(
+        function _callee3$(_context4) {
+          while (1) {
+            switch ((_context4.prev = _context4.next)) {
+              case 0:
+                asserts(api_key || proxy, 'required api_key || proxy')
+
+                if (!Array.isArray(names)) {
+                  _context4.next = 5
+                  break
+                }
+
+                _context4.t0 = names
+                _context4.next = 8
+                break
+
+              case 5:
+                _context4.next = 7
+                return _explores(base)
+
+              case 7:
+                _context4.t0 = _context4.sent
+
+              case 8:
+                names = _context4.t0
+                return _context4.abrupt(
+                  'return',
+                  tiloop({
+                    length: names.length,
+                    maxIncrement: limit,
+                    promisify: true,
+                    yielded: function yielded(indexedArr) {
+                      return Promise.all(
+                        indexedArr.map(function(index) {
+                          return tumblrinbrowser
+                            .blog({
+                              api_key: api_key,
+                              proxy: proxy,
+                              name: names[index]
+                            })
+                            .catch(function(err) {
+                              return undefined
+                            })
+                        })
+                      ).then(function(blogs) {
+                        return blogs.filter(function(blog) {
+                          return blog
+                        })
+                      })
+                    }
+                  })
+                )
+
+              case 10:
+              case 'end':
+                return _context4.stop()
+            }
+          }
+        },
+        _callee3,
+        _this
+      )
+    })
+  )
+
+  return function _generateExplores(_x12) {
+    return _ref23.apply(this, arguments)
+  }
+})()
 
 var Chooslr = (function() {
-  function Chooslr(base) {
-    var _ref21 =
-        arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-      api_key = _ref21.api_key,
-      proxy = _ref21.proxy
-
+  function Chooslr(base, tumblr, jwt) {
     classCallCheck(this, Chooslr)
 
     asserts(base && typeof base === 'string')
-    asserts(typeof api_key === 'string' || typeof proxy === 'string')
     this.base = base
+
+    var _ref26 = tumblr || {},
+      api_key = _ref26.api_key,
+      proxy = _ref26.proxy
+
+    asserts(typeof api_key === 'string' || typeof proxy === 'string')
     this.api_key = api_key
     this.proxy = proxy
+
+    this.jwt = jwt
   }
 
   createClass(Chooslr, [
     {
       key: 'user',
       value: function user() {
-        return _user(this.base)
+        return _user(this.base, this.jwt)
       }
     },
     {
       key: 'followings',
       value: function followings(params) {
-        return _followings(this.base, params)
+        return _followings(this.base, params, this.jwt)
       }
     },
     {
@@ -533,100 +749,108 @@ var Chooslr = (function() {
     {
       key: 'dashboard',
       value: function dashboard(params) {
-        return _dashboard(this.base, params)
+        return _dashboard(this.base, params, this.jwt)
       }
     },
     {
       key: 'likes',
       value: function likes(params) {
-        return _likes(this.base, params)
+        return _likes(this.base, params, this.jwt)
       }
     },
     {
       key: 'follow',
-      value: function follow(account) {
-        return _follow(this.base, account)
+      value: function follow(name) {
+        return _follow(this.base, name, this.jwt)
       }
     },
     {
       key: 'unfollow',
-      value: function unfollow(account) {
-        return _unfollow(this.base, account)
+      value: function unfollow(name) {
+        return _unfollow(this.base, name, this.jwt)
       }
     },
     {
       key: 'reblog',
-      value: function reblog() {
-        for (
-          var _len = arguments.length, arg = Array(_len), _key = 0;
-          _key < _len;
-          _key++
-        ) {
-          arg[_key] = arguments[_key]
-        }
-
-        return _reblog.apply(undefined, [this.base].concat(arg))
+      value: function reblog(name, id, reblog_key, params) {
+        return _reblog(this.base, name, id, reblog_key, params, this.jwt)
       }
     },
     {
       key: 'delete',
-      value: function _delete() {
-        for (
-          var _len2 = arguments.length, arg = Array(_len2), _key2 = 0;
-          _key2 < _len2;
-          _key2++
-        ) {
-          arg[_key2] = arguments[_key2]
-        }
-
-        return deletePost.apply(undefined, [this.base].concat(arg))
+      value: function _delete(name, id) {
+        return deletePost(this.base, name, id, this.jwt)
       }
     },
     {
       key: 'generateDashboard',
       value: function generateDashboard(params) {
-        return _generateDashboard(this.base, params)
+        return _generateDashboard(this.base, params, this.jwt)
       }
     },
     {
       key: 'generateLikes',
       value: function generateLikes(params) {
-        return _generateLikes(this.base, params)
+        return _generateLikes(this.base, params, this.jwt)
       }
     },
     {
       key: 'generateFollowings',
       value: function generateFollowings(params) {
-        return _generateFollowings(this.base, params)
+        return _generateFollowings(this.base, params, this.jwt)
       }
     },
     {
       key: 'generateExplores',
       value: function generateExplores() {
-        var _ref22 =
+        var _ref27 =
             arguments.length > 0 && arguments[0] !== undefined
               ? arguments[0]
               : {},
-          names = _ref22.names,
-          limit = _ref22.limit
+          names = _ref27.names,
+          limit = _ref27.limit
 
-        return _generateExplores(this.base, {
-          api_key: this.api_key,
-          proxy: this.proxy,
-          names: names,
-          limit: limit
-        })
+        var api_key = this.api_key,
+          proxy = this.proxy
+
+        return _generateExplores(
+          this.base,
+          { names: names, limit: limit },
+          { api_key: api_key, proxy: proxy }
+        )
+      }
+    },
+    {
+      key: 'attachURL',
+      value: function attachURL() {
+        return join(this.base, '/attach')
+      }
+    },
+    {
+      key: 'detachURL',
+      value: function detachURL() {
+        return join(this.base, '/detach')
+      }
+    },
+    {
+      key: 'extract',
+      value: function extract() {
+        return _extract(this.base, this.jwt)
       }
     }
   ])
   return Chooslr
 })()
 
+exports.endpoints = endpoints
+exports.joinParams = joinParams
+exports.asserts = asserts
 exports.user = _user
 exports.followings = _followings
 exports.explores = _explores
 exports.dashboard = _dashboard
 exports.likes = _likes
+exports.extract = _extract
 exports.follow = _follow
 exports.unfollow = _unfollow
 exports.reblog = _reblog

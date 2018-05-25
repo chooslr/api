@@ -1,21 +1,19 @@
 {
   "env": {
     "TEST": {
-      "presets": [
-        ["env", { "target": { "node": "current" } }],
-        "power-assert"
-      ],
-      "plugins": [
-        "istanbul",
-        "transform-runtime"
-      ]
+      "presets": ["env", "power-assert"],
+      "plugins": ["istanbul", "transform-runtime"]
     },
     "ENV": {
       "presets": ["env"],
       "plugins": ["transform-runtime"]
     },
-    "BUILD": {
-      "presets": ["es2015-rollup"]
+    "BUILD:CLIENT": {
+      "presets": [["env", { "modules": false }]],
+      "plugins": ["external-helpers"]
+    },
+    "BUILD:SERVER": {
+      "presets": [["env", { "modules": false, "targets": { "node": "8" } }]]
     }
   }
 }

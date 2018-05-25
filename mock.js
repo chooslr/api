@@ -1,70 +1,43 @@
 const Koa = require('koa')
-const mount = require('koa-mount')
-const JWT = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 const rewire = require('rewire')
-const { default: fetch, Headers } = require('node-fetch')
 const { JSDOM } = require('jsdom')
-const api = require('./src/server.js').default
-const { joinParams } = require('./src/universal.js')
+const bff = require('./src/server').default
+const { fetch, Headers } = require('cross-fetch')
 
-module.exports = (...arg) => {
-  const { app, jwt } = server(...arg)
-  return { app, jwt, client: client(jwt) }
-}
+global.fetch = fetch
+global.Headers = Headers
 
-const server = (prefix, consumerKey, consumerSecret, accessToken, accessSecret, options) => {
-  const {
-    cookieName = 'chooslr:jwt',
-    stateName = 'payload',
-    secret = 'secret',
-    tokenName = 'token',
-    secretName = 'secret'
-  } = options || {}
+const parseFromString = (string) => new JSDOM(string).window.document
 
-  return {
-    app: new Koa().use(
-      mount(
-        prefix,
-        api({
-          jwt: { cookieName, stateName, secret },
-          oauth: { consumerKey, consumerSecret, tokenName, secretName }
-        })
-      )
-    ),
-    jwt: accessToken && accessSecret && JWT.sign(
-      JSON.stringify({ [tokenName]: accessToken, [secretName]: accessSecret }),
-      secret
-    )
-  }
-}
-
-const client = (jwt) => {
-
-  global.fetch = fetch
-
-  const modules = rewire('./src/client.js')
-  const fetchInterface = modules.__get__('fetchInterface')
-  const Authorization = 'Bearer ' + jwt
-
-  modules.__set__({
-
-    parseFromString: (string) => new JSDOM(string).window.document,
-
-    fetchAsGet: (path, params) => fetchInterface(path + joinParams(params), {
-      method: 'GET',
-      headers: new Headers({ Authorization })
-    }),
-
-    fetchAsPost: (path, body) => fetchInterface(path, {
-      method: 'POST',
-      headers: new Headers({ Authorization, 'content-type': 'application/json' }),
-      body: JSON.stringify(body)
-    })
-
-  })
-
+const client = () => {
+  const modules = rewire('./src/client')
+  modules.__set__({ parseFromString })
   return modules
 }
 
-module.exports.server = server
-module.exports.client = client
+const server = (prefix, consumerKey, consumerSecret, accessToken, accessSecret, options) => {
+
+  const {
+    jwtSecret = 'secret',
+    jwtCookieName = 'chooslr:jwt',
+    jwtCookieOpts = { overwrite: true, signed: false }
+  } = options || {}
+
+  const app = new Koa()
+
+  return {
+    app: app.use(
+      bff(app, {
+        prefix,
+        consumerKey,
+        consumerSecret,
+        grantServer: { protocol: 'http', host: 'localhost:1234' },
+        jwt: { secret: jwtSecret, cookie: [ jwtCookieName, jwtCookieOpts ] }
+      })
+    ),
+    jwt: accessToken && accessSecret && jwt.sign({ token: accessToken, secret: accessSecret }, jwtSecret)
+  }
+}
+
+module.exports = { client, server }

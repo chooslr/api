@@ -2,50 +2,35 @@
 
 ref: [Tumblr API](https://www.tumblr.com/docs/en/api/v2)
 
-### `chooslr-api/server`
+## Usage
+server:
 ```js
-const koa = require('koa')
-const mount = require('koa-mount')
-const api = require('chooslr-api/server')
+const Koa = require('koa')
+const bff = require('chooslr-api/server')
 
-koa()
-.use(mount(
-  '/api',
-  api({
-    jwt: {
-      secret,
-      cookieName?,
-      stateName?
-    },
-    oauth: {
-      consumerKey,
-      consumerSecret,
-      tokenName?,
-      secretName?
-    }
+const app = new Koa()
+
+app
+.use(
+  bff(app, {
+    prefix: string = '/',
+    consumerKey: string,
+    consumerSecret: string,
+    jwt: { secret: string, cookie: [name, options] },
+    grantServer: {},
+    grantCallbackRedirect: string = '/'
   })
-))
+)
 .listen(PORT)
 ```
-### `chooslr-api/client`
+front:
 ```js
 import Chooslr from 'chooslr-api/client'
 
-const chooslr = new Chooslr('/api', { api_key, proxy })
+const chooslr = new Chooslr('/api', tumblr, jwt)
 ```
-<!-- /* GET */
-const user = await chooslr.user()
-const names = await chooslr.explores()
-const blogs = await chooslr.followings(params)
-const posts = await chooslr.dashboard(params)
-const posts = await chooslr.likes(params)
 
-/* POST */
-const blog = await chooslr.follow(account)
-const blog = await chooslr.unfollow(account)
-const id = await chooslr.reblog(account, id, reblog_key, params)
-const id = await chooslr.delete(account, id) -->
-## endpoints
+## Endpoints
 ### `/info: GET`
 - jwt: Yes
 - method: `.user()`
@@ -86,22 +71,37 @@ const id = await chooslr.delete(account, id) -->
 
 ### `/follow: POST`
 - jwt: Yes
-- method: `.follow(account)`
+- method: `.follow(name)`
 
 ### `/unfollow: POST`
 - jwt: Yes
-- method: `.unfollow(account)`
+- method: `.unfollow(name)`
 
 ### `/reblog: POST`
 - jwt: Yes
-- method: `.reblog(account, id, reblog_key, params)`
+- method: `.reblog(name, id, reblog_key, params)`
 - params:
   - `comment`
   - `native_inline_images`
 
 ### `/delete: POST`
 - jwt: Yes
-- method: `.delete(account, id)`
+- method: `.delete(name, id)`
+
+### `/attach: GET`
+- jwt: No
+- method: `.attachURL()`
+
+### `/detach: GET`
+- jwt: No
+- method: `.detachURL()`
+
+### `/extract: GET`
+- jwt: Yes
+- method: `.extract()`
+
+### `/proxy/:splat`
+- jwt: No
 
 ## generators
 - `generateDashboard(params)`
