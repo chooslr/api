@@ -8,11 +8,9 @@ const { fetch, Headers } = require('cross-fetch')
 global.fetch = fetch
 global.Headers = Headers
 
-const parseFromString = (string) => new JSDOM(string).window.document
-
 const client = () => {
   const modules = rewire('./src/client')
-  modules.__set__({ parseFromString })
+  modules.__set__({ parseFromString: (string) => new JSDOM(string).window.document })
   return modules
 }
 

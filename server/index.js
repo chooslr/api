@@ -1,1 +1,413 @@
-"use strict";function _interopDefault(e){return e&&"object"==typeof e&&"default"in e?e.default:e}var Koa=_interopDefault(require("koa")),Router=_interopDefault(require("koa-router")),Grant=_interopDefault(require("grant-koa")),app2mw=_interopDefault(require("koa-mount")),session=_interopDefault(require("koa-session")),proxy=_interopDefault(require("koa-proxies")),bodyParser=_interopDefault(require("koa-bodyparser")),jwt=_interopDefault(require("koa-jwt")),OAuth=_interopDefault(require("oauth-1.0a")),got=_interopDefault(require("got")),jsonwebtoken=_interopDefault(require("jsonwebtoken")),join=_interopDefault(require("url-join")),assert=_interopDefault(require("assert")),crypto=require("crypto");const endpoints={info:"/info",followings:"/followings",explores:"/explores",dashboard:"/dashboard",likes:"/likes",follow:"/follow",unfollow:"/unfollow",reblog:"/reblog",delete:"/delete",extract:"/extract"},joinParams=(e={})=>{const t=Object.entries(e).filter(([e,t])=>t);return t.length?"?"+t.map(([e,t])=>`${e}=${t}`).join("&"):""},ORIGIN="https://api.tumblr.com",BASE_URL=join(ORIGIN,"v2"),IDENTIFIER_URL=e=>`${e}.tumblr.com`,USER_URL=join(BASE_URL,"user"),INFO_URL=join(USER_URL,"info"),FOLLOWINGS_URL=join(USER_URL,"following"),DASHBOARD_URL=join(USER_URL,"dashboard"),LIKES_URL=join(USER_URL,"likes"),FOLLOW_URL=join(USER_URL,"follow"),UNFOLLOW_URL=join(USER_URL,"unfollow"),BLOG_URL=join(BASE_URL,"blog"),REBLOG_URL=e=>join(BLOG_URL,IDENTIFIER_URL(e),"/post/reblog"),DELETE_URL=e=>join(BLOG_URL,IDENTIFIER_URL(e),"/post/delete"),EXPLORE_URLs=["trending","staff-picks","text","photos","gifs","quotes","video"].map(e=>join("https://www.tumblr.com/explore",e)),HigherOrderAuthorization=(e,t)=>{const o=OAuth({consumer:{key:e,secret:t},signature_method:"HMAC-SHA1",hash_function:(e,t)=>crypto.createHmac("sha1",t).update(e).digest("base64")});return(e,t,r,s)=>{const a=o.authorize({url:e,method:t},{key:r,secret:s}),{Authorization:n}=o.toHeader(a);return n}},HigherOrderErrorHandler=e=>async(t,o)=>{t.req.setTimeout(e);try{await o()}catch(e){console.error(e),t.status=e.status||500,t.set("Content-Type","application/problem+json; charset=utf-8"),t.body={meta:{status:t.status,msg:e.message||"Internal Server Error"}}}},jwtStateName="payload",proxyPath="/proxy",grantCallback="/attached",sessionCookieName="chooslr:sess";var server=(e,t)=>{assert(e,"required config.app");const{prefix:o="/",apiTimeout:r=1e4,consumerKey:s,consumerSecret:a,grantServer:n,grantCallbackRedirect:i="/",jwt:{secret:d,cookie:l}={}}=t||{},[c,u]=Array.isArray(l)?l:[l,void 0];assert(o,"required config.prefix"),assert(s,"required config.consumerKey"),assert(a,"required config.consumerSecret"),assert("object"==typeof n,"required config.grantServer"),assert(d,"required config.jwt.secret"),assert(c,"required config.jwt.cookie"),"/"===o||n.path||(n.path=o);const p=HigherOrderAuthorization(s,a),y=HigherOrderErrorHandler(r),h=(new Router).get("/attach",e=>e.redirect(join(e.mountPath,"connect/tumblr"))).get("/attached",e=>{const{access_token:t,access_secret:o}=e.query;e.cookies.set(c,jsonwebtoken.sign({token:t,secret:o},d),u),e.cookies.set("chooslr:sess"),e.redirect(i)}).get("/detach",e=>{e.cookies.set(c),e.redirect(i)}).get(endpoints.explores,y,async e=>{const t=EXPLORE_URLs.map(e=>got.get(e).then(({body:e})=>e)),o=await Promise.all(t);e.body={meta:{status:200,msg:"OK"},response:{htmls:o}}}).use(jwt(Object.assign({},u,{cookie:c,secret:d,key:"payload",passthrough:!1}))).get(endpoints.info,y,async e=>{const t=INFO_URL,{token:o,secret:r}=e.state.payload,s=got(t,{method:"GET",json:!0,headers:{Authorization:p(t,"GET",o,r)}});e.body=await s.then(({body:e})=>e)}).get(endpoints.followings,y,async e=>{const{limit:t,offset:o}=e.query,r=FOLLOWINGS_URL+joinParams({limit:t,offset:o}),{token:s,secret:a}=e.state.payload,n=got(r,{method:"GET",json:!0,headers:{Authorization:p(r,"GET",s,a)}});e.body=await n.then(({body:e})=>e)}).get(endpoints.dashboard,y,async e=>{const{limit:t,offset:o,type:r,since_id:s,before_id:a,reblog_info:n,notes_info:i}=e.query,d=DASHBOARD_URL+joinParams({limit:t,offset:o,type:r,since_id:s,before_id:a,reblog_info:n,notes_info:i}),{token:l,secret:c}=e.state.payload,u=got(d,{method:"GET",json:!0,headers:{Authorization:p(d,"GET",l,c)}});e.body=await u.then(({body:e})=>e)}).get(endpoints.likes,y,async e=>{const{limit:t,offset:o,before:r,after:s,reblog_info:a,notes_info:n}=e.query,i=LIKES_URL+joinParams({limit:t,offset:o,before:r,after:s,reblog_info:a,notes_info:n}),{token:d,secret:l}=e.state.payload,c=got(i,{method:"GET",json:!0,headers:{Authorization:p(i,"GET",d,l)}});e.body=await c.then(({body:e})=>e)}).get(endpoints.extract,e=>{const{token:t,secret:o}=e.state.payload;e.body={meta:{status:200},response:{payload:{token:t,secret:o}}}}).use(bodyParser()).post(endpoints.follow,y,async e=>{const{name:t}=e.request.body;e.assert(t,400,"/follow need { name } as body");const o=FOLLOW_URL,{token:r,secret:s}=e.state.payload,a=got(o,{method:"POST",json:!0,headers:{Authorization:p(o,"POST",r,s)},body:{url:`http://${IDENTIFIER_URL(t)}`}});e.body=await a.then(({body:e})=>e)}).post(endpoints.unfollow,y,async e=>{const{name:t}=e.request.body;e.assert(t,400,"/unfollow need { name } as body");const o=UNFOLLOW_URL,{token:r,secret:s}=e.state.payload,a=got(o,{method:"POST",json:!0,headers:{Authorization:p(o,"POST",r,s)},body:{url:`http://${IDENTIFIER_URL(t)}`}});e.body=await a.then(({body:e})=>e)}).post(endpoints.reblog,y,async e=>{const{name:t,id:o,reblog_key:r,comment:s,native_inline_images:a}=e.request.body;e.assert(t,400,"/reblog need { name } as body"),e.assert(o,400,"/reblog need { id } as body"),e.assert(r,400,"/reblog need { reblog_key } as body");const n=REBLOG_URL(t),{token:i,secret:d}=e.state.payload,l=got(n,{method:"POST",json:!0,headers:{Authorization:p(n,"POST",i,d)},body:{id:o,reblog_key:r,comment:s,native_inline_images:a}});e.body=await l.then(({body:e})=>e)}).post(endpoints.delete,y,async e=>{const{name:t,id:o}=e.request.body;e.assert(t,400,"/delete need { name } as body"),e.assert(o,400,"/delete need { id } as body");const r=DELETE_URL(t),{token:s,secret:a}=e.state.payload,n=got(r,{method:"POST",json:!0,headers:{Authorization:p(r,"POST",s,a)},body:{id:o}});e.body=await n.then(({body:e})=>e)});return app2mw(o,(new Koa).use(h.routes()).use(h.allowedMethods({throw:!0})).use(proxy("/proxy",{target:ORIGIN,changeOrigin:!0,rewrite:e=>e.split("/proxy").join("")+(e.includes("api_key")?"":(e.includes("?")?"&":"?")+`api_key=${s}`)})).use(session(e,{key:"chooslr:sess",maxAge:"session",signed:!1})).use(app2mw(new Grant({server:n,tumblr:{key:s,secret:a,callback:join(o,"/attached")}}))))};module.exports=server;
+'use strict'
+
+function _interopDefault(ex) {
+  return ex && typeof ex === 'object' && 'default' in ex ? ex['default'] : ex
+}
+
+var Koa = _interopDefault(require('koa'))
+var Router = _interopDefault(require('koa-router'))
+var Grant = _interopDefault(require('grant-koa'))
+var app2mw = _interopDefault(require('koa-mount'))
+var session = _interopDefault(require('koa-session'))
+var proxy = _interopDefault(require('koa-proxies'))
+var bodyParser = _interopDefault(require('koa-bodyparser'))
+var jwt = _interopDefault(require('koa-jwt'))
+var OAuth = _interopDefault(require('oauth-1.0a'))
+var got = _interopDefault(require('got'))
+var jsonwebtoken = _interopDefault(require('jsonwebtoken'))
+var join = _interopDefault(require('url-join'))
+var assert = _interopDefault(require('assert'))
+var crypto = require('crypto')
+
+const endpoints = {
+  info: '/info',
+  followings: '/followings',
+  explores: '/explores',
+  dashboard: '/dashboard',
+  likes: '/likes',
+  follow: '/follow',
+  unfollow: '/unfollow',
+  reblog: '/reblog',
+  delete: '/delete',
+  extract: '/extract'
+}
+
+const joinParams = (params = {}) => {
+  const valids = Object.entries(params).filter(([key, value]) => value)
+  return valids.length
+    ? '?' + valids.map(([key, value]) => `${key}=${value}`).join('&')
+    : ''
+}
+
+const ORIGIN = 'https://api.tumblr.com'
+const BASE_URL = join(ORIGIN, 'v2')
+const IDENTIFIER_URL = name => `${name}.tumblr.com`
+
+const USER_URL = join(BASE_URL, 'user')
+const INFO_URL = join(USER_URL, 'info')
+const FOLLOWINGS_URL = join(USER_URL, 'following')
+const DASHBOARD_URL = join(USER_URL, 'dashboard')
+const LIKES_URL = join(USER_URL, 'likes')
+const FOLLOW_URL = join(USER_URL, 'follow')
+const UNFOLLOW_URL = join(USER_URL, 'unfollow')
+
+const BLOG_URL = join(BASE_URL, 'blog')
+const REBLOG_URL = name => join(BLOG_URL, IDENTIFIER_URL(name), '/post/reblog')
+const DELETE_URL = name => join(BLOG_URL, IDENTIFIER_URL(name), '/post/delete')
+
+const EXPLORE_URLs = [
+  'trending',
+  'staff-picks',
+  'text',
+  'photos',
+  'gifs',
+  'quotes',
+  'video'
+].map(type => join('https://www.tumblr.com/explore', type))
+
+const HigherOrderAuthorization = (key, secret) => {
+  const oauth = OAuth({
+    consumer: { key, secret },
+    signature_method: 'HMAC-SHA1',
+    hash_function: (base_string, key) =>
+      crypto
+        .createHmac('sha1', key)
+        .update(base_string)
+        .digest('base64')
+  })
+
+  return (url, method, key, secret) => {
+    const authorized = oauth.authorize({ url, method }, { key, secret })
+    const { Authorization } = oauth.toHeader(authorized)
+    return Authorization
+  }
+}
+
+const HigherOrderErrorHandler = timeout => async (ctx, next) => {
+  ctx.req.setTimeout(timeout)
+
+  try {
+    await next()
+  } catch (e) {
+    console.error(e)
+    ctx.status = e.status || 500
+    ctx.set('Content-Type', 'application/problem+json; charset=utf-8')
+    ctx.body = {
+      meta: { status: ctx.status, msg: e.message || 'Internal Server Error' }
+    }
+  }
+}
+
+const jwtStateName = 'payload'
+const proxyPath = '/proxy'
+const grantCallback = '/attached'
+const sessionCookieName = 'chooslr:sess'
+const redirectCookieName = 'chooslr:redirect_url'
+
+var server = (app, config) => {
+  assert(app, 'required config.app')
+
+  const {
+    prefix = '/',
+    apiTimeout = 10000,
+    consumerKey,
+    consumerSecret,
+    grantServer,
+    jwt: { secret: jwtSecret, cookie: jwtCookie } = {}
+  } =
+    config || {}
+
+  const [jwtCookieName, jwtCookieOpts] = Array.isArray(jwtCookie)
+    ? jwtCookie
+    : [jwtCookie, undefined]
+
+  assert(prefix, 'required config.prefix')
+  assert(consumerKey, 'required config.consumerKey')
+  assert(consumerSecret, 'required config.consumerSecret')
+  assert(typeof grantServer === 'object', 'required config.grantServer')
+  assert(jwtSecret, 'required config.jwt.secret')
+  assert(jwtCookieName, 'required config.jwt.cookie')
+
+  if (prefix !== '/' && !grantServer.path) {
+    grantServer.path = prefix
+  }
+
+  const oauthAuthorization = HigherOrderAuthorization(
+    consumerKey,
+    consumerSecret
+  )
+  const errorHandler = HigherOrderErrorHandler(apiTimeout)
+
+  const router = new Router()
+    .get('/attach', ctx => {
+      ctx.cookies.set(redirectCookieName, ctx.query.redirect_url || '/')
+      ctx.redirect(join(ctx.mountPath, 'connect/tumblr'))
+    })
+    .get(grantCallback, ctx => {
+      const { access_token: token, access_secret: secret } = ctx.query
+      ctx.cookies.set(
+        jwtCookieName,
+        jsonwebtoken.sign({ token, secret }, jwtSecret),
+        jwtCookieOpts
+      )
+
+      const redirect_url = ctx.cookies.get(redirectCookieName)
+      ctx.cookies.set(redirectCookieName)
+      ctx.cookies.set(sessionCookieName)
+      ctx.redirect(redirect_url)
+    })
+    .get('/detach', ctx => {
+      ctx.cookies.set(jwtCookieName)
+      ctx.redirect(ctx.query.redirect_url || '/')
+    })
+    .get(endpoints['explores'], errorHandler, async ctx => {
+      const pwgs = EXPLORE_URLs.map(url =>
+        got.get(url).then(({ body }) => body)
+      )
+      const htmls = await Promise.all(pwgs)
+      ctx.body = { meta: { status: 200, msg: 'OK' }, response: { htmls } }
+    })
+    .use(
+      jwt(
+        Object.assign({}, jwtCookieOpts, {
+          cookie: jwtCookieName,
+          secret: jwtSecret,
+          key: jwtStateName,
+          passthrough: false
+        })
+      )
+    )
+    .get(endpoints['info'], errorHandler, async ctx => {
+      const url = INFO_URL
+      const method = 'GET'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    })
+    .get(endpoints['followings'], errorHandler, async ctx => {
+      const { limit, offset } = ctx.query
+
+      const url = FOLLOWINGS_URL + joinParams({ limit, offset })
+      const method = 'GET'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    })
+    .get(endpoints['dashboard'], errorHandler, async ctx => {
+      const {
+        limit,
+        offset,
+        type,
+        since_id,
+        before_id,
+        reblog_info,
+        notes_info
+      } = ctx.query
+
+      const url =
+        DASHBOARD_URL +
+        joinParams({
+          limit,
+          offset,
+          type,
+          since_id,
+          before_id,
+          reblog_info,
+          notes_info
+        })
+      const method = 'GET'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    })
+    .get(endpoints['likes'], errorHandler, async ctx => {
+      const {
+        limit,
+        offset,
+        before,
+        after,
+        reblog_info,
+        notes_info
+      } = ctx.query
+
+      const url =
+        LIKES_URL +
+        joinParams({ limit, offset, before, after, reblog_info, notes_info })
+      const method = 'GET'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    })
+    .get(endpoints['extract'], ctx => {
+      const { token, secret } = ctx.state[jwtStateName]
+      ctx.body = {
+        meta: { status: 200 },
+        response: { [jwtStateName]: { token, secret } }
+      }
+    })
+    .use(bodyParser())
+    .post(endpoints['follow'], errorHandler, async ctx => {
+      const { name } = ctx.request.body
+      ctx.assert(name, 400, '/follow need { name } as body')
+
+      const url = FOLLOW_URL
+      const method = 'POST'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        },
+        body: {
+          url: `http://${IDENTIFIER_URL(name)}`
+        }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    })
+    .post(endpoints['unfollow'], errorHandler, async ctx => {
+      const { name } = ctx.request.body
+      ctx.assert(name, 400, '/unfollow need { name } as body')
+
+      const url = UNFOLLOW_URL
+      const method = 'POST'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        },
+        body: {
+          url: `http://${IDENTIFIER_URL(name)}`
+        }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    })
+    .post(endpoints['reblog'], errorHandler, async ctx => {
+      const {
+        name,
+        id,
+        reblog_key,
+        comment,
+        native_inline_images
+      } = ctx.request.body
+      ctx.assert(name, 400, '/reblog need { name } as body')
+      ctx.assert(id, 400, '/reblog need { id } as body')
+      ctx.assert(reblog_key, 400, '/reblog need { reblog_key } as body')
+
+      const url = REBLOG_URL(name)
+      const method = 'POST'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        },
+        body: {
+          id,
+          reblog_key,
+          comment,
+          native_inline_images
+        }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    })
+    .post(endpoints['delete'], errorHandler, async ctx => {
+      const { name, id } = ctx.request.body
+      ctx.assert(name, 400, '/delete need { name } as body')
+      ctx.assert(id, 400, '/delete need { id } as body')
+
+      const url = DELETE_URL(name)
+      const method = 'POST'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        },
+        body: { id }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    })
+
+  return app2mw(
+    prefix,
+    new Koa()
+      .use(
+        proxy(proxyPath, {
+          target: ORIGIN,
+          changeOrigin: true,
+          rewrite: path =>
+            path.split(proxyPath).join('') + path.includes('api_key')
+              ? ''
+              : (path.includes('?') ? '&' : '?') + `api_key=${consumerKey}`
+        })
+      )
+      .use(router.routes())
+      .use(router.allowedMethods({ throw: true }))
+      .use(
+        session(app, {
+          key: sessionCookieName,
+          maxAge: 'session',
+          signed: false
+        })
+      )
+      .use(
+        app2mw(
+          new Grant({
+            server: grantServer,
+            tumblr: {
+              key: consumerKey,
+              secret: consumerSecret,
+              callback: join(prefix, grantCallback)
+            }
+          })
+        )
+      )
+  )
+}
+
+module.exports = server

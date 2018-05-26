@@ -7,13 +7,6 @@
     "ENV": {
       "presets": ["env"],
       "plugins": ["transform-runtime"]
-    },
-    "BUILD:CLIENT": {
-      "presets": [["env", { "modules": false }]],
-      "plugins": ["external-helpers"]
-    },
-    "BUILD:SERVER": {
-      "presets": [["env", { "modules": false, "targets": { "node": "8" } }]]
     }
   }
 }

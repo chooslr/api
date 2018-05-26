@@ -156,16 +156,17 @@ var _this = undefined
 
 var _marked = /*#__PURE__*/ regeneratorRuntime.mark(loop)
 
+/* util */
+var arrToUniques = function arrToUniques(arr) {
+  return [].concat(toConsumableArray(new Set(arr).values()))
+}
+
 var throws = function throws(message) {
   throw new Error(message)
 }
 
 var asserts = function asserts(condition, message) {
   return !condition && throws(message)
-}
-
-var arrToUniques = function arrToUniques(arr) {
-  return [].concat(toConsumableArray(new Set(arr).values()))
 }
 
 /* fetch */
@@ -700,7 +701,7 @@ var _generateExplores = (function() {
 })()
 
 var Chooslr = (function() {
-  function Chooslr(base, tumblr, jwt) {
+  function Chooslr(base, tumblr, options) {
     classCallCheck(this, Chooslr)
 
     asserts(base && typeof base === 'string')
@@ -714,7 +715,12 @@ var Chooslr = (function() {
     this.api_key = api_key
     this.proxy = proxy
 
+    var _ref27 = options || {},
+      jwt = _ref27.jwt,
+      redirectURL = _ref27.redirectURL
+
     this.jwt = jwt
+    this.redirectURL = redirectURL
   }
 
   createClass(Chooslr, [
@@ -793,12 +799,12 @@ var Chooslr = (function() {
     {
       key: 'generateExplores',
       value: function generateExplores() {
-        var _ref27 =
+        var _ref28 =
             arguments.length > 0 && arguments[0] !== undefined
               ? arguments[0]
               : {},
-          names = _ref27.names,
-          limit = _ref27.limit
+          names = _ref28.names,
+          limit = _ref28.limit
 
         var api_key = this.api_key,
           proxy = this.proxy
@@ -813,13 +819,19 @@ var Chooslr = (function() {
     {
       key: 'attachURL',
       value: function attachURL() {
-        return join(this.base, '/attach')
+        return (
+          join(this.base, '/attach') +
+          joinParams({ redirect_url: this.redirectURL })
+        )
       }
     },
     {
       key: 'detachURL',
       value: function detachURL() {
-        return join(this.base, '/detach')
+        return (
+          join(this.base, '/detach') +
+          joinParams({ redirect_url: this.redirectURL })
+        )
       }
     },
     {

@@ -73,6 +73,7 @@ const jwtStateName = 'payload'
 const proxyPath = '/proxy'
 const grantCallback = '/attached'
 const sessionCookieName = 'chooslr:sess'
+const redirectCookieName = 'chooslr:redirect_url'
 
 export default (app, config) => {
 
@@ -84,8 +85,7 @@ export default (app, config) => {
     consumerKey,
     consumerSecret,
     grantServer,
-    grantCallbackRedirect = '/',
-    jwt: { secret: jwtSecret, cookie: jwtCookie } = {},
+    jwt: { secret: jwtSecret, cookie: jwtCookie } = {}
   } = config || {}
 
   const [ jwtCookieName, jwtCookieOpts ] = Array.isArray(jwtCookie) ? jwtCookie : [ jwtCookie, undefined ]
@@ -107,22 +107,28 @@ export default (app, config) => {
   const router = new Router()
   .get(
     '/attach',
-    (ctx) => ctx.redirect(join(ctx.mountPath, 'connect/tumblr'))
+    (ctx) => {
+      ctx.cookies.set(redirectCookieName, ctx.query.redirect_url || '/')
+      ctx.redirect(join(ctx.mountPath, 'connect/tumblr'))
+    }
   )
   .get(
     grantCallback,
     (ctx) => {
       const { access_token: token, access_secret: secret } = ctx.query
       ctx.cookies.set(jwtCookieName, jsonwebtoken.sign({ token, secret }, jwtSecret), jwtCookieOpts)
+
+      const redirect_url = ctx.cookies.get(redirectCookieName)
+      ctx.cookies.set(redirectCookieName)
       ctx.cookies.set(sessionCookieName)
-      ctx.redirect(grantCallbackRedirect)
+      ctx.redirect(redirect_url)
     }
   )
   .get(
     '/detach',
     (ctx) => {
       ctx.cookies.set(jwtCookieName)
-      ctx.redirect(grantCallbackRedirect)
+      ctx.redirect(ctx.query.redirect_url || '/')
     }
   )
   .get(
@@ -349,22 +355,19 @@ export default (app, config) => {
     prefix,
     new Koa()
     .use(
-      router.routes()
-    )
-    .use(
-      router.allowedMethods({ throw: true })
-    )
-    .use(
       proxy(proxyPath, {
         target: ORIGIN,
         changeOrigin: true,
         rewrite: (path) =>
-          path.split(proxyPath).join('') + (
-            path.includes('api_key')
-            ? ''
-            : (path.includes('?') ? '&' : '?') + `api_key=${consumerKey}`
-          )
+          path.split(proxyPath).join('') +
+          path.includes('api_key') ? '' : (path.includes('?') ? '&' : '?') + `api_key=${consumerKey}`
       })
+    )
+    .use(
+      router.routes()
+    )
+    .use(
+      router.allowedMethods({ throw: true })
     )
     .use(
       session(app, {

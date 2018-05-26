@@ -19,9 +19,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=TEST nyc mocha -t 10000",
     "prebuild": "yarn test",
-    "build:client": "cross-env NODE_ENV=BUILD:CLIENT rollup -c rollup.config.client.js",
-    "build:server": "cross-env NODE_ENV=BUILD:SERVER rollup -c rollup.config.server.js",
-    "build": "run-s build:client build:server",
+    "build": "rollup -c",
     "nenv": "cross-env NODE_ENV=ENV node -r babel-register -r dotenv/config",
     "snap": "yarn nenv snap.js",
     "listen": "yarn nenv listen.js",

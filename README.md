@@ -16,9 +16,8 @@ app
     prefix: string = '/',
     consumerKey: string,
     consumerSecret: string,
-    jwt: { secret: string, cookie: [name, options] },
     grantServer: {},
-    grantCallbackRedirect: string = '/'
+    jwt: { secret: string, cookie: [name, options] }
   })
 )
 .listen(PORT)
@@ -26,8 +25,11 @@ app
 front:
 ```js
 import Chooslr from 'chooslr-api/client'
+import Tumblr from 'tumblrinbrowser'
 
-const chooslr = new Chooslr('/api', tumblr, jwt)
+const tumblr = new Tumblr({ api_key, proxy })
+const options = { jwt, redirectURL }
+const chooslr = new Chooslr('/api', tumblr, options)
 ```
 
 ## Endpoints
@@ -91,10 +93,14 @@ const chooslr = new Chooslr('/api', tumblr, jwt)
 ### `/attach: GET`
 - jwt: No
 - method: `.attachURL()`
+- params:
+  - `redirect_url`
 
 ### `/detach: GET`
 - jwt: No
 - method: `.detachURL()`
+- params:
+  - `redirect_url`
 
 ### `/extract: GET`
 - jwt: Yes

@@ -5,23 +5,19 @@ import createMock from '../mock.js'
 
 const port = 7000
 const prefix = '/prefix'
-const cookieName = 'chooslr:jwt'
+const jwtCookieName = 'chooslr:jwt'
 const { CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET } = process.env
 
-const { app, jwt } = createMock.server(prefix, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, { cookieName })
-const Cookie = cookieName + '=' + jwt
+const { app, jwt } = createMock.server(prefix, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, { jwtCookieName })
+const Cookie = jwtCookieName + '=' + jwt
 const Authorization = 'Bearer ' + jwt
 
 const { joinParams, default: Chooslr } = createMock.client()
-const chooslr = new Chooslr(`http://localhost:${port}${prefix}`, { api_key: CONSUMER_KEY }, jwt)
+const chooslr = new Chooslr(`http://localhost:${port}${prefix}`, { api_key: CONSUMER_KEY }, { jwt })
 
 let server
 before(() => server = app.listen(port))
 after(() => server.close())
-
-it('attach', () => assert.equal(chooslr.attachURL(), `http://localhost:${port}${prefix}/attach`))
-
-it('detach', () => assert.equal(chooslr.detachURL(), `http://localhost:${port}${prefix}/detach`))
 
 describe('/info', () => {
 
@@ -277,4 +273,24 @@ describe('generateFollowings and generateExplores', () => {
 
   it('generateFollowings', () => chooslr.generateFollowings().then(iterate => test(iterate)))
   it('generateExplores', () => chooslr.generateExplores().then(iterate => test(iterate)))
+})
+
+describe('attach/detach', () => {
+  const base = `http://localhost:${port}${prefix}`
+  const redirectURL = '/hoge/fuga'
+
+  it('/attach', () => assert.equal(
+    new Chooslr(base, { api_key: CONSUMER_KEY }).attachURL(),
+    `${base}/attach`
+  ))
+
+  it('/attach?redirect_url=', () => assert.equal(
+    new Chooslr(base, { api_key: CONSUMER_KEY }, { redirectURL }).attachURL(),
+    `${base}/attach?redirect_url=${redirectURL}`
+  ))
+
+  it('/detach?redirect_url=', () => assert.equal(
+    new Chooslr(base, { api_key: CONSUMER_KEY }, { redirectURL }).detachURL(),
+    `${base}/detach?redirect_url=${redirectURL}`
+  ))
 })

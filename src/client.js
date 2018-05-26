@@ -5,13 +5,13 @@ import { blog as blogV2 } from 'tumblrinbrowser'
 import { endpoints, joinParams } from './universal.js'
 
 /* util */
-export { endpoints, joinParams }
+const arrToUniques = (arr) => [...new Set(arr).values()]
 
 const throws = (message) => { throw new Error(message) }
 
-export const asserts = (condition, message) => !condition && throws(message)
+const asserts = (condition, message) => !condition && throws(message)
 
-const arrToUniques = (arr) => [...new Set(arr).values()]
+export { endpoints, joinParams, asserts }
 
 /* fetch */
 const credentials = 'same-origin'
@@ -208,7 +208,7 @@ export const generateExplores = async (base, { names, limit = 20 } = {}, { api_k
 /* client class */
 export default class Chooslr {
 
-  constructor(base, tumblr, jwt) {
+  constructor(base, tumblr, options) {
     asserts(base && typeof base === 'string')
     this.base = base
 
@@ -217,7 +217,9 @@ export default class Chooslr {
     this.api_key = api_key
     this.proxy = proxy
 
+    const { jwt, redirectURL } = options || {}
     this.jwt = jwt
+    this.redirectURL = redirectURL
   }
 
   user() {
@@ -274,11 +276,11 @@ export default class Chooslr {
   }
 
   attachURL() {
-    return join(this.base, '/attach')
+    return join(this.base, '/attach') + joinParams({ redirect_url: this.redirectURL })
   }
 
   detachURL() {
-    return join(this.base, '/detach')
+    return join(this.base, '/detach') + joinParams({ redirect_url: this.redirectURL })
   }
 
   extract() {
