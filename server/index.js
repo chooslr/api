@@ -65,45 +65,6 @@ const EXPLORE_URLs = [
   'video'
 ].map(type => join('https://www.tumblr.com/explore', type))
 
-const HigherOrderAuthorization = (key, secret) => {
-  const oauth = OAuth({
-    consumer: { key, secret },
-    signature_method: 'HMAC-SHA1',
-    hash_function: (base_string, key) =>
-      crypto
-        .createHmac('sha1', key)
-        .update(base_string)
-        .digest('base64')
-  })
-
-  return (url, method, key, secret) => {
-    const authorized = oauth.authorize({ url, method }, { key, secret })
-    const { Authorization } = oauth.toHeader(authorized)
-    return Authorization
-  }
-}
-
-const HigherOrderErrorHandler = timeout => async (ctx, next) => {
-  ctx.req.setTimeout(timeout)
-
-  try {
-    await next()
-  } catch (e) {
-    console.error(e)
-    ctx.status = e.status || 500
-    ctx.set('Content-Type', 'application/problem+json; charset=utf-8')
-    ctx.body = {
-      meta: { status: ctx.status, msg: e.message || 'Internal Server Error' }
-    }
-  }
-}
-
-const jwtStateName = 'payload'
-const proxyPath = '/proxy'
-const grantCallback = '/attached'
-const sessionCookieName = 'chooslr:sess'
-const redirectCookieName = 'chooslr:redirect_url'
-
 var server = (app, config) => {
   assert(app, 'required config.app')
 
@@ -132,13 +93,30 @@ var server = (app, config) => {
     grantServer.path = prefix
   }
 
+  const jwtStateName = 'payload'
+  const proxyPath = '/proxy'
+  const grantCallback = '/attached'
+  const sessionCookieName = 'chooslr:sess'
+  const redirectCookieName = 'chooslr:redirect_url'
+  const errorHandler = HigherOrderErrorHandler(apiTimeout)
   const oauthAuthorization = HigherOrderAuthorization(
     consumerKey,
     consumerSecret
   )
-  const errorHandler = HigherOrderErrorHandler(apiTimeout)
 
   const router = new Router()
+    .get(
+      `${proxyPath}**`,
+      proxy('*', {
+        target: ORIGIN,
+        changeOrigin: true,
+        rewrite: path =>
+          path.split(proxyPath).join('') +
+          (path.includes('api_key')
+            ? ''
+            : (path.includes('?') ? '&' : '?') + `api_key=${consumerKey}`)
+      })
+    )
     .get('/attach', ctx => {
       ctx.cookies.set(redirectCookieName, ctx.query.redirect_url || '/')
       ctx.redirect(join(ctx.mountPath, 'connect/tumblr'))
@@ -376,16 +354,6 @@ var server = (app, config) => {
   return app2mw(
     prefix,
     new Koa()
-      .use(
-        proxy(proxyPath, {
-          target: ORIGIN,
-          changeOrigin: true,
-          rewrite: path =>
-            path.split(proxyPath).join('') + path.includes('api_key')
-              ? ''
-              : (path.includes('?') ? '&' : '?') + `api_key=${consumerKey}`
-        })
-      )
       .use(router.routes())
       .use(router.allowedMethods({ throw: true }))
       .use(
@@ -408,6 +376,39 @@ var server = (app, config) => {
         )
       )
   )
+}
+
+const HigherOrderAuthorization = (key, secret) => {
+  const oauth = OAuth({
+    consumer: { key, secret },
+    signature_method: 'HMAC-SHA1',
+    hash_function: (base_string, key) =>
+      crypto
+        .createHmac('sha1', key)
+        .update(base_string)
+        .digest('base64')
+  })
+
+  return (url, method, key, secret) => {
+    const authorized = oauth.authorize({ url, method }, { key, secret })
+    const { Authorization } = oauth.toHeader(authorized)
+    return Authorization
+  }
+}
+
+const HigherOrderErrorHandler = timeout => async (ctx, next) => {
+  ctx.req.setTimeout(timeout)
+
+  try {
+    await next()
+  } catch (e) {
+    console.error(e)
+    ctx.status = e.status || 500
+    ctx.set('Content-Type', 'application/problem+json; charset=utf-8')
+    ctx.body = {
+      meta: { status: ctx.status, msg: e.message || 'Internal Server Error' }
+    }
+  }
 }
 
 module.exports = server

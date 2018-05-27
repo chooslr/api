@@ -5,15 +5,15 @@ import createMock from '../mock.js'
 
 const port = 7000
 const prefix = '/prefix'
+const base = `http://localhost:${port}${prefix}`
 const jwtCookieName = 'chooslr:jwt'
 const { CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET } = process.env
 
 const { app, jwt } = createMock.server(prefix, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, { jwtCookieName })
+const { joinParams, default: Chooslr } = createMock.client()
+const chooslr = new Chooslr(base, { proxy: join(base, 'proxy') }, { jwt })
 const Cookie = jwtCookieName + '=' + jwt
 const Authorization = 'Bearer ' + jwt
-
-const { joinParams, default: Chooslr } = createMock.client()
-const chooslr = new Chooslr(`http://localhost:${port}${prefix}`, { api_key: CONSUMER_KEY }, { jwt })
 
 let server
 before(() => server = app.listen(port))
