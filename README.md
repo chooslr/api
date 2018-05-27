@@ -27,9 +27,14 @@ front:
 import Chooslr from 'chooslr-api/client'
 import Tumblr from 'tumblrinbrowser'
 
-const tumblr = new Tumblr({ api_key, proxy })
-const options = { jwt, redirectURL }
-const chooslr = new Chooslr('/api', tumblr, options)
+const tumblrConfig = { api_key, proxy }
+const tumblr = new Tumblr(tumblrConfig)
+const chooslr = new Chooslr('/api', tumblrConfig, {
+  credentials = 'same-origin',
+  mode = 'same-origin',
+  jwt,
+  authRedirectURL
+})
 ```
 
 ## Endpoints
@@ -103,7 +108,7 @@ const chooslr = new Chooslr('/api', tumblr, options)
   - `redirect_url`
 
 ### `/extract: GET`
-- jwt: Yes
+- jwt: No
 - method: `.extract()`
 
 ### `/proxy/:splat`

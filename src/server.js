@@ -68,7 +68,7 @@ export default (app, config) => {
 
   const jwtStateName = 'payload'
   const proxyPath = '/proxy'
-  const grantCallback = '/attached'
+  const grantCallbackPath = '/attached'
   const sessionCookieName = 'chooslr:sess'
   const redirectCookieName = 'chooslr:redirect_url'
   const errorHandler = HigherOrderErrorHandler(apiTimeout)
@@ -82,7 +82,10 @@ export default (app, config) => {
       changeOrigin: true,
       rewrite: (path) =>
         path.split(proxyPath).join('') +
-        (path.includes('api_key') ? '' : (path.includes('?') ? '&' : '?') + `api_key=${consumerKey}`)
+        (path.includes('api_key')
+          ? ''
+          : (path.includes('?') ? '&' : '?') + `api_key=${consumerKey}`
+        )
     })
   )
   .get(
@@ -93,7 +96,7 @@ export default (app, config) => {
     }
   )
   .get(
-    grantCallback,
+    grantCallbackPath,
     (ctx) => {
       const { access_token: token, access_secret: secret } = ctx.query
       ctx.cookies.set(jwtCookieName, jsonwebtoken.sign({ token, secret }, jwtSecret), jwtCookieOpts)
@@ -110,6 +113,10 @@ export default (app, config) => {
       ctx.cookies.set(jwtCookieName)
       ctx.redirect(ctx.query.redirect_url || '/')
     }
+  )
+  .get(
+    endpoints['extract'],
+    (ctx) => ctx.body = { meta: { status: 200 }, response: { jwt: ctx.cookies.get(jwtCookieName, jwtCookieOpts) } }
   )
   .get(
     endpoints['explores'],
@@ -212,13 +219,6 @@ export default (app, config) => {
       })
 
       ctx.body = await pwg.then(({ body }) => body)
-    }
-  )
-  .get(
-    endpoints['extract'],
-    (ctx) => {
-      const { token, secret } = ctx.state[jwtStateName]
-      ctx.body = { meta: { status: 200 }, response: { [jwtStateName]: { token, secret } } }
     }
   )
   .use(bodyParser())
@@ -353,7 +353,7 @@ export default (app, config) => {
         tumblr: {
           key: consumerKey,
           secret: consumerSecret,
-          callback: join(prefix, grantCallback)
+          callback: join(prefix, grantCallbackPath)
         }
       }))
     )

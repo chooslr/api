@@ -95,7 +95,7 @@ var server = (app, config) => {
 
   const jwtStateName = 'payload'
   const proxyPath = '/proxy'
-  const grantCallback = '/attached'
+  const grantCallbackPath = '/attached'
   const sessionCookieName = 'chooslr:sess'
   const redirectCookieName = 'chooslr:redirect_url'
   const errorHandler = HigherOrderErrorHandler(apiTimeout)
@@ -121,7 +121,7 @@ var server = (app, config) => {
       ctx.cookies.set(redirectCookieName, ctx.query.redirect_url || '/')
       ctx.redirect(join(ctx.mountPath, 'connect/tumblr'))
     })
-    .get(grantCallback, ctx => {
+    .get(grantCallbackPath, ctx => {
       const { access_token: token, access_secret: secret } = ctx.query
       ctx.cookies.set(
         jwtCookieName,
@@ -138,6 +138,14 @@ var server = (app, config) => {
       ctx.cookies.set(jwtCookieName)
       ctx.redirect(ctx.query.redirect_url || '/')
     })
+    .get(
+      endpoints['extract'],
+      ctx =>
+        (ctx.body = {
+          meta: { status: 200 },
+          response: { jwt: ctx.cookies.get(jwtCookieName, jwtCookieOpts) }
+        })
+    )
     .get(endpoints['explores'], errorHandler, async ctx => {
       const pwgs = EXPLORE_URLs.map(url =>
         got.get(url).then(({ body }) => body)
@@ -247,13 +255,6 @@ var server = (app, config) => {
       })
 
       ctx.body = await pwg.then(({ body }) => body)
-    })
-    .get(endpoints['extract'], ctx => {
-      const { token, secret } = ctx.state[jwtStateName]
-      ctx.body = {
-        meta: { status: 200 },
-        response: { [jwtStateName]: { token, secret } }
-      }
     })
     .use(bodyParser())
     .post(endpoints['follow'], errorHandler, async ctx => {
@@ -370,7 +371,7 @@ var server = (app, config) => {
             tumblr: {
               key: consumerKey,
               secret: consumerSecret,
-              callback: join(prefix, grantCallback)
+              callback: join(prefix, grantCallbackPath)
             }
           })
         )

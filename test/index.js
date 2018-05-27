@@ -275,9 +275,31 @@ describe('generateFollowings and generateExplores', () => {
   it('generateExplores', () => chooslr.generateExplores().then(iterate => test(iterate)))
 })
 
+describe('/extract', () => {
+
+  it('server', () =>
+    request(server)
+    .get(join(prefix, '/extract'))
+    .set('Cookie', Cookie)
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .expect(({ body }) => {
+      const { meta: { status }, response: { jwt: extract_jwt } } = body
+      assert.equal(status, 200)
+      assert.equal(extract_jwt, jwt)
+    })
+  )
+
+  it('client', () =>
+    new Chooslr(base, { proxy: join(base, 'proxy') }).extract()
+    .then(jwt => assert.equal(jwt, undefined))
+    .catch(() => assert(false))
+  )
+})
+
 describe('attach/detach', () => {
   const base = `http://localhost:${port}${prefix}`
-  const redirectURL = '/hoge/fuga'
+  const authRedirectURL = '/hoge/fuga'
 
   it('/attach', () => assert.equal(
     new Chooslr(base, { api_key: CONSUMER_KEY }).attachURL(),
@@ -285,12 +307,12 @@ describe('attach/detach', () => {
   ))
 
   it('/attach?redirect_url=', () => assert.equal(
-    new Chooslr(base, { api_key: CONSUMER_KEY }, { redirectURL }).attachURL(),
-    `${base}/attach?redirect_url=${redirectURL}`
+    new Chooslr(base, { api_key: CONSUMER_KEY }, { authRedirectURL }).attachURL(),
+    `${base}/attach?redirect_url=${authRedirectURL}`
   ))
 
   it('/detach?redirect_url=', () => assert.equal(
-    new Chooslr(base, { api_key: CONSUMER_KEY }, { redirectURL }).detachURL(),
-    `${base}/detach?redirect_url=${redirectURL}`
+    new Chooslr(base, { api_key: CONSUMER_KEY }, { authRedirectURL }).detachURL(),
+    `${base}/detach?redirect_url=${authRedirectURL}`
   ))
 })

@@ -14,7 +14,6 @@ const asserts = (condition, message) => !condition && throws(message)
 export { endpoints, joinParams, asserts }
 
 /* fetch */
-const credentials = 'same-origin'
 
 const isSuccess = status => status === 200 || status === 201
 
@@ -31,18 +30,20 @@ const fetchInterface = (...arg) =>
     : throws(res.meta.msg)
   )
 
-const fetchAsGet = (path, params, jwt) =>
+const fetchAsGet = (path, params, { mode, credentials, jwt } = {}) =>
   fetchInterface(path + joinParams(params), {
     method: 'GET',
+    mode,
     credentials,
     headers: new Headers(Object.assign({},
       jwt && { Authorization: 'Bearer ' + jwt }
     ))
   })
 
-const fetchAsPost = (path, body, jwt) =>
+const fetchAsPost = (path, body, { mode, credentials, jwt } = {}) =>
   fetchInterface(path, {
     method: 'POST',
+    mode,
     credentials,
     body: JSON.stringify(body),
     headers: new Headers(Object.assign({},
@@ -53,48 +54,48 @@ const fetchAsPost = (path, body, jwt) =>
 
 
 /* fetch as "GET" */
-export const user = (base, jwt) =>
-  fetchAsGet(join(base, endpoints['info']), undefined, jwt)
+export const user = (base, options) =>
+  fetchAsGet(join(base, endpoints['info']), undefined, options)
   .then(({ user }) => user)
 
-export const followings = (base, { limit, offset } = {}, jwt) =>
-  fetchAsGet(join(base, endpoints['followings']), { limit, offset }, jwt)
+export const followings = (base, { limit, offset } = {}, options) =>
+  fetchAsGet(join(base, endpoints['followings']), { limit, offset }, options)
   .then(({ blogs }) => blogs)
 
-export const explores = (base) =>
-  fetchAsGet(join(base, endpoints['explores']))
+export const explores = (base, options) =>
+  fetchAsGet(join(base, endpoints['explores']), undefined, options)
   .then(({ htmls }) => htmls.map(extractNames))
   .then(names_arr => [].concat(...names_arr))
   .then(names => arrToUniques(names))
 
-export const dashboard = (base, { limit, offset, type, before_id, since_id, reblog_info, notes_info } = {}, jwt) =>
-  fetchAsGet(join(base, endpoints['dashboard']), { limit, offset, type, before_id, since_id, reblog_info, notes_info }, jwt)
+export const dashboard = (base, { limit, offset, type, before_id, since_id, reblog_info, notes_info } = {}, options) =>
+  fetchAsGet(join(base, endpoints['dashboard']), { limit, offset, type, before_id, since_id, reblog_info, notes_info }, options)
   .then(({ posts }) => posts)
 
-export const likes = (base, { limit, offset, before, after, reblog_info, notes_info } = {}, jwt) =>
-  fetchAsGet(join(base, endpoints['likes']), { limit, offset, before, after, reblog_info, notes_info }, jwt)
+export const likes = (base, { limit, offset, before, after, reblog_info, notes_info } = {}, options) =>
+  fetchAsGet(join(base, endpoints['likes']), { limit, offset, before, after, reblog_info, notes_info }, options)
   .then(({ liked_posts }) => liked_posts)
 
-export const extract = (base, jwt) =>
-  fetchAsGet(join(base, endpoints['extract']), undefined, jwt)
-  .then(({ payload }) => payload)
+export const extract = (base, options) =>
+  fetchAsGet(join(base, endpoints['extract']), undefined, options)
+  .then(({ jwt }) => jwt)
 
 
 /* fetch as "POST" */
-export const follow = (base, name, jwt) =>
-  fetchAsPost(join(base, endpoints['follow']), { name }, jwt)
+export const follow = (base, name, options) =>
+  fetchAsPost(join(base, endpoints['follow']), { name }, options)
   .then(({ blog }) => blog)
 
-export const unfollow = (base, name, jwt) =>
-  fetchAsPost(join(base, endpoints['unfollow']), { name }, jwt)
+export const unfollow = (base, name, options) =>
+  fetchAsPost(join(base, endpoints['unfollow']), { name }, options)
   .then(({ blog }) => blog)
 
-export const reblog = (base, name, id, reblog_key, { comment, native_inline_images } = {}, jwt) =>
-  fetchAsPost(join(base, endpoints['reblog']), { name, id, reblog_key, comment, native_inline_images }, jwt)
+export const reblog = (base, name, id, reblog_key, { comment, native_inline_images } = {}, options) =>
+  fetchAsPost(join(base, endpoints['reblog']), { name, id, reblog_key, comment, native_inline_images }, options)
   .then(({ id }) => id)
 
-export const deletePost = (base, name, id, jwt) =>
-  fetchAsPost(join(base, endpoints['delete']), { name, id }, jwt)
+export const deletePost = (base, name, id, options) =>
+  fetchAsPost(join(base, endpoints['delete']), { name, id }, options)
   .then(({ id }) => id)
 
 
@@ -127,13 +128,13 @@ const extractNames = (html) =>
 /* generators */
 function* loop(yielded) { while (true) { yield yielded() } }
 
-export const generateDashboard = (base, { offset = 0, limit = 20, type, reblog_info, notes_info } = {}, jwt) => {
+export const generateDashboard = (base, { offset = 0, limit = 20, type, reblog_info, notes_info } = {}, options) => {
 
   asserts(limit <= 20, 'invalid limit')
 
   const params = { before_id: undefined, offset, limit, type, reblog_info, notes_info }
 
-  const iterator = loop(() => dashboard(base, params, jwt).then(posts => {
+  const iterator = loop(() => dashboard(base, params, options).then(posts => {
     params.before_id = posts[posts.length - 1].id
     params.offset = undefined
     return posts
@@ -145,11 +146,11 @@ export const generateDashboard = (base, { offset = 0, limit = 20, type, reblog_i
   }
 }
 
-export const generateLikes = async (base, { total, limit = 20, offset = 0, reblog_info, notes_info } = {}, jwt) => {
+export const generateLikes = async (base, { total, limit = 20, offset = 0, reblog_info, notes_info } = {}, options) => {
 
   asserts(limit <= 20, 'invalid limit')
 
-  total = total || await user(base, jwt).then(({ likes }) => likes)
+  total = total || await user(base, options).then(({ likes }) => likes)
 
   asserts(typeof total === 'number' && total !== -1, 'invalid total')
 
@@ -159,7 +160,7 @@ export const generateLikes = async (base, { total, limit = 20, offset = 0, reblo
     length: total - offset,
     maxIncrement: limit,
     promisify: true,
-    yielded: (indexedArr) => likes(base, params, jwt).then(posts => {
+    yielded: (indexedArr) => likes(base, params, options).then(posts => {
       posts = posts.slice(0, indexedArr.length)
       params.before = posts[posts.length - 1].liked_timestamp
       params.offset = undefined
@@ -168,11 +169,11 @@ export const generateLikes = async (base, { total, limit = 20, offset = 0, reblo
   })
 }
 
-export const generateFollowings = async (base, { total, limit = 20, offset = 0 } = {}, jwt) => {
+export const generateFollowings = async (base, { total, limit = 20, offset = 0 } = {}, options) => {
 
   asserts(limit <= 20, 'invalid limit')
 
-  total = total || await user(base, jwt).then(({ following }) => following)
+  total = total || await user(base, options).then(({ following }) => following)
 
   asserts(typeof total === 'number' && total !== -1, 'invalid total')
 
@@ -180,7 +181,7 @@ export const generateFollowings = async (base, { total, limit = 20, offset = 0 }
     length: total - offset,
     maxIncrement: limit,
     promisify: true,
-    yielded: (indexedArr) => followings(base, { offset: indexedArr[0], limit: indexedArr.length }, jwt)
+    yielded: (indexedArr) => followings(base, { offset: indexedArr[0], limit: indexedArr.length }, options)
   })
 }
 
@@ -214,77 +215,75 @@ export default class Chooslr {
 
     const { api_key, proxy } = tumblr || {}
     asserts(typeof api_key === 'string' || typeof proxy === 'string')
-    this.api_key = api_key
-    this.proxy = proxy
+    this.tumblrOpts = { api_key, proxy }
 
-    const { jwt, redirectURL } = options || {}
-    this.jwt = jwt
-    this.redirectURL = redirectURL
+    const { credentials = 'same-origin', mode = 'same-origin', jwt, authRedirectURL } = options || {}
+    this.fetchOpts = { credentials, mode, jwt }
+    this.authRedirectURL = authRedirectURL
   }
 
   user() {
-    return user(this.base, this.jwt)
+    return user(this.base, this.fetchOpts)
   }
 
   followings(params) {
-    return followings(this.base, params, this.jwt)
+    return followings(this.base, params, this.fetchOpts)
   }
 
   explores() {
-    return explores(this.base)
+    return explores(this.base, this.fetchOpts)
   }
 
   dashboard(params) {
-    return dashboard(this.base, params, this.jwt)
+    return dashboard(this.base, params, this.fetchOpts)
   }
 
   likes(params) {
-    return likes(this.base, params, this.jwt)
+    return likes(this.base, params, this.fetchOpts)
   }
 
   follow(name) {
-    return follow(this.base, name, this.jwt)
+    return follow(this.base, name, this.fetchOpts)
   }
 
   unfollow(name) {
-    return unfollow(this.base, name, this.jwt)
+    return unfollow(this.base, name, this.fetchOpts)
   }
 
   reblog(name, id, reblog_key, params) {
-    return reblog(this.base, name, id, reblog_key, params, this.jwt)
+    return reblog(this.base, name, id, reblog_key, params, this.fetchOpts)
   }
 
   delete(name, id) {
-    return deletePost(this.base, name, id, this.jwt)
+    return deletePost(this.base, name, id, this.fetchOpts)
   }
 
   generateDashboard(params) {
-    return generateDashboard(this.base, params, this.jwt)
+    return generateDashboard(this.base, params, this.fetchOpts)
   }
 
   generateLikes(params) {
-    return generateLikes(this.base, params, this.jwt)
+    return generateLikes(this.base, params, this.fetchOpts)
   }
 
   generateFollowings(params) {
-    return generateFollowings(this.base, params, this.jwt)
+    return generateFollowings(this.base, params, this.fetchOpts)
   }
 
   generateExplores({ names, limit } = {}) {
-    const { api_key, proxy } = this
-    return generateExplores(this.base, { names, limit }, { api_key, proxy })
+    return generateExplores(this.base, { names, limit }, this.tumblrOpts)
   }
 
   attachURL() {
-    return join(this.base, '/attach') + joinParams({ redirect_url: this.redirectURL })
+    return join(this.base, '/attach') + joinParams({ redirect_url: this.authRedirectURL })
   }
 
   detachURL() {
-    return join(this.base, '/detach') + joinParams({ redirect_url: this.redirectURL })
+    return join(this.base, '/detach') + joinParams({ redirect_url: this.authRedirectURL })
   }
 
   extract() {
-    return extract(this.base, this.jwt)
+    return extract(this.base, this.fetchOpts)
   }
 
 }
