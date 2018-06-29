@@ -2,7 +2,7 @@ const Koa = require('koa')
 const jwt = require('jsonwebtoken')
 const rewire = require('rewire')
 const { JSDOM } = require('jsdom')
-const bff = require('./src/server').default
+const chooslr = require('./src/middleware').default
 const { fetch, Headers } = require('cross-fetch')
 
 global.fetch = fetch
@@ -18,6 +18,7 @@ const server = (prefix, consumerKey, consumerSecret, accessToken, accessSecret, 
 
   const {
     jwtSecret = 'secret',
+    jwtOpts = {},
     jwtCookieName = 'chooslr:jwt',
     jwtCookieOpts = { overwrite: true, signed: false }
   } = options || {}
@@ -26,12 +27,12 @@ const server = (prefix, consumerKey, consumerSecret, accessToken, accessSecret, 
 
   return {
     app: app.use(
-      bff(app, {
+      chooslr(app, {
         prefix,
         consumerKey,
         consumerSecret,
         grantServer: { protocol: 'http', host: 'localhost:1234' },
-        jwt: { secret: jwtSecret, cookie: [ jwtCookieName, jwtCookieOpts ] }
+        jwt: { secret: jwtSecret, options: jwtOpts, cookie: [ jwtCookieName, jwtCookieOpts ] }
       })
     ),
     jwt: accessToken && accessSecret && jwt.sign({ token: accessToken, secret: accessSecret }, jwtSecret)

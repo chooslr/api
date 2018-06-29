@@ -65,7 +65,7 @@ const EXPLORE_URLs = [
   'video'
 ].map(type => join('https://www.tumblr.com/explore', type))
 
-var server = (app, config) => {
+var middleware = (app, config) => {
   assert(app, 'required config.app')
 
   const {
@@ -74,7 +74,7 @@ var server = (app, config) => {
     consumerKey,
     consumerSecret,
     grantServer,
-    jwt: { secret: jwtSecret, cookie: jwtCookie } = {}
+    jwt: { secret: jwtSecret, options: jwtOpts, cookie: jwtCookie } = {}
   } =
     config || {}
 
@@ -123,11 +123,8 @@ var server = (app, config) => {
     })
     .get(grantCallbackPath, ctx => {
       const { access_token: token, access_secret: secret } = ctx.query
-      ctx.cookies.set(
-        jwtCookieName,
-        jsonwebtoken.sign({ token, secret }, jwtSecret),
-        jwtCookieOpts
-      )
+      const jwt$$1 = jsonwebtoken.sign({ token, secret }, jwtSecret, jwtOpts)
+      ctx.cookies.set(jwtCookieName, jwt$$1, jwtCookieOpts)
 
       const redirect_url = ctx.cookies.get(redirectCookieName)
       ctx.cookies.set(redirectCookieName)
@@ -154,8 +151,12 @@ var server = (app, config) => {
       ctx.body = { meta: { status: 200, msg: 'OK' }, response: { htmls } }
     })
     .use(
+      /*
+  jwtOpts: https://github.com/koajs/jwt/blob/27344cc23949f6dafe08cd3e88505ea4f25af048/lib/index.js#L36
+  jwtCookieOpts: https://github.com/koajs/jwt/blob/27344cc23949f6dafe08cd3e88505ea4f25af048/lib/index.js#L19
+  */
       jwt(
-        Object.assign({}, jwtCookieOpts, {
+        Object.assign({}, jwtOpts, jwtCookieOpts, {
           cookie: jwtCookieName,
           secret: jwtSecret,
           key: jwtStateName,
@@ -412,4 +413,4 @@ const HigherOrderErrorHandler = timeout => async (ctx, next) => {
   }
 }
 
-module.exports = server
+module.exports = middleware

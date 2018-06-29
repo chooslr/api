@@ -864,9 +864,6 @@ var Chooslr = (function() {
 
 export default Chooslr
 export {
-  endpoints,
-  joinParams,
-  asserts,
   _user as user,
   _followings as followings,
   _explores as explores,
@@ -880,5 +877,8 @@ export {
   _generateDashboard as generateDashboard,
   _generateLikes as generateLikes,
   _generateFollowings as generateFollowings,
-  _generateExplores as generateExplores
+  _generateExplores as generateExplores,
+  endpoints,
+  joinParams,
+  asserts
 }

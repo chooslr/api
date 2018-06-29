@@ -1,35 +1,34 @@
 # chooslr api
 
-ref: [Tumblr API](https://www.tumblr.com/docs/en/api/v2)
+![GitHub release](https://img.shields.io/github/release/chooslr/api.svg?longCache=true&style=flat-square)
+[![CircleCI](https://img.shields.io/circleci/project/github/chooslr/api.svg?longCache=true&style=flat-square)](https://circleci.com/gh/chooslr/api) [![Codecov](https://img.shields.io/codecov/c/github/chooslr/api.svg?longCache=true&style=flat-square)](https://codecov.io/gh/chooslr/api)
 
 ## Usage
-server:
+`chooslr-api/middleware`:
 ```js
 const Koa = require('koa')
-const bff = require('chooslr-api/server')
+const chooslr = require('chooslr-api/middleware')
 
 const app = new Koa()
 
 app
 .use(
-  bff(app, {
+  chooslr(app, {
     prefix: string = '/',
     consumerKey: string,
     consumerSecret: string,
     grantServer: {},
-    jwt: { secret: string, cookie: [name, options] }
+    jwt: { secret: string, options: {}, cookie: [name, options] }
   })
 )
 .listen(PORT)
 ```
-front:
+
+`chooslr-api/client`:
 ```js
 import Chooslr from 'chooslr-api/client'
-import Tumblr from 'tumblrinbrowser'
 
-const tumblrConfig = { api_key, proxy }
-const tumblr = new Tumblr(tumblrConfig)
-const chooslr = new Chooslr('/api', tumblrConfig, {
+const chooslr = new Chooslr('/api', { api_key, proxy }, {
   credentials = 'same-origin',
   mode = 'same-origin',
   jwt,
@@ -61,7 +60,7 @@ const chooslr = new Chooslr('/api', tumblrConfig, {
   - `offset`
   - `type`
   - `since_id`
-  - `before_id` 👏
+  - `before_id`
   - `reblog_info`
   - `notes_info`
 
@@ -114,8 +113,17 @@ const chooslr = new Chooslr('/api', tumblrConfig, {
 ### `/proxy/:splat`
 - jwt: No
 
-## generators
+## Generators
 - `generateDashboard(params)`
 - `generateLikes(params)`
 - `generateFollowings(params)`
 - `generateExplores(params)`
+
+## Ref
+- [Tumblr API](https://www.tumblr.com/docs/en/api/v2)
+- [`simov/grant`](https://github.com/simov/grant)
+- [`koajs/jwt`](https://github.com/koajs/jwt)
+- [`kthjm/tumblrinbrowser`](https://github.com/kthjm/tumblrinbrowser)
+
+## License
+MIT (http://opensource.org/licenses/MIT)

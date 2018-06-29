@@ -18,8 +18,8 @@ export default [
     plugins: plugins({ presets: [['env', { modules: false }]], plugins: ['external-helpers'] })
   },
   {
-    input: 'src/server.js',
-    output: { format: 'cjs', file: 'server/index.js' },
+    input: 'src/middleware.js',
+    output: { format: 'cjs', file: 'middleware/index.js' },
     plugins: plugins({ presets: [['env', { modules: false, targets: { node: "8" } }]] })
   }
 ]

@@ -1,6 +1,6 @@
 const Koa = require('koa')
 const logger = require('koa-logger')
-const bff = require('./src/server').default
+const chooslr = require('./src/middleware').default
 
 const app = new Koa()
 const port = 3000
@@ -11,12 +11,16 @@ app
   logger()
 )
 .use(
-  bff(app, {
+  chooslr(app, {
     prefix: '/api',
     consumerKey: CONSUMER_KEY,
     consumerSecret: CONSUMER_SECRET,
-    jwt: { secret: 'secret', cookie: 'chooslr:jwt' },
-    grantServer: { protocol: 'http', host: `localhost:${port}` }
+    grantServer: { protocol: 'http', host: `localhost:${port}` },
+    jwt: {
+      secret: 'secret',
+      options: {},
+      cookie: ['chooslr:jwt', {}]
+    }
   })
 )
 .listen(port, () => console.log('ok => ' + `http://localhost:${port}`))

@@ -11,8 +11,6 @@ const throws = (message) => { throw new Error(message) }
 
 const asserts = (condition, message) => !condition && throws(message)
 
-export { endpoints, joinParams, asserts }
-
 /* fetch */
 
 const isSuccess = status => status === 200 || status === 201
@@ -207,7 +205,7 @@ export const generateExplores = async (base, { names, limit = 20 } = {}, { api_k
 
 
 /* client class */
-export default class Chooslr {
+class Chooslr {
 
   constructor(base, tumblr, options) {
     asserts(base && typeof base === 'string')
@@ -286,4 +284,11 @@ export default class Chooslr {
     return extract(this.base, this.fetchOpts)
   }
 
+}
+
+export {
+  Chooslr as default,
+  endpoints,
+  joinParams,
+  asserts
 }

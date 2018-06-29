@@ -50,7 +50,11 @@ export default (app, config) => {
     consumerKey,
     consumerSecret,
     grantServer,
-    jwt: { secret: jwtSecret, cookie: jwtCookie } = {}
+    jwt: {
+      secret: jwtSecret,
+      options: jwtOpts,
+      cookie: jwtCookie
+    } = {}
   } = config || {}
 
   const [ jwtCookieName, jwtCookieOpts ] = Array.isArray(jwtCookie) ? jwtCookie : [ jwtCookie, undefined ]
@@ -99,7 +103,8 @@ export default (app, config) => {
     grantCallbackPath,
     (ctx) => {
       const { access_token: token, access_secret: secret } = ctx.query
-      ctx.cookies.set(jwtCookieName, jsonwebtoken.sign({ token, secret }, jwtSecret), jwtCookieOpts)
+      const jwt = jsonwebtoken.sign({ token, secret }, jwtSecret, jwtOpts)
+      ctx.cookies.set(jwtCookieName, jwt, jwtCookieOpts)
 
       const redirect_url = ctx.cookies.get(redirectCookieName)
       ctx.cookies.set(redirectCookieName)
@@ -128,7 +133,11 @@ export default (app, config) => {
     }
   )
   .use(
-    jwt(Object.assign({}, jwtCookieOpts, {
+    /*
+    jwtOpts: https://github.com/koajs/jwt/blob/27344cc23949f6dafe08cd3e88505ea4f25af048/lib/index.js#L36
+    jwtCookieOpts: https://github.com/koajs/jwt/blob/27344cc23949f6dafe08cd3e88505ea4f25af048/lib/index.js#L19
+    */
+    jwt(Object.assign({}, jwtOpts, jwtCookieOpts, {
       cookie: jwtCookieName,
       secret: jwtSecret,
       key: jwtStateName,

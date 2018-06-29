@@ -872,9 +872,6 @@ var Chooslr = (function() {
   return Chooslr
 })()
 
-exports.endpoints = endpoints
-exports.joinParams = joinParams
-exports.asserts = asserts
 exports.user = _user
 exports.followings = _followings
 exports.explores = _explores
@@ -890,3 +887,6 @@ exports.generateLikes = _generateLikes
 exports.generateFollowings = _generateFollowings
 exports.generateExplores = _generateExplores
 exports.default = Chooslr
+exports.endpoints = endpoints
+exports.joinParams = joinParams
+exports.asserts = asserts
