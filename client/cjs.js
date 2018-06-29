@@ -234,15 +234,15 @@ var fetchAsPost = function fetchAsPost(path, body) {
 }
 
 /* fetch as "GET" */
-var _user = function _user(base, options) {
-  return fetchAsGet(join(base, endpoints['info']), undefined, options).then(
+var _user = function _user(prefix, options) {
+  return fetchAsGet(join(prefix, endpoints['info']), undefined, options).then(
     function(_ref3) {
       var user = _ref3.user
       return user
     }
   )
 }
-var _followings = function _followings(base) {
+var _followings = function _followings(prefix) {
   var _ref4 =
       arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
     limit = _ref4.limit,
@@ -250,7 +250,7 @@ var _followings = function _followings(base) {
 
   var options = arguments[2]
   return fetchAsGet(
-    join(base, endpoints['followings']),
+    join(prefix, endpoints['followings']),
     { limit: limit, offset: offset },
     options
   ).then(function(_ref5) {
@@ -258,8 +258,8 @@ var _followings = function _followings(base) {
     return blogs
   })
 }
-var _explores = function _explores(base, options) {
-  return fetchAsGet(join(base, endpoints['explores']), undefined, options)
+var _explores = function _explores(prefix, options) {
+  return fetchAsGet(join(prefix, endpoints['explores']), undefined, options)
     .then(function(_ref6) {
       var htmls = _ref6.htmls
       return htmls.map(extractNames)
@@ -273,7 +273,7 @@ var _explores = function _explores(base, options) {
       return arrToUniques(names)
     })
 }
-var _dashboard = function _dashboard(base) {
+var _dashboard = function _dashboard(prefix) {
   var _ref8 =
       arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
     limit = _ref8.limit,
@@ -286,7 +286,7 @@ var _dashboard = function _dashboard(base) {
 
   var options = arguments[2]
   return fetchAsGet(
-    join(base, endpoints['dashboard']),
+    join(prefix, endpoints['dashboard']),
     {
       limit: limit,
       offset: offset,
@@ -302,7 +302,7 @@ var _dashboard = function _dashboard(base) {
     return posts
   })
 }
-var _likes = function _likes(base) {
+var _likes = function _likes(prefix) {
   var _ref10 =
       arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
     limit = _ref10.limit,
@@ -314,7 +314,7 @@ var _likes = function _likes(base) {
 
   var options = arguments[2]
   return fetchAsGet(
-    join(base, endpoints['likes']),
+    join(prefix, endpoints['likes']),
     {
       limit: limit,
       offset: offset,
@@ -329,17 +329,19 @@ var _likes = function _likes(base) {
     return liked_posts
   })
 }
-var _extract = function _extract(base, options) {
-  return fetchAsGet(join(base, endpoints['extract']), undefined, options).then(
-    function(_ref12) {
-      var jwt = _ref12.jwt
-      return jwt
-    }
-  )
+var _extract = function _extract(prefix, options) {
+  return fetchAsGet(
+    join(prefix, endpoints['extract']),
+    undefined,
+    options
+  ).then(function(_ref12) {
+    var jwt = _ref12.jwt
+    return jwt
+  })
 }
-var _follow = function _follow(base, name, options) {
+var _follow = function _follow(prefix, name, options) {
   return fetchAsPost(
-    join(base, endpoints['follow']),
+    join(prefix, endpoints['follow']),
     { name: name },
     options
   ).then(function(_ref13) {
@@ -347,9 +349,9 @@ var _follow = function _follow(base, name, options) {
     return blog
   })
 }
-var _unfollow = function _unfollow(base, name, options) {
+var _unfollow = function _unfollow(prefix, name, options) {
   return fetchAsPost(
-    join(base, endpoints['unfollow']),
+    join(prefix, endpoints['unfollow']),
     { name: name },
     options
   ).then(function(_ref14) {
@@ -357,7 +359,7 @@ var _unfollow = function _unfollow(base, name, options) {
     return blog
   })
 }
-var _reblog = function _reblog(base, name, id, reblog_key) {
+var _reblog = function _reblog(prefix, name, id, reblog_key) {
   var _ref15 =
       arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {},
     comment = _ref15.comment,
@@ -365,7 +367,7 @@ var _reblog = function _reblog(base, name, id, reblog_key) {
 
   var options = arguments[5]
   return fetchAsPost(
-    join(base, endpoints['reblog']),
+    join(prefix, endpoints['reblog']),
     {
       name: name,
       id: id,
@@ -379,9 +381,9 @@ var _reblog = function _reblog(base, name, id, reblog_key) {
     return id
   })
 }
-var deletePost = function deletePost(base, name, id, options) {
+var deletePost = function deletePost(prefix, name, id, options) {
   return fetchAsPost(
-    join(base, endpoints['delete']),
+    join(prefix, endpoints['delete']),
     { name: name, id: id },
     options
   ).then(function(_ref17) {
@@ -430,7 +432,7 @@ function loop(yielded) {
   )
 }
 
-var _generateDashboard = function _generateDashboard(base) {
+var _generateDashboard = function _generateDashboard(prefix) {
   var _ref18 =
       arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
     _ref18$offset = _ref18.offset,
@@ -455,7 +457,7 @@ var _generateDashboard = function _generateDashboard(base) {
   }
 
   var iterator = loop(function() {
-    return _dashboard(base, params, options).then(function(posts) {
+    return _dashboard(prefix, params, options).then(function(posts) {
       params.before_id = posts[posts.length - 1].id
       params.offset = undefined
       return posts
@@ -474,7 +476,7 @@ var _generateDashboard = function _generateDashboard(base) {
 }
 var _generateLikes = (function() {
   var _ref19 = asyncToGenerator(
-    /*#__PURE__*/ regeneratorRuntime.mark(function _callee(base) {
+    /*#__PURE__*/ regeneratorRuntime.mark(function _callee(prefix) {
       var _ref20 =
           arguments.length > 1 && arguments[1] !== undefined
             ? arguments[1]
@@ -504,7 +506,7 @@ var _generateLikes = (function() {
                 }
 
                 _context2.next = 5
-                return _user(base, options).then(function(_ref21) {
+                return _user(prefix, options).then(function(_ref21) {
                   var likes = _ref21.likes
                   return likes
                 })
@@ -534,7 +536,7 @@ var _generateLikes = (function() {
                     maxIncrement: limit,
                     promisify: true,
                     yielded: function yielded(indexedArr) {
-                      return _likes(base, params, options).then(function(
+                      return _likes(prefix, params, options).then(function(
                         posts
                       ) {
                         posts = posts.slice(0, indexedArr.length)
@@ -564,7 +566,7 @@ var _generateLikes = (function() {
 })()
 var _generateFollowings = (function() {
   var _ref22 = asyncToGenerator(
-    /*#__PURE__*/ regeneratorRuntime.mark(function _callee2(base) {
+    /*#__PURE__*/ regeneratorRuntime.mark(function _callee2(prefix) {
       var _ref23 =
           arguments.length > 1 && arguments[1] !== undefined
             ? arguments[1]
@@ -591,7 +593,7 @@ var _generateFollowings = (function() {
                 }
 
                 _context3.next = 5
-                return _user(base, options).then(function(_ref24) {
+                return _user(prefix, options).then(function(_ref24) {
                   var following = _ref24.following
                   return following
                 })
@@ -615,7 +617,7 @@ var _generateFollowings = (function() {
                     promisify: true,
                     yielded: function yielded(indexedArr) {
                       return _followings(
-                        base,
+                        prefix,
                         { offset: indexedArr[0], limit: indexedArr.length },
                         options
                       )
@@ -641,7 +643,7 @@ var _generateFollowings = (function() {
 })()
 var _generateExplores = (function() {
   var _ref25 = asyncToGenerator(
-    /*#__PURE__*/ regeneratorRuntime.mark(function _callee3(base) {
+    /*#__PURE__*/ regeneratorRuntime.mark(function _callee3(prefix) {
       var _ref26 =
           arguments.length > 1 && arguments[1] !== undefined
             ? arguments[1]
@@ -675,7 +677,7 @@ var _generateExplores = (function() {
 
               case 5:
                 _context4.next = 7
-                return _explores(base)
+                return _explores(prefix)
 
               case 7:
                 _context4.t0 = _context4.sent
@@ -728,13 +730,13 @@ var _generateExplores = (function() {
 })()
 
 var Chooslr = (function() {
-  function Chooslr(base, tumblr, options) {
+  function Chooslr(prefix, tumblrOpts, options) {
     classCallCheck(this, Chooslr)
 
-    asserts(base && typeof base === 'string')
-    this.base = base
+    asserts(prefix && typeof prefix === 'string')
+    this.prefix = prefix
 
-    var _ref28 = tumblr || {},
+    var _ref28 = tumblrOpts || {},
       api_key = _ref28.api_key,
       proxy = _ref28.proxy
 
@@ -758,73 +760,80 @@ var Chooslr = (function() {
     {
       key: 'user',
       value: function user() {
-        return _user(this.base, this.fetchOpts)
+        return _user(this.prefix, this.fetchOpts)
       }
     },
     {
       key: 'followings',
       value: function followings(params) {
-        return _followings(this.base, params, this.fetchOpts)
+        return _followings(this.prefix, params, this.fetchOpts)
       }
     },
     {
       key: 'explores',
       value: function explores() {
-        return _explores(this.base, this.fetchOpts)
+        return _explores(this.prefix, this.fetchOpts)
       }
     },
     {
       key: 'dashboard',
       value: function dashboard(params) {
-        return _dashboard(this.base, params, this.fetchOpts)
+        return _dashboard(this.prefix, params, this.fetchOpts)
       }
     },
     {
       key: 'likes',
       value: function likes(params) {
-        return _likes(this.base, params, this.fetchOpts)
+        return _likes(this.prefix, params, this.fetchOpts)
       }
     },
     {
       key: 'follow',
       value: function follow(name) {
-        return _follow(this.base, name, this.fetchOpts)
+        return _follow(this.prefix, name, this.fetchOpts)
       }
     },
     {
       key: 'unfollow',
       value: function unfollow(name) {
-        return _unfollow(this.base, name, this.fetchOpts)
+        return _unfollow(this.prefix, name, this.fetchOpts)
       }
     },
     {
       key: 'reblog',
       value: function reblog(name, id, reblog_key, params) {
-        return _reblog(this.base, name, id, reblog_key, params, this.fetchOpts)
+        return _reblog(
+          this.prefix,
+          name,
+          id,
+          reblog_key,
+          params,
+          this.fetchOpts
+        )
       }
     },
     {
       key: 'delete',
       value: function _delete(name, id) {
-        return deletePost(this.base, name, id, this.fetchOpts)
+        return deletePost(this.prefix, name, id, this.fetchOpts)
       }
     },
     {
       key: 'generateDashboard',
       value: function generateDashboard(params) {
-        return _generateDashboard(this.base, params, this.fetchOpts)
+        return _generateDashboard(this.prefix, params, this.fetchOpts)
       }
     },
     {
       key: 'generateLikes',
       value: function generateLikes(params) {
-        return _generateLikes(this.base, params, this.fetchOpts)
+        return _generateLikes(this.prefix, params, this.fetchOpts)
       }
     },
     {
       key: 'generateFollowings',
       value: function generateFollowings(params) {
-        return _generateFollowings(this.base, params, this.fetchOpts)
+        return _generateFollowings(this.prefix, params, this.fetchOpts)
       }
     },
     {
@@ -838,7 +847,7 @@ var Chooslr = (function() {
           limit = _ref30.limit
 
         return _generateExplores(
-          this.base,
+          this.prefix,
           { names: names, limit: limit },
           this.tumblrOpts
         )
@@ -848,7 +857,7 @@ var Chooslr = (function() {
       key: 'attachURL',
       value: function attachURL() {
         return (
-          join(this.base, '/attach') +
+          join(this.prefix, '/attach') +
           joinParams({ redirect_url: this.authRedirectURL })
         )
       }
@@ -857,7 +866,7 @@ var Chooslr = (function() {
       key: 'detachURL',
       value: function detachURL() {
         return (
-          join(this.base, '/detach') +
+          join(this.prefix, '/detach') +
           joinParams({ redirect_url: this.authRedirectURL })
         )
       }
@@ -865,7 +874,7 @@ var Chooslr = (function() {
     {
       key: 'extract',
       value: function extract() {
-        return _extract(this.base, this.fetchOpts)
+        return _extract(this.prefix, this.fetchOpts)
       }
     }
   ])

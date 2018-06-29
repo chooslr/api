@@ -3,8 +3,10 @@
 ![GitHub release](https://img.shields.io/github/release/chooslr/api.svg?longCache=true&style=flat-square)
 [![CircleCI](https://img.shields.io/circleci/project/github/chooslr/api.svg?longCache=true&style=flat-square)](https://circleci.com/gh/chooslr/api) [![Codecov](https://img.shields.io/codecov/c/github/chooslr/api.svg?longCache=true&style=flat-square)](https://codecov.io/gh/chooslr/api)
 
+[koa](https://koajs.com/)'s middleware and its client.
+
 ## Usage
-`chooslr-api/middleware`:
+### `chooslr(app, config)`
 ```js
 const Koa = require('koa')
 const chooslr = require('chooslr-api/middleware')
@@ -12,29 +14,34 @@ const chooslr = require('chooslr-api/middleware')
 const app = new Koa()
 
 app
-.use(
-  chooslr(app, {
-    prefix: string = '/',
-    consumerKey: string,
-    consumerSecret: string,
-    grantServer: {},
-    jwt: { secret: string, options: {}, cookie: [name, options] }
-  })
-)
+.use(chooslr(app, config))
 .listen(PORT)
 ```
+#### config
+- `prefix` (= `'/'`)
+- `timeout` (= `10000`)
+- `consumerKey`
+- `consumerSecret`
+- [`grantServer`](https://github.com/simov/grant#configuration)
+- `jwt`
+  - `secret`
+  - [`options`](https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback)
+  - [`cookie`](https://github.com/pillarjs/cookies#cookiesset-name--value---options--): `name` | `[name, options]`
 
-`chooslr-api/client`:
+### `new Chooslr(prefix, tumblrOpts[, options])`
 ```js
 import Chooslr from 'chooslr-api/client'
+import Tumblr from 'tumblrinbrowser'
 
-const chooslr = new Chooslr('/api', { api_key, proxy }, {
-  credentials = 'same-origin',
-  mode = 'same-origin',
-  jwt,
-  authRedirectURL
-})
+const tumblrOpts = { api_key, proxy }
+const tumblr = new Tumblr(tumblrOpts)
+const chooslr = new Chooslr('/api', tumblrOpts, options)
 ```
+#### options
+- `credentials` (= `'same-origin'`)
+- `mode` (= `'same-origin'`)
+- `jwt`
+- `authRedirectURL`
 
 ## Endpoints
 ### `/info: GET`
@@ -119,11 +126,11 @@ const chooslr = new Chooslr('/api', { api_key, proxy }, {
 - `generateFollowings(params)`
 - `generateExplores(params)`
 
-## Ref
+## Refs
 - [Tumblr API](https://www.tumblr.com/docs/en/api/v2)
 - [`simov/grant`](https://github.com/simov/grant)
 - [`koajs/jwt`](https://github.com/koajs/jwt)
-- [`kthjm/tumblrinbrowser`](https://github.com/kthjm/tumblrinbrowser)
+- [`chooslr/tumblrinbrowser`](https://github.com/chooslr/tumblrinbrowser)
 
 ## License
 MIT (http://opensource.org/licenses/MIT)

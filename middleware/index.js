@@ -70,7 +70,7 @@ var middleware = (app, config) => {
 
   const {
     prefix = '/',
-    apiTimeout = 10000,
+    timeout = 10000,
     consumerKey,
     consumerSecret,
     grantServer,
@@ -98,7 +98,7 @@ var middleware = (app, config) => {
   const grantCallbackPath = '/attached'
   const sessionCookieName = 'chooslr:sess'
   const redirectCookieName = 'chooslr:redirect_url'
-  const errorHandler = HigherOrderErrorHandler(apiTimeout)
+  const errorHandler = HigherOrderErrorHandler(timeout)
   const oauthAuthorization = HigherOrderAuthorization(
     consumerKey,
     consumerSecret

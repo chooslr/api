@@ -52,48 +52,48 @@ const fetchAsPost = (path, body, { mode, credentials, jwt } = {}) =>
 
 
 /* fetch as "GET" */
-export const user = (base, options) =>
-  fetchAsGet(join(base, endpoints['info']), undefined, options)
+export const user = (prefix, options) =>
+  fetchAsGet(join(prefix, endpoints['info']), undefined, options)
   .then(({ user }) => user)
 
-export const followings = (base, { limit, offset } = {}, options) =>
-  fetchAsGet(join(base, endpoints['followings']), { limit, offset }, options)
+export const followings = (prefix, { limit, offset } = {}, options) =>
+  fetchAsGet(join(prefix, endpoints['followings']), { limit, offset }, options)
   .then(({ blogs }) => blogs)
 
-export const explores = (base, options) =>
-  fetchAsGet(join(base, endpoints['explores']), undefined, options)
+export const explores = (prefix, options) =>
+  fetchAsGet(join(prefix, endpoints['explores']), undefined, options)
   .then(({ htmls }) => htmls.map(extractNames))
   .then(names_arr => [].concat(...names_arr))
   .then(names => arrToUniques(names))
 
-export const dashboard = (base, { limit, offset, type, before_id, since_id, reblog_info, notes_info } = {}, options) =>
-  fetchAsGet(join(base, endpoints['dashboard']), { limit, offset, type, before_id, since_id, reblog_info, notes_info }, options)
+export const dashboard = (prefix, { limit, offset, type, before_id, since_id, reblog_info, notes_info } = {}, options) =>
+  fetchAsGet(join(prefix, endpoints['dashboard']), { limit, offset, type, before_id, since_id, reblog_info, notes_info }, options)
   .then(({ posts }) => posts)
 
-export const likes = (base, { limit, offset, before, after, reblog_info, notes_info } = {}, options) =>
-  fetchAsGet(join(base, endpoints['likes']), { limit, offset, before, after, reblog_info, notes_info }, options)
+export const likes = (prefix, { limit, offset, before, after, reblog_info, notes_info } = {}, options) =>
+  fetchAsGet(join(prefix, endpoints['likes']), { limit, offset, before, after, reblog_info, notes_info }, options)
   .then(({ liked_posts }) => liked_posts)
 
-export const extract = (base, options) =>
-  fetchAsGet(join(base, endpoints['extract']), undefined, options)
+export const extract = (prefix, options) =>
+  fetchAsGet(join(prefix, endpoints['extract']), undefined, options)
   .then(({ jwt }) => jwt)
 
 
 /* fetch as "POST" */
-export const follow = (base, name, options) =>
-  fetchAsPost(join(base, endpoints['follow']), { name }, options)
+export const follow = (prefix, name, options) =>
+  fetchAsPost(join(prefix, endpoints['follow']), { name }, options)
   .then(({ blog }) => blog)
 
-export const unfollow = (base, name, options) =>
-  fetchAsPost(join(base, endpoints['unfollow']), { name }, options)
+export const unfollow = (prefix, name, options) =>
+  fetchAsPost(join(prefix, endpoints['unfollow']), { name }, options)
   .then(({ blog }) => blog)
 
-export const reblog = (base, name, id, reblog_key, { comment, native_inline_images } = {}, options) =>
-  fetchAsPost(join(base, endpoints['reblog']), { name, id, reblog_key, comment, native_inline_images }, options)
+export const reblog = (prefix, name, id, reblog_key, { comment, native_inline_images } = {}, options) =>
+  fetchAsPost(join(prefix, endpoints['reblog']), { name, id, reblog_key, comment, native_inline_images }, options)
   .then(({ id }) => id)
 
-export const deletePost = (base, name, id, options) =>
-  fetchAsPost(join(base, endpoints['delete']), { name, id }, options)
+export const deletePost = (prefix, name, id, options) =>
+  fetchAsPost(join(prefix, endpoints['delete']), { name, id }, options)
   .then(({ id }) => id)
 
 
@@ -126,13 +126,13 @@ const extractNames = (html) =>
 /* generators */
 function* loop(yielded) { while (true) { yield yielded() } }
 
-export const generateDashboard = (base, { offset = 0, limit = 20, type, reblog_info, notes_info } = {}, options) => {
+export const generateDashboard = (prefix, { offset = 0, limit = 20, type, reblog_info, notes_info } = {}, options) => {
 
   asserts(limit <= 20, 'invalid limit')
 
   const params = { before_id: undefined, offset, limit, type, reblog_info, notes_info }
 
-  const iterator = loop(() => dashboard(base, params, options).then(posts => {
+  const iterator = loop(() => dashboard(prefix, params, options).then(posts => {
     params.before_id = posts[posts.length - 1].id
     params.offset = undefined
     return posts
@@ -144,11 +144,11 @@ export const generateDashboard = (base, { offset = 0, limit = 20, type, reblog_i
   }
 }
 
-export const generateLikes = async (base, { total, limit = 20, offset = 0, reblog_info, notes_info } = {}, options) => {
+export const generateLikes = async (prefix, { total, limit = 20, offset = 0, reblog_info, notes_info } = {}, options) => {
 
   asserts(limit <= 20, 'invalid limit')
 
-  total = total || await user(base, options).then(({ likes }) => likes)
+  total = total || await user(prefix, options).then(({ likes }) => likes)
 
   asserts(typeof total === 'number' && total !== -1, 'invalid total')
 
@@ -158,7 +158,7 @@ export const generateLikes = async (base, { total, limit = 20, offset = 0, reblo
     length: total - offset,
     maxIncrement: limit,
     promisify: true,
-    yielded: (indexedArr) => likes(base, params, options).then(posts => {
+    yielded: (indexedArr) => likes(prefix, params, options).then(posts => {
       posts = posts.slice(0, indexedArr.length)
       params.before = posts[posts.length - 1].liked_timestamp
       params.offset = undefined
@@ -167,11 +167,11 @@ export const generateLikes = async (base, { total, limit = 20, offset = 0, reblo
   })
 }
 
-export const generateFollowings = async (base, { total, limit = 20, offset = 0 } = {}, options) => {
+export const generateFollowings = async (prefix, { total, limit = 20, offset = 0 } = {}, options) => {
 
   asserts(limit <= 20, 'invalid limit')
 
-  total = total || await user(base, options).then(({ following }) => following)
+  total = total || await user(prefix, options).then(({ following }) => following)
 
   asserts(typeof total === 'number' && total !== -1, 'invalid total')
 
@@ -179,15 +179,15 @@ export const generateFollowings = async (base, { total, limit = 20, offset = 0 }
     length: total - offset,
     maxIncrement: limit,
     promisify: true,
-    yielded: (indexedArr) => followings(base, { offset: indexedArr[0], limit: indexedArr.length }, options)
+    yielded: (indexedArr) => followings(prefix, { offset: indexedArr[0], limit: indexedArr.length }, options)
   })
 }
 
-export const generateExplores = async (base, { names, limit = 20 } = {}, { api_key, proxy } = {}) => {
+export const generateExplores = async (prefix, { names, limit = 20 } = {}, { api_key, proxy } = {}) => {
 
   asserts(api_key || proxy, 'required api_key || proxy')
 
-  names = Array.isArray(names) ? names : await explores(base)
+  names = Array.isArray(names) ? names : await explores(prefix)
 
   return tiloop({
     length: names.length,
@@ -207,11 +207,11 @@ export const generateExplores = async (base, { names, limit = 20 } = {}, { api_k
 /* client class */
 class Chooslr {
 
-  constructor(base, tumblr, options) {
-    asserts(base && typeof base === 'string')
-    this.base = base
+  constructor(prefix, tumblrOpts, options) {
+    asserts(prefix && typeof prefix === 'string')
+    this.prefix = prefix
 
-    const { api_key, proxy } = tumblr || {}
+    const { api_key, proxy } = tumblrOpts || {}
     asserts(typeof api_key === 'string' || typeof proxy === 'string')
     this.tumblrOpts = { api_key, proxy }
 
@@ -221,67 +221,67 @@ class Chooslr {
   }
 
   user() {
-    return user(this.base, this.fetchOpts)
+    return user(this.prefix, this.fetchOpts)
   }
 
   followings(params) {
-    return followings(this.base, params, this.fetchOpts)
+    return followings(this.prefix, params, this.fetchOpts)
   }
 
   explores() {
-    return explores(this.base, this.fetchOpts)
+    return explores(this.prefix, this.fetchOpts)
   }
 
   dashboard(params) {
-    return dashboard(this.base, params, this.fetchOpts)
+    return dashboard(this.prefix, params, this.fetchOpts)
   }
 
   likes(params) {
-    return likes(this.base, params, this.fetchOpts)
+    return likes(this.prefix, params, this.fetchOpts)
   }
 
   follow(name) {
-    return follow(this.base, name, this.fetchOpts)
+    return follow(this.prefix, name, this.fetchOpts)
   }
 
   unfollow(name) {
-    return unfollow(this.base, name, this.fetchOpts)
+    return unfollow(this.prefix, name, this.fetchOpts)
   }
 
   reblog(name, id, reblog_key, params) {
-    return reblog(this.base, name, id, reblog_key, params, this.fetchOpts)
+    return reblog(this.prefix, name, id, reblog_key, params, this.fetchOpts)
   }
 
   delete(name, id) {
-    return deletePost(this.base, name, id, this.fetchOpts)
+    return deletePost(this.prefix, name, id, this.fetchOpts)
   }
 
   generateDashboard(params) {
-    return generateDashboard(this.base, params, this.fetchOpts)
+    return generateDashboard(this.prefix, params, this.fetchOpts)
   }
 
   generateLikes(params) {
-    return generateLikes(this.base, params, this.fetchOpts)
+    return generateLikes(this.prefix, params, this.fetchOpts)
   }
 
   generateFollowings(params) {
-    return generateFollowings(this.base, params, this.fetchOpts)
+    return generateFollowings(this.prefix, params, this.fetchOpts)
   }
 
   generateExplores({ names, limit } = {}) {
-    return generateExplores(this.base, { names, limit }, this.tumblrOpts)
+    return generateExplores(this.prefix, { names, limit }, this.tumblrOpts)
   }
 
   attachURL() {
-    return join(this.base, '/attach') + joinParams({ redirect_url: this.authRedirectURL })
+    return join(this.prefix, '/attach') + joinParams({ redirect_url: this.authRedirectURL })
   }
 
   detachURL() {
-    return join(this.base, '/detach') + joinParams({ redirect_url: this.authRedirectURL })
+    return join(this.prefix, '/detach') + joinParams({ redirect_url: this.authRedirectURL })
   }
 
   extract() {
-    return extract(this.base, this.fetchOpts)
+    return extract(this.prefix, this.fetchOpts)
   }
 
 }
