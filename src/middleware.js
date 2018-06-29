@@ -42,7 +42,7 @@ const EXPLORE_URLs = [
 
 export default (app, config) => {
 
-  assert(app, 'required config.app')
+  assert(app, 'required app')
 
   const {
     prefix = '/',

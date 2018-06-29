@@ -1,4 +1,4 @@
-# chooslr api
+# chooslr-api
 
 ![GitHub release](https://img.shields.io/github/release/chooslr/api.svg?longCache=true&style=flat-square)
 [![CircleCI](https://img.shields.io/circleci/project/github/chooslr/api.svg?longCache=true&style=flat-square)](https://circleci.com/gh/chooslr/api) [![Codecov](https://img.shields.io/codecov/c/github/chooslr/api.svg?longCache=true&style=flat-square)](https://codecov.io/gh/chooslr/api)

@@ -66,7 +66,7 @@ const EXPLORE_URLs = [
 ].map(type => join('https://www.tumblr.com/explore', type))
 
 var middleware = (app, config) => {
-  assert(app, 'required config.app')
+  assert(app, 'required app')
 
   const {
     prefix = '/',

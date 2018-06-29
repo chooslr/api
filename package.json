@@ -2,9 +2,8 @@
   "name": "chooslr-api",
   "version": "0.0.2",
   "author": "kthjm <toxictoxer@gmail.com>",
-  "repository": "kthjm/chooslr-api",
+  "repository": "chooslr/api",
   "license": "MIT",
-  "private": true,
   "nyc": {
     "include": [
       "src"
@@ -20,6 +19,7 @@
     "test": "cross-env NODE_ENV=TEST nyc mocha -t 10000",
     "prebuild": "yarn test",
     "build": "rollup -c",
+    "coverage": "nyc report --reporter=lcov && codecov",
     "nenv": "cross-env NODE_ENV=ENV node -r babel-register -r dotenv/config",
     "snap": "yarn nenv snap.js",
     "listen": "yarn nenv listen.js",
