@@ -1,12 +1,13 @@
 # chooslr-api
 
-![GitHub release](https://img.shields.io/github/release/chooslr/api.svg?longCache=true&style=flat-square)
-[![CircleCI](https://img.shields.io/circleci/project/github/chooslr/api.svg?longCache=true&style=flat-square)](https://circleci.com/gh/chooslr/api) [![Codecov](https://img.shields.io/codecov/c/github/chooslr/api.svg?longCache=true&style=flat-square)](https://codecov.io/gh/chooslr/api)
+![GitHub release](https://img.shields.io/github/release/chooslr/chooslr-api.svg?longCache=true&style=flat-square)
+[![CircleCI](https://img.shields.io/circleci/project/github/chooslr/chooslr-api.svg?longCache=true&style=flat-square)](https://circleci.com/gh/chooslr/chooslr-api) [![Codecov](https://img.shields.io/codecov/c/github/chooslr/chooslr-api.svg?longCache=true&style=flat-square)](https://codecov.io/gh/chooslr/chooslr-api)
 
 [koa](https://koajs.com/)'s middleware and its client.
 
 ## Usage
-### `chooslr(app, config)`
+
+### chooslr(app, config)
 ```js
 const Koa = require('koa')
 const chooslr = require('chooslr-api/middleware')
@@ -28,7 +29,7 @@ app
   - [`options`](https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback)
   - [`cookie`](https://github.com/pillarjs/cookies#cookiesset-name--value---options--): `name` | `[name, options]`
 
-### `new Chooslr(prefix, tumblrOpts[, options])`
+### new Chooslr(prefix, tumblrOpts[, options])
 ```js
 import Chooslr from 'chooslr-api/client'
 import Tumblr from 'tumblrinbrowser'
@@ -44,22 +45,22 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
 - `authRedirectURL`
 
 ## Endpoints
-### `/info: GET`
+#### `/info: GET`
 - jwt: Yes
 - method: `.user()`
 
-### `/explores: GET`
+#### `/explores: GET`
 - jwt: No
 - method: `.explores()`
 
-### `/followings: GET`
+#### `/followings: GET`
 - jwt: Yes
 - method: `.followings(params)`
 - params:
   - `limit`
   - `offset`
 
-### `/dashboard: GET`
+#### `/dashboard: GET`
 - jwt: Yes
 - method: `.dashboard(params)`
 - params:
@@ -71,7 +72,7 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
   - `reblog_info`
   - `notes_info`
 
-### `/likes: GET`
+#### `/likes: GET`
 - jwt: Yes
 - method: `.likes(params)`
 - params:
@@ -82,42 +83,42 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
   - `reblog_info`
   - `notes_info`
 
-### `/follow: POST`
+#### `/follow: POST`
 - jwt: Yes
 - method: `.follow(name)`
 
-### `/unfollow: POST`
+#### `/unfollow: POST`
 - jwt: Yes
 - method: `.unfollow(name)`
 
-### `/reblog: POST`
+#### `/reblog: POST`
 - jwt: Yes
 - method: `.reblog(name, id, reblog_key, params)`
 - params:
   - `comment`
   - `native_inline_images`
 
-### `/delete: POST`
+#### `/delete: POST`
 - jwt: Yes
 - method: `.delete(name, id)`
 
-### `/attach: GET`
+#### `/attach: GET`
 - jwt: No
 - method: `.attachURL()`
 - params:
   - `redirect_url`
 
-### `/detach: GET`
+#### `/detach: GET`
 - jwt: No
 - method: `.detachURL()`
 - params:
   - `redirect_url`
 
-### `/extract: GET`
+#### `/extract: GET`
 - jwt: No
 - method: `.extract()`
 
-### `/proxy/:splat`
+#### `/proxy/:splat`
 - jwt: No
 
 ## Generators
