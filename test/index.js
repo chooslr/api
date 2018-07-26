@@ -299,7 +299,7 @@ describe('/extract', () => {
 
 describe('attach/detach', () => {
   const base = `http://localhost:${port}${prefix}`
-  const authRedirectURL = '/hoge/fuga'
+  const redirect_url = '/hoge/fuga'
 
   it('/attach', () => assert.equal(
     new Chooslr(base, { api_key: CONSUMER_KEY }).attachURL(),
@@ -307,12 +307,12 @@ describe('attach/detach', () => {
   ))
 
   it('/attach?redirect_url=', () => assert.equal(
-    new Chooslr(base, { api_key: CONSUMER_KEY }, { authRedirectURL }).attachURL(),
-    `${base}/attach?redirect_url=${authRedirectURL}`
+    new Chooslr(base, { api_key: CONSUMER_KEY }).attachURL(redirect_url),
+    `${base}/attach?redirect_url=${redirect_url}`
   ))
 
   it('/detach?redirect_url=', () => assert.equal(
-    new Chooslr(base, { api_key: CONSUMER_KEY }, { authRedirectURL }).detachURL(),
-    `${base}/detach?redirect_url=${authRedirectURL}`
+    new Chooslr(base, { api_key: CONSUMER_KEY }).detachURL(redirect_url),
+    `${base}/detach?redirect_url=${redirect_url}`
   ))
 })

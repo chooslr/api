@@ -215,9 +215,8 @@ class Chooslr {
     asserts(typeof api_key === 'string' || typeof proxy === 'string')
     this.tumblrOpts = { api_key, proxy }
 
-    const { credentials = 'same-origin', mode = 'same-origin', jwt, authRedirectURL } = options || {}
+    const { credentials = 'same-origin', mode = 'same-origin', jwt } = options || {}
     this.fetchOpts = { credentials, mode, jwt }
-    this.authRedirectURL = authRedirectURL
   }
 
   user() {
@@ -272,12 +271,12 @@ class Chooslr {
     return generateExplores(this.prefix, { names, limit }, this.tumblrOpts)
   }
 
-  attachURL() {
-    return join(this.prefix, '/attach') + joinParams({ redirect_url: this.authRedirectURL })
+  attachURL(redirect_url) {
+    return join(this.prefix, '/attach') + joinParams({ redirect_url })
   }
 
-  detachURL() {
-    return join(this.prefix, '/detach') + joinParams({ redirect_url: this.authRedirectURL })
+  detachURL(redirect_url) {
+    return join(this.prefix, '/detach') + joinParams({ redirect_url })
   }
 
   extract() {

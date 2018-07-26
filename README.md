@@ -42,7 +42,6 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
 - `credentials` (= `'same-origin'`)
 - `mode` (= `'same-origin'`)
 - `jwt`
-- `authRedirectURL`
 
 ## Endpoints
 #### `/info: GET`
@@ -104,13 +103,13 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
 
 #### `/attach: GET`
 - jwt: No
-- method: `.attachURL()`
+- method: `.attachURL(redirect_url)`
 - params:
   - `redirect_url`
 
 #### `/detach: GET`
 - jwt: No
-- method: `.detachURL()`
+- method: `.detachURL(redirect_url)`
 - params:
   - `redirect_url`
 
