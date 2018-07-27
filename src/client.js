@@ -66,6 +66,10 @@ export const explores = (prefix, options) =>
   .then(names_arr => [].concat(...names_arr))
   .then(names => arrToUniques(names))
 
+export const search = (prefix, { name, word, page = 1 } = {}, options) =>
+  fetchAsGet(join(prefix, endpoints['search']), { name, word: encodeURIComponent(word), page }, options)
+  .then(({ posts }) => posts)
+
 export const dashboard = (prefix, { limit, offset, type, before_id, since_id, reblog_info, notes_info } = {}, options) =>
   fetchAsGet(join(prefix, endpoints['dashboard']), { limit, offset, type, before_id, since_id, reblog_info, notes_info }, options)
   .then(({ posts }) => posts)
@@ -183,11 +187,11 @@ export const generateFollowings = async (prefix, { total, limit = 20, offset = 0
   })
 }
 
-export const generateExplores = async (prefix, { names, limit = 20 } = {}, { api_key, proxy } = {}) => {
+export const generateExplores = async (prefix, { names, limit = 20 } = {}, { api_key, proxy } = {}, options) => {
 
   asserts(api_key || proxy, 'required api_key || proxy')
 
-  names = Array.isArray(names) ? names : await explores(prefix)
+  names = Array.isArray(names) ? names : await explores(prefix, options)
 
   return tiloop({
     length: names.length,
@@ -203,6 +207,44 @@ export const generateExplores = async (prefix, { names, limit = 20 } = {}, { api
   })
 }
 
+export const generateSearch = async (prefix, { name, word } = {}, options) => {
+
+  let tempPosts = await search(prefix, { name, word, page: 1 }, options)
+  asserts(tempPosts.length > 0, 'not found')
+
+  const pageIterator = pageGenerator()
+
+  return () => {
+    const { value: page, done } = pageIterator.next()
+
+    if (done) {
+      const value = tempPosts
+      if (tempPosts.length) tempPosts = []
+      return Promise.resolve({ value, done })
+    }
+
+    return search(prefix, { name, word, page: page + 1 }, options).then(posts => {
+      pageIterator.next(!posts.length || posts.length !== tempPosts.length)
+      const value = tempPosts
+      tempPosts = posts
+      return { value, done }
+    })
+  }
+}
+
+function* pageGenerator () {
+  let page = 1
+  let isReturn
+  while (true) {
+    if (!isReturn) {
+      isReturn = yield page
+      yield
+    } else {
+      return page
+    }
+    page++
+  }
+}
 
 /* client class */
 class Chooslr {
@@ -229,6 +271,10 @@ class Chooslr {
 
   explores() {
     return explores(this.prefix, this.fetchOpts)
+  }
+
+  search(name, word, page) {
+    return search(this.prefix, { name, word, page }, this.fetchOpts)
   }
 
   dashboard(params) {
@@ -267,8 +313,12 @@ class Chooslr {
     return generateFollowings(this.prefix, params, this.fetchOpts)
   }
 
-  generateExplores({ names, limit } = {}) {
-    return generateExplores(this.prefix, { names, limit }, this.tumblrOpts)
+  generateExplores(params) {
+    return generateExplores(this.prefix, params, this.tumblrOpts, this.fetchOpts)
+  }
+
+  generateSearch(params) {
+    return generateSearch(this.prefix, params, this.fetchOpts)
   }
 
   attachURL(redirect_url) {

@@ -92,6 +92,29 @@ describe('/explores', () => {
 
 })
 
+describe('/search', () => {
+
+  const name = 'kthjm'
+  const word = 'タンブラー'
+  const page = 2
+
+  it('server', () =>
+    request(server)
+    .get(join(prefix, '/search' + joinParams({ name, word: encodeURIComponent(word), page })))
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .expect(({ body }) => {
+      const { meta: { status, msg }, response: { posts } } = body
+      assert.equal(status, 200)
+      assert.equal(msg, 'OK')
+      assert(Array.isArray(posts))
+    })
+  )
+
+  it(`client`, () => chooslr.search(name, word, page).then(posts => Array.isArray(posts)))
+
+})
+
 describe('/dashboard and /likes', () => {
 
   const params = { reblog_info: true, notes_info: true }
@@ -263,7 +286,7 @@ describe('generateDashboard and generateLikes', () => {
   it('generateLikes', test('generateLikes'))
 })
 
-describe('generateFollowings and generateExplores', () => {
+describe('generateFollowings and generateExplores and generateSearch', () => {
 
   const test = async (iterate) => {
     const { value, done } = await iterate()
@@ -271,8 +294,9 @@ describe('generateFollowings and generateExplores', () => {
     assert(Array.isArray(value))
   }
 
-  it('generateFollowings', () => chooslr.generateFollowings().then(iterate => test(iterate)))
-  it('generateExplores', () => chooslr.generateExplores().then(iterate => test(iterate)))
+  it('generateFollowings', () => chooslr.generateFollowings().then(test))
+  it('generateExplores', () => chooslr.generateExplores().then(test))
+  it('generateSearch', () => chooslr.generateSearch({ name: 'kthjm', word: 'タンブラー' }).then(test))
 })
 
 describe('/extract', () => {

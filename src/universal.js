@@ -2,6 +2,7 @@ export const endpoints = {
   info: '/info',
   followings: '/followings',
   explores: '/explores',
+  search: '/search',
   dashboard: '/dashboard',
   likes: '/likes',
   follow: '/follow',

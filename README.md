@@ -52,6 +52,10 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
 - jwt: No
 - method: `.explores()`
 
+#### `/search: GET`
+- jwt: No
+- method: `.search(name, word[, page])`
+
 #### `/followings: GET`
 - jwt: Yes
 - method: `.followings(params)`
@@ -125,6 +129,7 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
 - `generateLikes(params)`
 - `generateFollowings(params)`
 - `generateExplores(params)`
+- `generateSearch(params)`
 
 ## Refs
 - [Tumblr API](https://www.tumblr.com/docs/en/api/v2)

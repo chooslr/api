@@ -118,6 +118,7 @@ var endpoints = {
   info: '/info',
   followings: '/followings',
   explores: '/explores',
+  search: '/search',
   dashboard: '/dashboard',
   likes: '/likes',
   follow: '/follow',
@@ -154,7 +155,8 @@ var joinParams = function joinParams() {
 
 var _this = undefined
 
-var _marked = /*#__PURE__*/ regeneratorRuntime.mark(loop)
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(loop),
+  _marked2 = /*#__PURE__*/ regeneratorRuntime.mark(pageGenerator)
 
 /* util */
 var arrToUniques = function arrToUniques(arr) {
@@ -265,16 +267,34 @@ var _explores = function _explores(prefix, options) {
       return arrToUniques(names)
     })
 }
-var _dashboard = function _dashboard(prefix) {
+var _search = function _search(prefix) {
   var _ref8 =
       arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-    limit = _ref8.limit,
-    offset = _ref8.offset,
-    type = _ref8.type,
-    before_id = _ref8.before_id,
-    since_id = _ref8.since_id,
-    reblog_info = _ref8.reblog_info,
-    notes_info = _ref8.notes_info
+    name = _ref8.name,
+    word = _ref8.word,
+    _ref8$page = _ref8.page,
+    page = _ref8$page === undefined ? 1 : _ref8$page
+
+  var options = arguments[2]
+  return fetchAsGet(
+    join(prefix, endpoints['search']),
+    { name: name, word: encodeURIComponent(word), page: page },
+    options
+  ).then(function(_ref9) {
+    var posts = _ref9.posts
+    return posts
+  })
+}
+var _dashboard = function _dashboard(prefix) {
+  var _ref10 =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+    limit = _ref10.limit,
+    offset = _ref10.offset,
+    type = _ref10.type,
+    before_id = _ref10.before_id,
+    since_id = _ref10.since_id,
+    reblog_info = _ref10.reblog_info,
+    notes_info = _ref10.notes_info
 
   var options = arguments[2]
   return fetchAsGet(
@@ -289,20 +309,20 @@ var _dashboard = function _dashboard(prefix) {
       notes_info: notes_info
     },
     options
-  ).then(function(_ref9) {
-    var posts = _ref9.posts
+  ).then(function(_ref11) {
+    var posts = _ref11.posts
     return posts
   })
 }
 var _likes = function _likes(prefix) {
-  var _ref10 =
+  var _ref12 =
       arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-    limit = _ref10.limit,
-    offset = _ref10.offset,
-    before = _ref10.before,
-    after = _ref10.after,
-    reblog_info = _ref10.reblog_info,
-    notes_info = _ref10.notes_info
+    limit = _ref12.limit,
+    offset = _ref12.offset,
+    before = _ref12.before,
+    after = _ref12.after,
+    reblog_info = _ref12.reblog_info,
+    notes_info = _ref12.notes_info
 
   var options = arguments[2]
   return fetchAsGet(
@@ -316,8 +336,8 @@ var _likes = function _likes(prefix) {
       notes_info: notes_info
     },
     options
-  ).then(function(_ref11) {
-    var liked_posts = _ref11.liked_posts
+  ).then(function(_ref13) {
+    var liked_posts = _ref13.liked_posts
     return liked_posts
   })
 }
@@ -326,8 +346,8 @@ var _extract = function _extract(prefix, options) {
     join(prefix, endpoints['extract']),
     undefined,
     options
-  ).then(function(_ref12) {
-    var jwt = _ref12.jwt
+  ).then(function(_ref14) {
+    var jwt = _ref14.jwt
     return jwt
   })
 }
@@ -336,8 +356,8 @@ var _follow = function _follow(prefix, name, options) {
     join(prefix, endpoints['follow']),
     { name: name },
     options
-  ).then(function(_ref13) {
-    var blog$$1 = _ref13.blog
+  ).then(function(_ref15) {
+    var blog$$1 = _ref15.blog
     return blog$$1
   })
 }
@@ -346,16 +366,16 @@ var _unfollow = function _unfollow(prefix, name, options) {
     join(prefix, endpoints['unfollow']),
     { name: name },
     options
-  ).then(function(_ref14) {
-    var blog$$1 = _ref14.blog
+  ).then(function(_ref16) {
+    var blog$$1 = _ref16.blog
     return blog$$1
   })
 }
 var _reblog = function _reblog(prefix, name, id, reblog_key) {
-  var _ref15 =
+  var _ref17 =
       arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {},
-    comment = _ref15.comment,
-    native_inline_images = _ref15.native_inline_images
+    comment = _ref17.comment,
+    native_inline_images = _ref17.native_inline_images
 
   var options = arguments[5]
   return fetchAsPost(
@@ -368,8 +388,8 @@ var _reblog = function _reblog(prefix, name, id, reblog_key) {
       native_inline_images: native_inline_images
     },
     options
-  ).then(function(_ref16) {
-    var id = _ref16.id
+  ).then(function(_ref18) {
+    var id = _ref18.id
     return id
   })
 }
@@ -378,8 +398,8 @@ var deletePost = function deletePost(prefix, name, id, options) {
     join(prefix, endpoints['delete']),
     { name: name, id: id },
     options
-  ).then(function(_ref17) {
-    var id = _ref17.id
+  ).then(function(_ref19) {
+    var id = _ref19.id
     return id
   })
 }
@@ -425,15 +445,15 @@ function loop(yielded) {
 }
 
 var _generateDashboard = function _generateDashboard(prefix) {
-  var _ref18 =
+  var _ref20 =
       arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-    _ref18$offset = _ref18.offset,
-    offset = _ref18$offset === undefined ? 0 : _ref18$offset,
-    _ref18$limit = _ref18.limit,
-    limit = _ref18$limit === undefined ? 20 : _ref18$limit,
-    type = _ref18.type,
-    reblog_info = _ref18.reblog_info,
-    notes_info = _ref18.notes_info
+    _ref20$offset = _ref20.offset,
+    offset = _ref20$offset === undefined ? 0 : _ref20$offset,
+    _ref20$limit = _ref20.limit,
+    limit = _ref20$limit === undefined ? 20 : _ref20$limit,
+    type = _ref20.type,
+    reblog_info = _ref20.reblog_info,
+    notes_info = _ref20.notes_info
 
   var options = arguments[2]
 
@@ -467,19 +487,19 @@ var _generateDashboard = function _generateDashboard(prefix) {
   }
 }
 var _generateLikes = (function() {
-  var _ref19 = asyncToGenerator(
+  var _ref21 = asyncToGenerator(
     /*#__PURE__*/ regeneratorRuntime.mark(function _callee(prefix) {
-      var _ref20 =
+      var _ref22 =
           arguments.length > 1 && arguments[1] !== undefined
             ? arguments[1]
             : {},
-        total = _ref20.total,
-        _ref20$limit = _ref20.limit,
-        limit = _ref20$limit === undefined ? 20 : _ref20$limit,
-        _ref20$offset = _ref20.offset,
-        offset = _ref20$offset === undefined ? 0 : _ref20$offset,
-        reblog_info = _ref20.reblog_info,
-        notes_info = _ref20.notes_info
+        total = _ref22.total,
+        _ref22$limit = _ref22.limit,
+        limit = _ref22$limit === undefined ? 20 : _ref22$limit,
+        _ref22$offset = _ref22.offset,
+        offset = _ref22$offset === undefined ? 0 : _ref22$offset,
+        reblog_info = _ref22.reblog_info,
+        notes_info = _ref22.notes_info
 
       var options = arguments[2]
       var params
@@ -498,8 +518,8 @@ var _generateLikes = (function() {
                 }
 
                 _context2.next = 5
-                return _user(prefix, options).then(function(_ref21) {
-                  var likes = _ref21.likes
+                return _user(prefix, options).then(function(_ref23) {
+                  var likes = _ref23.likes
                   return likes
                 })
 
@@ -552,22 +572,22 @@ var _generateLikes = (function() {
     })
   )
 
-  return function _generateLikes(_x9) {
-    return _ref19.apply(this, arguments)
+  return function _generateLikes(_x10) {
+    return _ref21.apply(this, arguments)
   }
 })()
 var _generateFollowings = (function() {
-  var _ref22 = asyncToGenerator(
+  var _ref24 = asyncToGenerator(
     /*#__PURE__*/ regeneratorRuntime.mark(function _callee2(prefix) {
-      var _ref23 =
+      var _ref25 =
           arguments.length > 1 && arguments[1] !== undefined
             ? arguments[1]
             : {},
-        total = _ref23.total,
-        _ref23$limit = _ref23.limit,
-        limit = _ref23$limit === undefined ? 20 : _ref23$limit,
-        _ref23$offset = _ref23.offset,
-        offset = _ref23$offset === undefined ? 0 : _ref23$offset
+        total = _ref25.total,
+        _ref25$limit = _ref25.limit,
+        limit = _ref25$limit === undefined ? 20 : _ref25$limit,
+        _ref25$offset = _ref25.offset,
+        offset = _ref25$offset === undefined ? 0 : _ref25$offset
 
       var options = arguments[2]
       return regeneratorRuntime.wrap(
@@ -585,8 +605,8 @@ var _generateFollowings = (function() {
                 }
 
                 _context3.next = 5
-                return _user(prefix, options).then(function(_ref24) {
-                  var following = _ref24.following
+                return _user(prefix, options).then(function(_ref26) {
+                  var following = _ref26.following
                   return following
                 })
 
@@ -629,28 +649,29 @@ var _generateFollowings = (function() {
     })
   )
 
-  return function _generateFollowings(_x11) {
-    return _ref22.apply(this, arguments)
+  return function _generateFollowings(_x12) {
+    return _ref24.apply(this, arguments)
   }
 })()
 var _generateExplores = (function() {
-  var _ref25 = asyncToGenerator(
+  var _ref27 = asyncToGenerator(
     /*#__PURE__*/ regeneratorRuntime.mark(function _callee3(prefix) {
-      var _ref26 =
+      var _ref28 =
           arguments.length > 1 && arguments[1] !== undefined
             ? arguments[1]
             : {},
-        names = _ref26.names,
-        _ref26$limit = _ref26.limit,
-        limit = _ref26$limit === undefined ? 20 : _ref26$limit
+        names = _ref28.names,
+        _ref28$limit = _ref28.limit,
+        limit = _ref28$limit === undefined ? 20 : _ref28$limit
 
-      var _ref27 =
+      var _ref29 =
           arguments.length > 2 && arguments[2] !== undefined
             ? arguments[2]
             : {},
-        api_key = _ref27.api_key,
-        proxy = _ref27.proxy
+        api_key = _ref29.api_key,
+        proxy = _ref29.proxy
 
+      var options = arguments[3]
       return regeneratorRuntime.wrap(
         function _callee3$(_context4) {
           while (1) {
@@ -669,7 +690,7 @@ var _generateExplores = (function() {
 
               case 5:
                 _context4.next = 7
-                return _explores(prefix)
+                return _explores(prefix, options)
 
               case 7:
                 _context4.t0 = _context4.sent
@@ -714,10 +735,129 @@ var _generateExplores = (function() {
     })
   )
 
-  return function _generateExplores(_x14) {
-    return _ref25.apply(this, arguments)
+  return function _generateExplores(_x15) {
+    return _ref27.apply(this, arguments)
   }
 })()
+var _generateSearch = (function() {
+  var _ref30 = asyncToGenerator(
+    /*#__PURE__*/ regeneratorRuntime.mark(function _callee4(prefix) {
+      var _ref31 =
+          arguments.length > 1 && arguments[1] !== undefined
+            ? arguments[1]
+            : {},
+        name = _ref31.name,
+        word = _ref31.word
+
+      var options = arguments[2]
+      var tempPosts, pageIterator
+      return regeneratorRuntime.wrap(
+        function _callee4$(_context5) {
+          while (1) {
+            switch ((_context5.prev = _context5.next)) {
+              case 0:
+                _context5.next = 2
+                return _search(
+                  prefix,
+                  { name: name, word: word, page: 1 },
+                  options
+                )
+
+              case 2:
+                tempPosts = _context5.sent
+
+                asserts(tempPosts.length > 0, 'not found')
+
+                pageIterator = pageGenerator()
+                return _context5.abrupt('return', function() {
+                  var _pageIterator$next = pageIterator.next(),
+                    page = _pageIterator$next.value,
+                    done = _pageIterator$next.done
+
+                  if (done) {
+                    var value = tempPosts
+                    if (tempPosts.length) tempPosts = []
+                    return Promise.resolve({ value: value, done: done })
+                  }
+
+                  return _search(
+                    prefix,
+                    { name: name, word: word, page: page + 1 },
+                    options
+                  ).then(function(posts) {
+                    pageIterator.next(
+                      !posts.length || posts.length !== tempPosts.length
+                    )
+                    var value = tempPosts
+                    tempPosts = posts
+                    return { value: value, done: done }
+                  })
+                })
+
+              case 6:
+              case 'end':
+                return _context5.stop()
+            }
+          }
+        },
+        _callee4,
+        _this
+      )
+    })
+  )
+
+  return function _generateSearch(_x17) {
+    return _ref30.apply(this, arguments)
+  }
+})()
+function pageGenerator() {
+  var page, isReturn
+  return regeneratorRuntime.wrap(
+    function pageGenerator$(_context6) {
+      while (1) {
+        switch ((_context6.prev = _context6.next)) {
+          case 0:
+            page = 1
+            isReturn = void 0
+
+          case 2:
+            if (isReturn) {
+              _context6.next = 11
+              break
+            }
+
+            _context6.next = 6
+            return page
+
+          case 6:
+            isReturn = _context6.sent
+            _context6.next = 9
+            return
+
+          case 9:
+            _context6.next = 12
+            break
+
+          case 11:
+            return _context6.abrupt('return', page)
+
+          case 12:
+            page++
+            _context6.next = 2
+            break
+
+          case 15:
+          case 'end':
+            return _context6.stop()
+        }
+      }
+    },
+    _marked2,
+    this
+  )
+}
+
+/* client class */
 
 var Chooslr = (function() {
   function Chooslr(prefix, tumblrOpts, options) {
@@ -726,20 +866,20 @@ var Chooslr = (function() {
     asserts(prefix && typeof prefix === 'string')
     this.prefix = prefix
 
-    var _ref28 = tumblrOpts || {},
-      api_key = _ref28.api_key,
-      proxy = _ref28.proxy
+    var _ref32 = tumblrOpts || {},
+      api_key = _ref32.api_key,
+      proxy = _ref32.proxy
 
     asserts(typeof api_key === 'string' || typeof proxy === 'string')
     this.tumblrOpts = { api_key: api_key, proxy: proxy }
 
-    var _ref29 = options || {},
-      _ref29$credentials = _ref29.credentials,
+    var _ref33 = options || {},
+      _ref33$credentials = _ref33.credentials,
       credentials =
-        _ref29$credentials === undefined ? 'same-origin' : _ref29$credentials,
-      _ref29$mode = _ref29.mode,
-      mode = _ref29$mode === undefined ? 'same-origin' : _ref29$mode,
-      jwt = _ref29.jwt
+        _ref33$credentials === undefined ? 'same-origin' : _ref33$credentials,
+      _ref33$mode = _ref33.mode,
+      mode = _ref33$mode === undefined ? 'same-origin' : _ref33$mode,
+      jwt = _ref33.jwt
 
     this.fetchOpts = { credentials: credentials, mode: mode, jwt: jwt }
   }
@@ -761,6 +901,16 @@ var Chooslr = (function() {
       key: 'explores',
       value: function explores() {
         return _explores(this.prefix, this.fetchOpts)
+      }
+    },
+    {
+      key: 'search',
+      value: function search(name, word, page) {
+        return _search(
+          this.prefix,
+          { name: name, word: word, page: page },
+          this.fetchOpts
+        )
       }
     },
     {
@@ -826,19 +976,19 @@ var Chooslr = (function() {
     },
     {
       key: 'generateExplores',
-      value: function generateExplores() {
-        var _ref30 =
-            arguments.length > 0 && arguments[0] !== undefined
-              ? arguments[0]
-              : {},
-          names = _ref30.names,
-          limit = _ref30.limit
-
+      value: function generateExplores(params) {
         return _generateExplores(
           this.prefix,
-          { names: names, limit: limit },
-          this.tumblrOpts
+          params,
+          this.tumblrOpts,
+          this.fetchOpts
         )
+      }
+    },
+    {
+      key: 'generateSearch',
+      value: function generateSearch(params) {
+        return _generateSearch(this.prefix, params, this.fetchOpts)
       }
     },
     {
@@ -874,6 +1024,7 @@ export {
   _user as user,
   _followings as followings,
   _explores as explores,
+  _search as search,
   _dashboard as dashboard,
   _likes as likes,
   _extract as extract,
@@ -885,6 +1036,7 @@ export {
   _generateLikes as generateLikes,
   _generateFollowings as generateFollowings,
   _generateExplores as generateExplores,
+  _generateSearch as generateSearch,
   endpoints,
   joinParams,
   asserts

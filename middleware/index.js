@@ -23,6 +23,7 @@ const endpoints = {
   info: '/info',
   followings: '/followings',
   explores: '/explores',
+  search: '/search',
   dashboard: '/dashboard',
   likes: '/likes',
   follow: '/follow',
@@ -54,6 +55,9 @@ const UNFOLLOW_URL = join(USER_URL, 'unfollow')
 const BLOG_URL = join(BASE_URL, 'blog')
 const REBLOG_URL = name => join(BLOG_URL, IDENTIFIER_URL(name), '/post/reblog')
 const DELETE_URL = name => join(BLOG_URL, IDENTIFIER_URL(name), '/post/delete')
+
+const PAGE_URL = name => `https://${IDENTIFIER_URL(name)}`
+const SEARCH_URL = (name, word) => `${PAGE_URL(name)}/search/${word}`
 
 const EXPLORE_URLs = [
   'trending',
@@ -149,6 +153,23 @@ var middleware = (app, config) => {
       )
       const htmls = await Promise.all(pwgs)
       ctx.body = { meta: { status: 200, msg: 'OK' }, response: { htmls } }
+    })
+    .get(endpoints['search'], errorHandler, async ctx => {
+      const { name, word, page = 1 } = ctx.query
+      ctx.assert(name && word, 400, '/search need { name, word } as query')
+
+      const url =
+        SEARCH_URL(name, encodeURIComponent(word)) +
+        joinParams({ page, format: 'json' })
+
+      const jsonpString = await got(url).then(({ body }) => body)
+      const jsonString = jsonpString.slice(
+        jsonpString.indexOf('{'),
+        jsonpString.length - 2
+      )
+      const { posts } = JSON.parse(jsonString)
+
+      ctx.body = { meta: { status: 200, msg: 'OK' }, response: { posts } }
     })
     .use(
       /*
