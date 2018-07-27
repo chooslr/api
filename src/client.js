@@ -92,6 +92,14 @@ export const unfollow = (prefix, name, options) =>
   fetchAsPost(join(prefix, endpoints['unfollow']), { name }, options)
   .then(({ blog }) => blog)
 
+export const like = (prefix, id, reblog_key, options) =>
+  fetchAsPost(join(prefix, endpoints['like']), { id, reblog_key }, options)
+  .then((response) => Array.isArray(response))
+
+export const unlike = (prefix, id, reblog_key, options) =>
+  fetchAsPost(join(prefix, endpoints['unlike']), { id, reblog_key }, options)
+  .then((response) => Array.isArray(response))
+
 export const reblog = (prefix, name, id, reblog_key, { comment, native_inline_images } = {}, options) =>
   fetchAsPost(join(prefix, endpoints['reblog']), { name, id, reblog_key, comment, native_inline_images }, options)
   .then(({ id }) => id)
@@ -291,6 +299,14 @@ class Chooslr {
 
   unfollow(name) {
     return unfollow(this.prefix, name, this.fetchOpts)
+  }
+
+  like(id, reblog_key) {
+    return like(this.prefix, id, reblog_key, this.fetchOpts)
+  }
+
+  unlike(id, reblog_key) {
+    return unlike(this.prefix, id, reblog_key, this.fetchOpts)
   }
 
   reblog(name, id, reblog_key, params) {

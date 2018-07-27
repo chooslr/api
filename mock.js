@@ -17,6 +17,7 @@ const client = () => {
 const server = (prefix, consumerKey, consumerSecret, accessToken, accessSecret, options) => {
 
   const {
+    timeout,
     jwtSecret = 'secret',
     jwtOpts = {},
     jwtCookieName = 'chooslr:jwt',
@@ -31,6 +32,7 @@ const server = (prefix, consumerKey, consumerSecret, accessToken, accessSecret, 
         prefix,
         consumerKey,
         consumerSecret,
+        timeout,
         grantServer: { protocol: 'http', host: 'localhost:1234' },
         jwt: { secret: jwtSecret, options: jwtOpts, cookie: [ jwtCookieName, jwtCookieOpts ] }
       })

@@ -94,6 +94,14 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
 - jwt: Yes
 - method: `.unfollow(name)`
 
+#### `/like: POST`
+- jwt: Yes
+- method: `.like(id, reblog_key)`
+
+#### `/unlike: POST`
+- jwt: Yes
+- method: `.unlike(id, reblog_key)`
+
 #### `/reblog: POST`
 - jwt: Yes
 - method: `.reblog(name, id, reblog_key, params)`

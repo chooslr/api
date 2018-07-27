@@ -7,6 +7,8 @@ export const endpoints = {
   likes: '/likes',
   follow: '/follow',
   unfollow: '/unfollow',
+  like: '/like',
+  unlike: '/unlike',
   reblog: '/reblog',
   delete: '/delete',
   extract: '/extract'

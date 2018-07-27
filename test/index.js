@@ -9,7 +9,7 @@ const base = `http://localhost:${port}${prefix}`
 const jwtCookieName = 'chooslr:jwt'
 const { CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET } = process.env
 
-const { app, jwt } = createMock.server(prefix, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, { jwtCookieName })
+const { app, jwt } = createMock.server(prefix, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, { jwtCookieName, timeout: 20000 })
 const { joinParams, default: Chooslr } = createMock.client()
 const chooslr = new Chooslr(base, { proxy: join(base, 'proxy') }, { jwt })
 const Cookie = jwtCookieName + '=' + jwt
@@ -197,6 +197,47 @@ describe('/follow and /unfollow', () => {
   it(`client: follow`, () => chooslr.follow(name).then(blog => assert(blog)))
 
   it(`client: unfollow`, () => chooslr.unfollow(name).then(blog => assert(blog)))
+
+})
+
+describe('/like and /unlike', () => {
+
+  const id = '48609674'
+  const reblog_key = 'DjTXsUxT'
+
+  it('server: like', () =>
+    request(server)
+    .post(join(prefix, '/like'))
+    .send({ id, reblog_key })
+    .set('Cookie', Cookie)
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .expect(({ body }) => {
+      const { meta: { status, msg }, response } = body
+      assert.equal(status, 200)
+      assert.equal(msg, 'OK')
+      assert(Array.isArray(response))
+    })
+  )
+
+  it('server: unlike', () =>
+    request(server)
+    .post(join(prefix, '/unlike'))
+    .send({ id, reblog_key })
+    .set('Authorization', Authorization)
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .expect(({ body }) => {
+      const { meta: { status, msg }, response } = body
+      assert.equal(status, 200)
+      assert.equal(msg, 'OK')
+      assert(Array.isArray(response))
+    })
+  )
+
+  it(`client: like`, () => chooslr.like(id, reblog_key).then(isSuccess => assert(isSuccess)))
+
+  it(`client: unlike`, () => chooslr.unlike(id, reblog_key).then(isSuccess => assert(isSuccess)))
 
 })
 

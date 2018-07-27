@@ -131,6 +131,8 @@ var endpoints = {
   likes: '/likes',
   follow: '/follow',
   unfollow: '/unfollow',
+  like: '/like',
+  unlike: '/unlike',
   reblog: '/reblog',
   delete: '/delete',
   extract: '/extract'
@@ -377,6 +379,24 @@ var _unfollow = function _unfollow(prefix, name, options) {
   ).then(function(_ref16) {
     var blog = _ref16.blog
     return blog
+  })
+}
+var _like = function _like(prefix, id, reblog_key, options) {
+  return fetchAsPost(
+    join(prefix, endpoints['like']),
+    { id: id, reblog_key: reblog_key },
+    options
+  ).then(function(response) {
+    return Array.isArray(response)
+  })
+}
+var _unlike = function _unlike(prefix, id, reblog_key, options) {
+  return fetchAsPost(
+    join(prefix, endpoints['unlike']),
+    { id: id, reblog_key: reblog_key },
+    options
+  ).then(function(response) {
+    return Array.isArray(response)
   })
 }
 var _reblog = function _reblog(prefix, name, id, reblog_key) {
@@ -948,6 +968,18 @@ var Chooslr = (function() {
       }
     },
     {
+      key: 'like',
+      value: function like(id, reblog_key) {
+        return _like(this.prefix, id, reblog_key, this.fetchOpts)
+      }
+    },
+    {
+      key: 'unlike',
+      value: function unlike(id, reblog_key) {
+        return _unlike(this.prefix, id, reblog_key, this.fetchOpts)
+      }
+    },
+    {
       key: 'reblog',
       value: function reblog(name, id, reblog_key, params) {
         return _reblog(
@@ -1038,6 +1070,8 @@ exports.likes = _likes
 exports.extract = _extract
 exports.follow = _follow
 exports.unfollow = _unfollow
+exports.like = _like
+exports.unlike = _unlike
 exports.reblog = _reblog
 exports.deletePost = deletePost
 exports.generateDashboard = _generateDashboard

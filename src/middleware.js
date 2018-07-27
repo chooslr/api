@@ -25,6 +25,8 @@ const DASHBOARD_URL = join(USER_URL, 'dashboard')
 const LIKES_URL = join(USER_URL, 'likes')
 const FOLLOW_URL = join(USER_URL, 'follow')
 const UNFOLLOW_URL = join(USER_URL, 'unfollow')
+const LIKE_URL = join(USER_URL, 'like')
+const UNLIKE_URL = join(USER_URL, 'unlike')
 
 const BLOG_URL = join(BASE_URL, 'blog')
 const REBLOG_URL = (name) => join(BLOG_URL, IDENTIFIER_URL(name), '/post/reblog')
@@ -297,6 +299,54 @@ export default (app, config) => {
         body: {
           url: `http://${IDENTIFIER_URL(name)}`
         }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    }
+  )
+  .post(
+    endpoints['like'],
+    errorHandler,
+    async (ctx) => {
+
+      const { id, reblog_key } = ctx.request.body
+      ctx.assert(id && reblog_key, 400, '/like need { id, reblog_key } as body')
+
+      const url = LIKE_URL
+      const method = 'POST'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        },
+        body: { id, reblog_key }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    }
+  )
+  .post(
+    endpoints['unlike'],
+    errorHandler,
+    async (ctx) => {
+
+      const { id, reblog_key } = ctx.request.body
+      ctx.assert(id && reblog_key, 400, '/unlike need { id, reblog_key } as body')
+
+      const url = UNLIKE_URL
+      const method = 'POST'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        },
+        body: { id, reblog_key }
       })
 
       ctx.body = await pwg.then(({ body }) => body)

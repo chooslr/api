@@ -16,7 +16,7 @@
     "instrument": false
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=TEST nyc mocha -t 20000",
+    "test": "cross-env NODE_ENV=TEST nyc mocha --no-timeouts",
     "prebuild": "yarn test",
     "build": "rollup -c",
     "coverage": "nyc report --reporter=lcov && codecov",
