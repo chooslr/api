@@ -749,11 +749,9 @@ var Chooslr = (function() {
         _ref29$credentials === undefined ? 'same-origin' : _ref29$credentials,
       _ref29$mode = _ref29.mode,
       mode = _ref29$mode === undefined ? 'same-origin' : _ref29$mode,
-      jwt = _ref29.jwt,
-      authRedirectURL = _ref29.authRedirectURL
+      jwt = _ref29.jwt
 
     this.fetchOpts = { credentials: credentials, mode: mode, jwt: jwt }
-    this.authRedirectURL = authRedirectURL
   }
 
   createClass(Chooslr, [
@@ -855,19 +853,19 @@ var Chooslr = (function() {
     },
     {
       key: 'attachURL',
-      value: function attachURL() {
+      value: function attachURL(redirect_url) {
         return (
           join(this.prefix, '/attach') +
-          joinParams({ redirect_url: this.authRedirectURL })
+          joinParams({ redirect_url: redirect_url })
         )
       }
     },
     {
       key: 'detachURL',
-      value: function detachURL() {
+      value: function detachURL(redirect_url) {
         return (
           join(this.prefix, '/detach') +
-          joinParams({ redirect_url: this.authRedirectURL })
+          joinParams({ redirect_url: redirect_url })
         )
       }
     },
