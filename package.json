@@ -1,8 +1,8 @@
 {
   "name": "chooslr-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "kthjm <toxictoxer@gmail.com>",
-  "repository": "chooslr/api",
+  "repository": "chooslr/chooslr-api",
   "license": "MIT",
   "nyc": {
     "include": [
@@ -16,7 +16,7 @@
     "instrument": false
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=TEST nyc mocha -t 10000",
+    "test": "cross-env NODE_ENV=TEST nyc mocha --no-timeouts",
     "prebuild": "yarn test",
     "build": "rollup -c",
     "coverage": "nyc report --reporter=lcov && codecov",

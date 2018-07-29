@@ -42,7 +42,6 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
 - `credentials` (= `'same-origin'`)
 - `mode` (= `'same-origin'`)
 - `jwt`
-- `authRedirectURL`
 
 ## Endpoints
 #### `/info: GET`
@@ -52,6 +51,10 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
 #### `/explores: GET`
 - jwt: No
 - method: `.explores()`
+
+#### `/search: GET`
+- jwt: No
+- method: `.search(name, word[, page])`
 
 #### `/followings: GET`
 - jwt: Yes
@@ -91,6 +94,14 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
 - jwt: Yes
 - method: `.unfollow(name)`
 
+#### `/like: POST`
+- jwt: Yes
+- method: `.like(id, reblog_key)`
+
+#### `/unlike: POST`
+- jwt: Yes
+- method: `.unlike(id, reblog_key)`
+
 #### `/reblog: POST`
 - jwt: Yes
 - method: `.reblog(name, id, reblog_key, params)`
@@ -104,13 +115,13 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
 
 #### `/attach: GET`
 - jwt: No
-- method: `.attachURL()`
+- method: `.attachURL(redirect_url)`
 - params:
   - `redirect_url`
 
 #### `/detach: GET`
 - jwt: No
-- method: `.detachURL()`
+- method: `.detachURL(redirect_url)`
 - params:
   - `redirect_url`
 
@@ -126,6 +137,7 @@ const chooslr = new Chooslr('/api', tumblrOpts, options)
 - `generateLikes(params)`
 - `generateFollowings(params)`
 - `generateExplores(params)`
+- `generateSearch(params)`
 
 ## Refs
 - [Tumblr API](https://www.tumblr.com/docs/en/api/v2)

@@ -23,10 +23,13 @@ const endpoints = {
   info: '/info',
   followings: '/followings',
   explores: '/explores',
+  search: '/search',
   dashboard: '/dashboard',
   likes: '/likes',
   follow: '/follow',
   unfollow: '/unfollow',
+  like: '/like',
+  unlike: '/unlike',
   reblog: '/reblog',
   delete: '/delete',
   extract: '/extract'
@@ -50,10 +53,15 @@ const DASHBOARD_URL = join(USER_URL, 'dashboard')
 const LIKES_URL = join(USER_URL, 'likes')
 const FOLLOW_URL = join(USER_URL, 'follow')
 const UNFOLLOW_URL = join(USER_URL, 'unfollow')
+const LIKE_URL = join(USER_URL, 'like')
+const UNLIKE_URL = join(USER_URL, 'unlike')
 
 const BLOG_URL = join(BASE_URL, 'blog')
 const REBLOG_URL = name => join(BLOG_URL, IDENTIFIER_URL(name), '/post/reblog')
 const DELETE_URL = name => join(BLOG_URL, IDENTIFIER_URL(name), '/post/delete')
+
+const PAGE_URL = name => `https://${IDENTIFIER_URL(name)}`
+const SEARCH_URL = (name, word) => `${PAGE_URL(name)}/search/${word}`
 
 const EXPLORE_URLs = [
   'trending',
@@ -149,6 +157,23 @@ var middleware = (app, config) => {
       )
       const htmls = await Promise.all(pwgs)
       ctx.body = { meta: { status: 200, msg: 'OK' }, response: { htmls } }
+    })
+    .get(endpoints['search'], errorHandler, async ctx => {
+      const { name, word, page = 1 } = ctx.query
+      ctx.assert(name && word, 400, '/search need { name, word } as query')
+
+      const url =
+        SEARCH_URL(name, encodeURIComponent(word)) +
+        joinParams({ page, format: 'json' })
+
+      const jsonpString = await got(url).then(({ body }) => body)
+      const jsonString = jsonpString.slice(
+        jsonpString.indexOf('{'),
+        jsonpString.length - 2
+      )
+      const { posts } = JSON.parse(jsonString)
+
+      ctx.body = { meta: { status: 200, msg: 'OK' }, response: { posts } }
     })
     .use(
       /*
@@ -296,6 +321,48 @@ var middleware = (app, config) => {
         body: {
           url: `http://${IDENTIFIER_URL(name)}`
         }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    })
+    .post(endpoints['like'], errorHandler, async ctx => {
+      const { id, reblog_key } = ctx.request.body
+      ctx.assert(id && reblog_key, 400, '/like need { id, reblog_key } as body')
+
+      const url = LIKE_URL
+      const method = 'POST'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        },
+        body: { id, reblog_key }
+      })
+
+      ctx.body = await pwg.then(({ body }) => body)
+    })
+    .post(endpoints['unlike'], errorHandler, async ctx => {
+      const { id, reblog_key } = ctx.request.body
+      ctx.assert(
+        id && reblog_key,
+        400,
+        '/unlike need { id, reblog_key } as body'
+      )
+
+      const url = UNLIKE_URL
+      const method = 'POST'
+      const { token, secret } = ctx.state[jwtStateName]
+
+      const pwg = got(url, {
+        method,
+        json: true,
+        headers: {
+          Authorization: oauthAuthorization(url, method, token, secret)
+        },
+        body: { id, reblog_key }
       })
 
       ctx.body = await pwg.then(({ body }) => body)
